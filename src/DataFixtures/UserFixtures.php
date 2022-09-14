@@ -26,24 +26,24 @@ class UserFixtures extends Fixture
         $admin->setPassword($this->passwordHasher->hashPassword(
             $admin,
             '1234'
-       ));
-       $user = new User();
-       $user->setUsername('admin');
+        ));
+        $user = new User();
+        $user->setUsername('admin');
 
-       $password = $this->passwordHasher->hashPassword($user, 'pass_1234');
-       $user->setPassword($password);
+        $password = $this->passwordHasher->hashPassword($user, 'pass_1234');
+        $user->setPassword($password);
 
-       $manager->persist($user);
-       $manager->flush();
+        $manager->persist($user);
+        $manager->flush();
 
-       $manager->persist($admin);
-      
+        $manager->persist($admin);
+        
         $userTest = new User();
         $userTest->setUsername('sapo');
         $userTest->setRoles(['ROLE_ADMIN']);
         $userTest->setPassword($this->passwordHasher->hashPassword(
-                         $userTest,
-                         'sapo'
+                            $userTest,
+                            'sapo'
                     ));
 
         $manager->persist($userTest);

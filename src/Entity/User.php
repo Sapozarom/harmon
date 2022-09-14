@@ -34,9 +34,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Event::class)]
     private Collection $events;
 
+
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Game::class)]
+    private Collection $createdGames;
+
+    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'players')]
+    private Collection $games;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
+        $this->createdGames = new ArrayCollection();
+        $this->games = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -134,6 +144,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($event->getUser() === $this) {
                 $event->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getCreatedGames(): Collection
+    {
+        return $this->createdGames;
+    }
+
+    public function addCreatedGame(Game $createdGame): self
+    {
+        if (!$this->createdGames->contains($createdGame)) {
+            $this->createdGames->add($createdGame);
+            $createdGame->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedGame(Game $createdGame): self
+    {
+        if ($this->createdGames->removeElement($createdGame)) {
+            // set the owning side to null (unless already changed)
+            if ($createdGame->getCreatedBy() === $this) {
+                $createdGame->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getGames(): Collection
+    {
+        return $this->games;
+    }
+
+    public function addGame(Game $game): self
+    {
+        if (!$this->games->contains($game)) {
+            $this->games->add($game);
+            $game->addPlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGame(Game $game): self
+    {
+        if ($this->games->removeElement($game)) {
+            $game->removePlayer($this);
         }
 
         return $this;
