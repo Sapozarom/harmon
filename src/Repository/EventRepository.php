@@ -54,6 +54,26 @@ class EventRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+    public function findEventsByDate($date)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $reasult = $qb
+        ->andWhere('e.date = :val')
+        ->setParameter('val', $date)
+        ->orderBy('e.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+
+        // if ($reasult !=null) {
+        //     dd($reasult);
+        // }
+
+        return $reasult;
+
+
+    }
+
 //    public function findOneBySomeField($value): ?Event
 //    {
 //        return $this->createQueryBuilder('e')

@@ -13,11 +13,12 @@ class CalendarController extends AbstractController
     public function displayCalendar(Calendar $calendarService): Response
     {
         $currentDate = new \DateTime();
-        $monthName = $calendarService->setupCalendarByDate($currentDate);
+        $calendarArray = $calendarService->setupCalendarByDate($currentDate);
         //$dayNumber = $currentDate->format('N');
         //dd($monthName);
+        // dd($calendarArray);
         return $this->render('calendar/index.html.twig', [
-            'currentDate' => $currentDate,
+            'calendarArray' => $calendarArray,
         ]);
     }
 }

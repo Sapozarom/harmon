@@ -10,3 +10,13 @@ caption {
     background-color: lightgray;
     color: #fff;
 }
+
+td.GAMEDAY
+{
+    background: chartreuse;
+}
+
+td.VOTED
+{
+    background-color: yellow;
+}
