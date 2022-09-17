@@ -1,13 +1,10 @@
-{% extends 'base.html.twig' %}
 
-{% block title %}Hello CalendarController!{% endblock %}
 
-{% block body %}
-<div class="container">
     <pre>
-        {{ dump(calendarArray) }}
+        {{ dump() }}
     </pre>
     <div class="row">
+     Calendar:
         <table class="table">
         <caption >September</caption>
         <thead>
@@ -32,12 +29,10 @@
             {% for  row in calendarArray %}
                 <tr id="">
                 {% for day in row %}
-                    <td id="" class="{{day.status}}>{{day.number}}"></td>
+                    <td id="" class="{{day.status}}">{{day.number}}</td>
                     {% endfor %}
                 </tr>
             {% endfor %}
         </tbody>
         </table>
     </div>
-</div>
-{% endblock %}

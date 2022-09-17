@@ -6,6 +6,7 @@ use App\Repository\GameRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+// use Doctrine\ORM\EntityManagerInterface;
 
 class HomepageController extends AbstractController
 {
@@ -22,6 +23,7 @@ class HomepageController extends AbstractController
     #[Route('/games', name: 'app_homepage')]
     public function showGamesAction(GameRepository $gameRepo): Response
     {   
+        
         $user = $this->getUser();
         $uid = $user->getId();
         //dd($uid);
