@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Game;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,6 +40,33 @@ class GameRepository extends ServiceEntityRepository
         }
     }
 
+    public function findGamesCreatedByUser(User $user)
+    {
+        $result = $this->createQueryBuilder('g')
+           ->andWhere('g.createdBy = :val')
+           ->setParameter('val', $user)
+           ->orderBy('g.id', 'ASC')
+           ->getQuery()
+           ->getResult();
+             
+        return $result;
+
+    }
+
+    
+    public function findGamesInProgress($userId)
+    {
+        $result = $this->createQueryBuilder('g')
+            ->join('g.players', 'p')
+            ->andWhere('p.id = :val')
+            ->setParameter('val', $userId)
+            ->orderBy('g.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+             
+        return $result;
+
+    }
 //    /**
 //     * @return Game[] Returns an array of Game objects
 //     */

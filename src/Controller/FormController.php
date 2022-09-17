@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\GameRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,17 +17,27 @@ class FormController extends AbstractController
     /**
      * @Route("/setup", name="app_form")
      */
-    public function index(GameRepository $gr): Response
+    public function index(GameRepository $gr, UserRepository $ur, ManagerRegistry $doctrine): Response
     {   
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $user = $this->getUser();
         
         $games = $gr->findAll();
+        $users = $ur->findAll();
+
+        $entityManager = $doctrine->getManager();
 
         foreach ($games as $game) {
             $game->setCreatedBy($user);
+
+            foreach ($users as $user) {
+                $game->addPlayer($user);
+            }
+            $entityManager->persist($game);
+
         }
+        $entityManager->flush();
         dd($games);
         return $this->render('form/index.html.twig', [
             'controller_name' => 'FormController',

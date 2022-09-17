@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomepageController!{% endblock %}
+
+{% block body %}
+<div class="container">
+
+<div class="row">
+LIST OF GAMES
+</div>
+
+{% for game in playedGames %}
+    <div class="row">
+        {# Game: {{game.name}} | Title: {{game.title}} | Players: {{game.players|length}}  #}
+        <a class="text-dark text-bold" href="{{ path('show_game', {game: game.id}) }}">Game: {{game.name}} | Title: {{game.title}} | Players: {{game.players|length}} </a>
+
+    </div>
+{% endfor %}
+
+</div>
+{% endblock %}
