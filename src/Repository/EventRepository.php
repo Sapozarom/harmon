@@ -58,7 +58,7 @@ class EventRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('e');
 
-        $reasult = $qb
+        $result = $qb
         ->andWhere('e.date = :val')
         ->setParameter('val', $date)
         ->orderBy('e.id', 'ASC')
@@ -69,11 +69,31 @@ class EventRepository extends ServiceEntityRepository
         //     dd($reasult);
         // }
 
-        return $reasult;
+        return $result;
 
 
     }
 
+
+    public function  findGameEventsByDate($date, $gameId)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $result = $qb
+        ->andWhere('e.date = :val')
+        ->setParameter('val', $date)
+        ->andWhere('e.game = :gameId')
+        ->setParameter('gameId', $gameId)
+        ->orderBy('e.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+
+        // if ($reasult !=null) {
+        //     dd($reasult);
+        // }
+
+        return $result;
+    }
 //    public function findOneBySomeField($value): ?Event
 //    {
 //        return $this->createQueryBuilder('e')

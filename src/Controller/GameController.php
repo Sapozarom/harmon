@@ -24,10 +24,10 @@ class GameController extends AbstractController
     {
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
 
-        $calendarArray =  $calendarService->setupCalendarByDate(new DateTime());
+        $calendarArray =  $calendarService->setupGameCalendarByDate(new DateTime(), $gameObj->getId());
         //dd($calendarArray);
 
-        
+
         return $this->render('game/index.html.twig', [
             'game' =>  $gameObj,
             'calendarArray' => $calendarArray,

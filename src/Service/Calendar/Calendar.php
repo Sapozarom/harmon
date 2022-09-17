@@ -34,8 +34,9 @@ class Calendar
     //     # code...
     // }
 
-    public function setupCalendarByDate($date)
-    {   
+    public function setupGameCalendarByDate($date, $gameId)
+    {      
+        $this->gameId = $gameId;
         //name of month to JSON table
         $monthName =  $date->format('F');
 
@@ -117,6 +118,8 @@ class Calendar
             $newDay->setDate($newDate);
             $newDayDateString = $newDate->format('Y-m-d');
             $events = $this->eventRepo->findEventsByDate($newDayDateString);
+
+            $events = $this->eventRepo->findGameEventsByDate($newDayDateString, $this->gameId);
 
             $newDay->setEventArray($events);
             

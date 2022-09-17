@@ -5,12 +5,13 @@
 {% block body %}
 <div class="container">
     <div class="row">
-    Titles
-
+        <h2>Party name:{{game.name}}</h2>
+        <h3>Title:{{game.title}}</h3>
+        <h4>Players: {{game.players|length}}
     </div>
-    <div class="row">
-   
-     {% include 'game/comp/calendar.html.twig' with {  calendarArray : calendarArray } %}
+    <div class="row mt-5">
+        
+        {% include 'game/comp/calendar.html.twig' with {  calendarArray : calendarArray } %}
     </div>
     
 </div>
