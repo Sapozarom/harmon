@@ -45,6 +45,19 @@ $( function() {
     // });
   } );
 
+  $( function() {
+    $('td').click(function() {
+      // $(this).hide();
+      //$('#form-container').toggle(1000);
+      var date = $(this).attr('id');
+      var split = date.split('-')
+      //alert(split[0]);
+      $('.form-date').html(date);
+      $( "#event_date_month" ).val(parseInt(split[1]));
+      $( "#event_date_year" ).val(parseInt(split[0]));
+      $( "#event_date_day" ).val(parseInt(split[2]));
+    })
+  });
 
 function minutesIntoHour(minutes) {
 

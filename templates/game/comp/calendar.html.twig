@@ -29,7 +29,11 @@
             {% for  row in calendarArray %}
                 <tr id="">
                 {% for day in row %}
-                    <td id="" class="{{day.status}}">{{day.number}}</td>
+                    <td id="{{day.date|date("Y-m-d")}}" class="{{day.status}}">{{day.number}}
+                        {% if day.playersLeftToVote %}
+                            --><b>{{day.playersLeftToVote}}</b> 
+                        {% endif %}
+                    </td>
                     {% endfor %}
                 </tr>
             {% endfor %}

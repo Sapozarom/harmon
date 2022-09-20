@@ -15,6 +15,10 @@ class Calendar
 
     private $entityManager;
 
+    private $players;
+
+    private $numberOfPlayers;
+
     private $eventRepo;
 
     private $nextRow = 0;
@@ -34,9 +38,13 @@ class Calendar
     //     # code...
     // }
 
-    public function setupGameCalendarByDate($date, $gameId)
+    public function setupGameCalendarByDate($date, $game)
     {      
-        $this->gameId = $gameId;
+        //$this->gameId = $gameId;
+
+        $this->gameId = $game->getId();
+        $this->players = $game->getPlayers();
+        $this->numberOfPlayers = count($game->getPlayers());
         //name of month to JSON table
         $monthName =  $date->format('F');
 
@@ -104,7 +112,7 @@ class Calendar
         }
     }
 
-    public function fillCalendarTableObj($numberOfDays, $firsDayDate)
+    private function fillCalendarTableObj($numberOfDays, $firsDayDate)
     {
                 
         for ($i=0; $i < $numberOfDays ; $i++) { 
@@ -122,16 +130,22 @@ class Calendar
             $events = $this->eventRepo->findGameEventsByDate($newDayDateString, $this->gameId);
 
             $newDay->setEventArray($events);
-            
+            $newDay->generateStatus($this->players);
             //read from game data
-            $numberOfPlayers = 3;
-            if ($events == null) {
-                $newDay->setStatus('EMPTY');
-            } elseif (count($events) == $numberOfPlayers) {
-                $newDay->setStatus('GAMEDAY');
-            } elseif (count($events) < $numberOfPlayers) {
-                $newDay->setStatus('VOTED');
-            }
+            $numberOfPlayers = $this->numberOfPlayers;
+
+            //$dayStatus = $this->generateStatus($events);
+            // $newDay->setStatus($dayStatus);
+
+            // if ($events == null) {
+            //     $newDay->setStatus('EMPTY');
+            // } elseif (count($events) == $numberOfPlayers) {
+            //     $newDay->setStatus('GAMEDAY');
+            // } elseif (count($events) < $numberOfPlayers) {
+            //     $newDay->setStatus('VOTED');
+            //     $newDay->setPlayersLeftToVote($numberOfPlayers - count($events));
+            // }
+
             $this->calendarArray[$this->nextRow][$this->nextCol] =  $newDay;
             //$day = null; 
             if ($this->nextCol == 6) {
@@ -141,5 +155,15 @@ class Calendar
                 $this->nextCol++;
             }
         }
+    }
+    private function generateStatus($events)
+    {
+        if ($events == null) {
+            $status = 'EMPTY';
+        } else {
+            $status = 'VOTED';
+        }
+
+        return $status;
     }
 }

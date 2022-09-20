@@ -9,6 +9,20 @@
         <h3>Title:{{game.title}}</h3>
         <h4>Players: {{game.players|length}}
     </div>
+    <div id="form-container" class="row">
+    <h1 class="display-6 form-date">date</h1>
+
+        <p>
+            <label for="amount">Hours:</label>
+            <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+        </p>
+        
+        <div id="slider-range"></div>
+        
+        <div>
+            {{ form(form) }}
+        </div>
+    </div>
     <div class="row mt-5">
         
         {% include 'game/comp/calendar.html.twig' with {  calendarArray : calendarArray } %}

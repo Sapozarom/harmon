@@ -7,6 +7,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 /**
@@ -18,6 +21,21 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
+        ->add('vote', ChoiceType::class, [
+            'label' => 'Your status:',
+            'choices'  => [
+                'Want to play' => true,
+                "Can't play" => false,
+            ],
+        ])
+        ->add('maxLength', TextType::class, [
+            'label' => 'Max length (hours):',
+        ])
+        ->add('date', DateType ::class, [
+            'label' => false,
+            'required' => true,
+        ])
         ->add('start', HiddenType::class, [
             'required' => true,
         ])

@@ -20,3 +20,8 @@ td.VOTED
 {
     background-color: yellow;
 }
+
+td.CANCELED
+{
+    background-color: red;
+}

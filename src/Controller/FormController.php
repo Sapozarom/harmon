@@ -20,7 +20,7 @@ class FormController extends AbstractController
     public function index(GameRepository $gr, UserRepository $ur, ManagerRegistry $doctrine): Response
     {   
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-
+        
         $user = $this->getUser();
         
         $games = $gr->findAll();

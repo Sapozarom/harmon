@@ -29,6 +29,12 @@ class Event
     #[ORM\ManyToOne(inversedBy: 'events')]
     private ?Game $game = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $vote = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $maxLength = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +96,30 @@ class Event
     public function setGame(?Game $game): self
     {
         $this->game = $game;
+
+        return $this;
+    }
+
+    public function isVote(): ?bool
+    {
+        return $this->vote;
+    }
+
+    public function setVote(?bool $vote): self
+    {
+        $this->vote = $vote;
+
+        return $this;
+    }
+
+    public function getMaxLength(): ?int
+    {
+        return $this->maxLength;
+    }
+
+    public function setMaxLength(?int $maxLength): self
+    {
+        $this->maxLength = $maxLength;
 
         return $this;
     }
