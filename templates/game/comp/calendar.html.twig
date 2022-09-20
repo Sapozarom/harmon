@@ -19,19 +19,17 @@
             </tr>
         </thead>
         <tbody>
-            {# {% for  i in 0..5 %}
-                <tr id="{{i}}">
-                {% for j in 1..7 %}
-                    <td id="{{i}}{{j}}">{{i}}{{j}}</td>
-                {% endfor %}
-                </tr>
-            {% endfor %} #}
             {% for  row in calendarArray %}
                 <tr id="">
                 {% for day in row %}
                     <td id="{{day.date|date("Y-m-d")}}" class="{{day.status}}">{{day.number}}
-                        {% if day.playersLeftToVote %}
+                        {% if day.status == 'VOTED' %}
                             --><b>{{day.playersLeftToVote}}</b> 
+                        {% endif %}
+                        {% if day.availableHours %}
+                            {% for match in day.availableHours %}
+                                |{{match.0}}-{{match.1}}
+                            {% endfor %}
                         {% endif %}
                     </td>
                     {% endfor %}

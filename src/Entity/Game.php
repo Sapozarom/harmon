@@ -31,6 +31,9 @@ class Game
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'games')]
     private Collection $players;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $minSessionLength = null;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -129,6 +132,18 @@ class Game
     public function removePlayer(User $player): self
     {
         $this->players->removeElement($player);
+
+        return $this;
+    }
+
+    public function getMinSessionLength(): ?int
+    {
+        return $this->minSessionLength;
+    }
+
+    public function setMinSessionLength(?int $minSessionLength): self
+    {
+        $this->minSessionLength = $minSessionLength;
 
         return $this;
     }
