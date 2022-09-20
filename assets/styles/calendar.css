@@ -25,3 +25,8 @@ td.CANCELED
 {
     background-color: red;
 }
+
+td.MISSED
+{
+    background-color: rgb(255, 123, 0);
+}
