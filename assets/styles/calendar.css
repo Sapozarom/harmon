@@ -1,7 +1,11 @@
 table {
+    text-align: center; 
+    vertical-align: middle;
+    table-layout: fixed; 
     caption-side: top;
-    width: 100%;
-    background-color: rgb(241, 241, 241);
+    /* width: 100%; */
+    background-color: rgb(238, 238, 238);
+    /* max-width: 150px; */
 }
 
 caption {
@@ -9,6 +13,13 @@ caption {
     text-align: center;
     background-color: lightgray;
     color: #fff;
+}
+
+td {
+    font-size: medium;
+    /* min-width: 100px; */
+    align-items:center;
+    
 }
 
 td.GAMEDAY
@@ -21,6 +32,12 @@ td.VOTED
     background-color: yellow;
 }
 
+.players-left-to-vote {
+    /* display: inline-block; */
+    float: right;
+    
+}
+
 td.CANCELED
 {
     background-color: red;
@@ -29,4 +46,18 @@ td.CANCELED
 td.MISSED
 {
     background-color: rgb(255, 123, 0);
+}
+
+.picked-date
+{
+    /* border-radius: 2px; */
+    outline: 3px solid rgb(0, 221, 66);
+    /* box-shadow: 0 0 0 2px #ee0000; */
+    outline-offset: -5px;
+}
+
+i.exclamation {
+    margin-top: 5px;
+    align-self: center;
+    float: left;
 }

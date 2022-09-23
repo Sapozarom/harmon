@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\GameRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GameRepository::class)]
@@ -33,6 +34,9 @@ class Game
 
     #[ORM\Column(nullable: true)]
     private ?int $minSessionLength = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $description = null;
 
     public function __construct()
     {
@@ -144,6 +148,18 @@ class Game
     public function setMinSessionLength(?int $minSessionLength): self
     {
         $this->minSessionLength = $minSessionLength;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

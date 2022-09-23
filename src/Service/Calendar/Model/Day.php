@@ -10,7 +10,7 @@ class Day
 
     private $date;
 
-    private Game $game;
+    // private Game $game;
 
     private $events = array();  
 
@@ -18,9 +18,7 @@ class Day
 
     private $availableHours = array();
 
-    private $start;
-
-    private $finish;
+    private $currentMonth;
 
 
     //status can be [EMPTY, VOTED, GAMEDAY, CANCALED]
@@ -48,15 +46,15 @@ class Day
         return $this->date;
     }
 
-    public function setGame(Game $game)
-    {
-        $this->game = $game;
-    }
+    // public function setGame(Game $game)
+    // {
+    //     $this->game = $game;
+    // }
 
-    public function getGame()
-    {
-        return  $this->game;
-    }
+    // public function getGame()
+    // {
+    //     return  $this->game;
+    // }
 
     public function setEventArray($eventarray)
     {
@@ -91,6 +89,16 @@ class Day
     public function getAvailableHours()
     {
         return $this->availableHours;
+    }
+
+    public function setCurrentMonth($bool)
+    {
+        $this->currentMonth = $bool;
+    }
+
+    public function isCurrentMonth()
+    {   
+        return $this->currentMonth;
     }
 
     public function generateStatus($game)

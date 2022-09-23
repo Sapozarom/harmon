@@ -20,7 +20,7 @@ class HomepageController extends AbstractController
         ]);
     }
 
-    #[Route('/games', name: 'app_homepage')]
+    #[Route('/my-activities', name: 'my_activities')]
     public function showGamesAction(GameRepository $gameRepo): Response
     {   
         

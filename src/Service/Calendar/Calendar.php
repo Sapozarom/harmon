@@ -17,6 +17,8 @@ class Calendar
 
     private $players;
 
+    private $monthNumber;
+
     private $numberOfPlayers;
 
     private $eventRepo;
@@ -33,11 +35,6 @@ class Calendar
 
     }
 
-    // public function getCallendarArray(Type $var = null)
-    // {
-    //     # code...
-    // }
-
     public function setupGameCalendarByDate($date, $game)
     {      
         $this->game = $game;
@@ -45,7 +42,7 @@ class Calendar
         $this->players = $game->getPlayers();
         $this->numberOfPlayers = count($game->getPlayers());
         //name of month to JSON table
-        $monthName =  $date->format('F');
+        $this->monthNumber =  $date->format('m');
 
         //Starting day of the month => row:0 col:$firstDayOfMonthNumber
 
@@ -53,6 +50,7 @@ class Calendar
         $firstDayOfMonthDate = new \DateTime($firstDayOfMonthString);
         $firstDayOfMonthDateVar = clone $firstDayOfMonthDate;
         $firstDayOfMonthNumber=   $firstDayOfMonthDate->format('w');
+        
         if ($firstDayOfMonthNumber == 0) {
             $firstDayOfMonthNumber = 7;
         }
@@ -89,27 +87,9 @@ class Calendar
 
         $this->fillCalendarTableObj($nextMonthRemainingDays, $firstDayOfMonthDateVar->modify("+1 months"));
 
-    //    dd($this->calendarArray);
-        // dd($this->calendarArray)
         return $this->calendarArray;
     }
 
-    public function fillCalendarTable($numberOfDays, $firsDay)
-    {
-        for ($i=0; $i < $numberOfDays ; $i++) { 
-
-            $day = $firsDay + $i;
-
-            $this->callendarArray[$this->nextRow][$this->nextCol] = $day;
-
-            if ($this->nextCol == 6) {
-                $this->nextCol = 0;
-                $this->nextRow++;
-            } else {
-                $this->nextCol++;
-            }
-        }
-    }
 
     private function fillCalendarTableObj($numberOfDays, $firsDayDate)
     {
@@ -123,6 +103,9 @@ class Calendar
             $newDate = $date->modify("+$i day");
 
             $newDay->setDate($newDate);
+            if ($numberOfDays > 27) {
+                $newDay->setCurrentMonth(true);
+            }
             //$newDay->setGame($this->game);
             $newDayDateString = $newDate->format('Y-m-d');
             $events = $this->eventRepo->findEventsByDate($newDayDateString);
@@ -132,21 +115,6 @@ class Calendar
             $newDay->setEventArray($events);
             $newDay->generateStatus($this->game);
             
-            //read from game data
-            $numberOfPlayers = $this->numberOfPlayers;
-
-            //$dayStatus = $this->generateStatus($events);
-            // $newDay->setStatus($dayStatus);
-
-            // if ($events == null) {
-            //     $newDay->setStatus('EMPTY');
-            // } elseif (count($events) == $numberOfPlayers) {
-            //     $newDay->setStatus('GAMEDAY');
-            // } elseif (count($events) < $numberOfPlayers) {
-            //     $newDay->setStatus('VOTED');
-            //     $newDay->setPlayersLeftToVote($numberOfPlayers - count($events));
-            // }
-
             $this->calendarArray[$this->nextRow][$this->nextCol] =  $newDay;
             //$day = null; 
             if ($this->nextCol == 6) {
@@ -157,14 +125,7 @@ class Calendar
             }
         }
     }
-    private function generateStatus($events)
-    {
-        if ($events == null) {
-            $status = 'EMPTY';
-        } else {
-            $status = 'VOTED';
-        }
 
-        return $status;
-    }
+
+
 }

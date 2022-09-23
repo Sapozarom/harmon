@@ -14,6 +14,10 @@ import './bootstrap';
 
 
 $( function() {
+  
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
     $( "#slider-range" ).slider({
       range: true,
       min: 0,
@@ -36,8 +40,13 @@ $( function() {
     $( "#event_start" ).val($( "#slider-range" ).slider( "values", 0 ));
     $( "#event_finish" ).val($( "#slider-range" ).slider( "values", 1 ));
     $( "#amount" ).val(  beginingHour + " - " +  endingHour  );
+    var date = $('.form-date').html();
+    // alert(date);
+    var split = date.split('-')
+      $( "#event_date_month" ).val(parseInt(split[1]));
+      $( "#event_date_year" ).val(parseInt(split[0]));
+      $( "#event_date_day" ).val(parseInt(split[2]));
     // $("#event_start").hide();
-
     // $( "#event_start" ).click(function() {
     //   $( this ).hide( "slow", function() {
     //     alert( "Animation complete." );
@@ -47,12 +56,27 @@ $( function() {
 
   $( function() {
     $('td').click(function() {
-      // $(this).hide();
-      //$('#form-container').toggle(1000);
+
+      // get data
       var date = $(this).attr('id');
       var split = date.split('-')
-      //alert(split[0]);
-      $('.form-date').html(date);
+
+      //styles
+      // $('.border-2').removeClass('border border-success border-2');
+      // $(this).addClass('border border-success border-2');
+      $('.picked-date').removeClass('picked-date');
+      $(this).addClass('picked-date')
+      $('.form-date').css('opacity', '0.25');
+      $('.form-date').css('background-color', '#00ff401f');
+      $('.form-date').html(date).animate({
+        opacity: 1,
+        backgroundColor:'white',
+      }, 500, function() {
+        // Animation complete.
+      });
+
+
+      // form update
       $( "#event_date_month" ).val(parseInt(split[1]));
       $( "#event_date_year" ).val(parseInt(split[0]));
       $( "#event_date_day" ).val(parseInt(split[2]));

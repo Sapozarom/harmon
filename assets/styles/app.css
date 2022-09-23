@@ -4,4 +4,22 @@ body {
 
 #event_date {
     display: none;
+    /* color: #00ff401f; */
+}
+
+.nav-item-text {
+    color: rgb(234, 234, 60);
+}
+
+.div-80 {
+    width: 60%;
+}
+
+.div-100 {
+    width: 90%;
+}
+
+.calendar-day {
+    margin: auto;
+    width: 80%;
 }

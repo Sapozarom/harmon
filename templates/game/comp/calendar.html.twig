@@ -3,8 +3,7 @@
     <pre>
         {{ dump() }}
     </pre> #}
-    <div class="row">
-     Calendar:
+
         <table class="table">
         <caption >September</caption>
         <thead>
@@ -22,19 +21,49 @@
             {% for  row in calendarArray %}
                 <tr id="">
                 {% for day in row %}
-                    <td id="{{day.date|date("Y-m-d")}}" class="{{day.status}}">{{day.number}}
+                    <td id="{{day.date|date("Y-m-d")}}" class="{{day.status}}">
+                    <div class="calendar-day">
+                    {{day.number}}
                         {% if day.status == 'VOTED' %}
-                            --><b>{{day.playersLeftToVote}}</b> 
+                        
+                        <i class="fa-solid fa-exclamation exclamation" data-bs-toggle="tooltip" data-bs-title="Waiting for your vote!"></i>
+                        
+                        {# <i class="fa-solid fa-check" data-bs-toggle="tooltip" data-bs-title="Voted"></i> #}
+                        <div class="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="{{day.playersLeftToVote}} more to vote"><i class="fa-sharp fa-solid fa-arrows-rotate"></i><b>{{day.playersLeftToVote}}</b><div> 
+                        {% endif %}
+                        {% if day.status == 'CANCELED' %}
+                        {# <div class"players-left-to-vote">
+                        <i class="fa-solid fa-xmark" data-bs-toggle="tooltip" data-bs-title="Some members are unavailable"></i> #}
+                        
+                        {# <i class="fa-solid fa-check" data-bs-toggle="tooltip" data-bs-title="Voted"></i> #}
+                        <div class="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="Some members are unavailable"><i class="fa-solid fa-xmark"></i><div> 
+                        {% endif %}
+
+                        {% if day.status == 'MISSED' %}
+                         <div class="players-left-to-vote"><i class="fa-solid fa-calendar-xmark" data-bs-toggle="tooltip" data-bs-title="Missed schedules"></i></div>
+
                         {% endif %}
                         {% if day.availableHours %}
+                        
+                        
+ 
+                        <div class="players-left-to-vote">
+                        <i class="fa-solid fa-calendar-check" data-bs-toggle="tooltip" 
+                        {# <i class="fa-solid fa-check" data-bs-toggle="tooltip"  #}
+                        {# <i class="fa-sharp fa-solid fa-dice-d20" data-bs-toggle="tooltip"  #}
+                        data-bs-title="
+                        Schedules matched!:
                             {% for match in day.availableHours %}
-                                |{{match.0}}-{{match.1}}
+                                | {{match.0}}-{{match.1}}
                             {% endfor %}
+                        "></i>
+
+                        </div>  
                         {% endif %}
+                        </div>
                     </td>
                     {% endfor %}
                 </tr>
             {% endfor %}
         </tbody>
         </table>
-    </div>

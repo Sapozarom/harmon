@@ -30,6 +30,7 @@ class GameController extends AbstractController
         //form data
         $user = $this->getUser();
         $date = new \DateTime();
+        $date->format("Y-m-d");
         $event = new Event;
         $form = $this->createForm(EventType::class, $event);
         // dd($_POST);
@@ -42,18 +43,16 @@ class GameController extends AbstractController
             $event->setUser($user);
             $event->setGame($gameObj);
             //$event->setDate($date);
-
+            $date = $event->getDate()->format("Y-m-d");
             $entityManager = $doctrine->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
         }
 
-        
-
         $calendarArray =  $calendarService->setupGameCalendarByDate(new DateTime(), $gameObj);
         
-
         return $this->render('game/index.html.twig', [
+            'date' => $date,
             'game' =>  $gameObj,
             'calendarArray' => $calendarArray,
             'form' => $form->createView(),
