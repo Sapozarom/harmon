@@ -8,6 +8,7 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 import './styles/calendar.css';
+import './styles/game.css';
 
 // start the Stimulus application
 import './bootstrap';
@@ -67,7 +68,7 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
       $('.picked-date').removeClass('picked-date');
       $(this).addClass('picked-date')
       $('.form-date').css('opacity', '0.25');
-      $('.form-date').css('background-color', '#00ff401f');
+      $('.form-date').css('background-color', '#ffb300');
       $('.form-date').html(date).animate({
         opacity: 1,
         backgroundColor:'white',

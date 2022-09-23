@@ -6,22 +6,29 @@
 <div class="container-md mt-5">
 
  <div  id="form-container" class="row justify-content-center">
-        <div class="col-auto justify-content-center col-10">
-            <h1 class="display-6 form-date">{{date|date("Y-m-d")}}</h1>
+        <div class="col-auto justify-content-center col-10 mb-4">
+        <div class="vote-form date ">
+            <h1 class="display-6 form-date ">{{date|date("Y-m-d")}}</h1>
+            
+        </div> 
+        <div class="vote-form "> 
+        <label for="amount"><h1 class="display-6">Time: </h1></label>  
+        </div> 
+        <div class="vote-form "> 
+        <input class="time-display" type="text" id="amount" readonly style="">
+        </div>
 
-            <p>
-                <label for="amount">Hours:</label>
-                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
-            </p>
-        
-            <div id="slider-range"></div>
+        <div id="slider-range"></div>
             
             <div>
             {{ form(form) }}
         </div>
     </div>    
     <div class="row justify-content-center mt-3">
-        <div class="col-auto col-4 p-0">
+     <div class="col-auto col-6 p-0">
+        {% include 'game/comp/calendar.html.twig' with {  calendarArray : calendarArray } %}
+        </div>
+        <div class="col-auto col-4 ">
             <div class="party-name">
                 <h1 class="display-5">
                     <b>Party name:</b> {{game.name}}
@@ -50,9 +57,7 @@
             </div>
                
         </div>
-        <div class="col-auto col-6 p-0">
-        {% include 'game/comp/calendar.html.twig' with {  calendarArray : calendarArray } %}
-        </div>
+       
     </div>
 
     {# <div class="row"> #}

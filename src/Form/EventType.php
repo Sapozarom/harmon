@@ -25,8 +25,8 @@ class EventType extends AbstractType
         ->add('vote', ChoiceType::class, [
             'label' => 'Your status:',
             'choices'  => [
-                'Want to play' => true,
-                "Can't play" => false,
+                'I want to attend' => true,
+                "I'm unavailable" => false,
             ],
         ])
         ->add('maxLength', TextType::class, [
