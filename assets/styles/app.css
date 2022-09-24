@@ -15,6 +15,10 @@ body {
     width: 60%;
 }
 
+.padd-200 {
+    padding-right:50px;
+}
+
 .div-100 {
     width: 90%;
 }

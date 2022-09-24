@@ -23,14 +23,26 @@ class EventType extends AbstractType
         $builder
 
         ->add('vote', ChoiceType::class, [
-            'label' => 'Your status:',
+            'label' => false,
             'choices'  => [
                 'I want to attend' => true,
                 "I'm unavailable" => false,
             ],
+            'attr' => [
+                'class' => 'form-select form-select-lg '
+            ],
+            'choice_attr' => [
+                'I want to attend' => ['class' => 'bg-green', 'id' => 'status-vote' ],
+                "I'm unavailable" => ['class' => 'bg-red', 'id' => 'status-vote'],
+
+            ],
         ])
         ->add('maxLength', TextType::class, [
-            'label' => 'Max length (hours):',
+            'label' => false,
+
+            'attr' => [
+                'class' => 'form-control form-control-lg time-input'
+            ],
         ])
         ->add('date', DateType ::class, [
             'label' => false,
@@ -43,7 +55,9 @@ class EventType extends AbstractType
             'required' => true,
         ])
         ->add('Save', SubmitType::class, [
-            
+            'attr' => [
+                'class' => 'btn btn-dark btn-lg'
+            ],
         ]);
     }
 

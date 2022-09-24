@@ -84,6 +84,30 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
     })
   });
 
+  $( function() {
+    $('#event_vote').addClass('bg-green');
+    $('#event_vote').change(function() {
+      if ($(this).val() === '1') {
+        $(this).addClass('bg-green');
+        $(this).removeClass('bg-red');
+      }
+      if ($(this).val() === '0') {
+        $(this).addClass('bg-red');
+        $(this).removeClass('bg-green');
+      }      
+    })
+  });
+
+  $( function() {
+    $('.ui-slider-handle').mousedown(function() {
+      // $('.ui-slider-handle').css('background-color', '#f6931f');
+      $(this).css('background-color', '#f6931f');
+    })
+    $('.ui-slider-handle').mouseup(function() {
+      // $('.ui-slider-handle').css('background-color', '#f6931f');
+      $(this).css('background-color', '#f9f6f6');
+    })
+  });
 function minutesIntoHour(minutes) {
 
   var hour = Math.floor(minutes / 60);
@@ -95,4 +119,5 @@ function minutesIntoHour(minutes) {
 
   return hour + ":" +  min;
 }
+
 

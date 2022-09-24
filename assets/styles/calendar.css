@@ -26,12 +26,12 @@ td {
 
 td.GAMEDAY
 {
-    background: chartreuse;
+    background: rgb(94, 255, 85);
 }
 
 td.VOTED
 {
-    background-color: yellow;
+    background-color: rgb(255, 255, 133);
 }
 
 .players-left-to-vote {
@@ -42,12 +42,12 @@ td.VOTED
 
 td.CANCELED
 {
-    background-color: red;
+    background-color:rgb(255, 130, 85);
 }
 
 td.MISSED
 {
-    background-color: rgb(255, 123, 0);
+    background-color: rgb(252, 177, 106);
 }
 
 .picked-date

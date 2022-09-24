@@ -1,29 +1,105 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello GameController!{% endblock %}
+{% block title %}{% endblock %}
 
 {% block body %}
 <div class="container-md mt-5">
 
- <div  id="form-container" class="row justify-content-center">
-        <div class="col-auto justify-content-center col-10 mb-4">
-        <div class="vote-form date ">
-            <h1 class="display-6 form-date ">{{date|date("Y-m-d")}}</h1>
+{{ form_start(form) }}
+    <div class="row justify-content-center">
+        <div class="col-auto justify-content-center">
             
-        </div> 
-        <div class="vote-form "> 
-        <label for="amount"><h1 class="display-6">Time: </h1></label>  
-        </div> 
-        <div class="vote-form "> 
-        <input class="time-display" type="text" id="amount" readonly style="">
+            <div class="my-custom-class-for-errors">
+                {{ form_errors(form) }}
+            </div>
+            <div class="vote-form date">
+                <h1 class="display-6 form-date m-0">{{date|date("Y-m-d")}}</h1>
+            </div> 
+            <div class="vote-form date">
+                {{ form_row(form.vote) }}
+            </div>
+            <div class="vote-form "> 
+                <label for="amount"><h1 class="display-6 m-0">Time: </h1></label>  
+            </div>
+
+            {# time display from slider #}
+            <div class="vote-form"> 
+                <input class="time-display" type="text" id="amount" readonly style="">
+            </div>
+
+            {# slider #}
+            <div id="slider-range" class="mt-4 mb-4">
+            </div>
+            <div class="row justify-content-end ">
+        <div class="col-auto  mb-4">
+            <div class="vote-form lead"> 
+            Max time (min):
+            </div>
+            <div class="vote-form time-input date"> 
+            {{ form_row(form.maxLength) }}
+            </div>
+            <div class="vote-form "> 
+            {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+    
+
+{# {{ form_end(form) }} #}
+{# 
+<div  id="form-container" class="row justify-content-center">
+    <div class="col-auto justify-content-center mb-4">
+
+        {{ form_start(form) }}
+    
+        <div class="my-custom-class-for-errors">
+            {{ form_errors(form) }}
         </div>
 
-        <div id="slider-range"></div>
-            
-            <div>
-            {{ form(form) }}
+        <div class="vote-form date ">
+            <h1 class="display-6 form-date m-0">{{date|date("Y-m-d")}}</h1>
+        </div> 
+
+        <div class="vote-form date">
+            {{ form_row(form.vote) }}
         </div>
-    </div>    
+        
+        <div class="vote-form "> 
+            <label for="amount"><h1 class="display-6 m-0">Time: </h1></label>  
+        </div>
+
+       
+        <div class="vote-form"> 
+            <input class="time-display" type="text" id="amount" readonly style="">
+        </div>
+
+        
+        <div id="slider-range" class="mt-4 mb-4">
+        </div>
+
+    </div>
+
+    <div class="row" id="some-custom-id">
+        <div class="col-auto justify-content-center mb-4">
+         {{ form_row(form.maxLength) }}
+        </div>
+           
+    </div>
+{{ form_end(form) }}
+
+         #}
+
+        
+
+        
+            
+        <div>
+            {# {{ form(form) }} #}
+        </div>
+</div>    
+    
     <div class="row justify-content-center mt-3">
      <div class="col-auto col-6 p-0">
         {% include 'game/comp/calendar.html.twig' with {  calendarArray : calendarArray } %}
