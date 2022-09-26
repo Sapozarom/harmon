@@ -71,7 +71,7 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
       $('.form-date').css('background-color', '#ffb300');
       $('.form-date').html(date).animate({
         opacity: 1,
-        backgroundColor:'white',
+        backgroundColor:'rgba(128, 128, 128, 0)',
       }, 500, function() {
         // Animation complete.
       });
