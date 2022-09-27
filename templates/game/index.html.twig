@@ -15,7 +15,8 @@
                 {{ form_errors(form) }}
             </div>
             <div class="p-2 ">
-                <h1 class="display-6 form-date m-0">{{date|date("Y-m-d")}}</h1>
+                <h1 id='load-date'class="display-6 form-date m-0">{{date|date("Y-m-d")}}</h1>
+
             </div>
             <div class="p-2 ">
                 {{ form_row(form.vote) }}
@@ -35,8 +36,8 @@
         </div>
 
         <div class="d-flex flex-row justify-content-center align-items-center">
-            <div class="p-2 lead me-auto">
-                <b>My Votes:</b> 13:24-14:35 | 18:44-20:35 
+            <div id="my-votes" class="p-2 lead me-auto">
+                {# <b>My Votes:</b> 13:24-14:35 | 18:44-20:35  #}
                 {# | 18:44-20:35 | 18:44-20:35 | 18:44-20:35 | 18:44-20:35 | #}
             </div>
             <div class="p-2 lead">
@@ -109,7 +110,7 @@
         {% include 'game/comp/calendar.html.twig' with {  calendarArray : calendarArray } %}
         </div>
         <div class="col-auto col-4 ">
-            <div class="party-name">
+            <div id="{{game.id}}" class="party-name">
                 <h1 class="display-5">
                     <b>Party name:</b> {{game.name}}
                 </h1>

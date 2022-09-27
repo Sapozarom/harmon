@@ -123,4 +123,35 @@ class Event
 
         return $this;
     }
+
+    public function createRangeString()
+    {
+        $start = $this->start;
+        $finish = $this->finish;
+
+        $range = $start . '-'. $finish;
+        
+        $startHour = intdiv($start, 60);
+        $startMin = $start % 60;
+
+        if ($startMin < 10) {
+            // dd();
+            $startMin = "00";
+        }
+
+        $finishHour = intdiv($finish, 60);
+        $finishMin = $finish % 60;
+
+        if ($finishMin < 10) {
+            $finishMin = '00';
+        }
+
+        $range = $startHour . ':' . $startMin . '-' . $finishHour . ':' . $finishMin;
+
+        // $startHour = (int) ($start / 60);
+
+        // dd($range);
+
+        return $range;
+    }
 }

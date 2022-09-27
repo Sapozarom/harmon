@@ -49,7 +49,7 @@ class GameController extends AbstractController
             $entityManager->flush();
         }
 
-        $calendarArray =  $calendarService->setupGameCalendarByDate(new DateTime(), $gameObj);
+        $calendarArray =  $calendarService->setupGameCalendarByDate(new DateTime(), $gameObj, $user);
         
         return $this->render('game/index.html.twig', [
             'date' => $date,

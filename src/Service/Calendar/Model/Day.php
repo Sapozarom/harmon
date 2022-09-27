@@ -20,8 +20,10 @@ class Day
 
     private $currentMonth;
 
+    private $voted;
 
-    //status can be [EMPTY, VOTED, GAMEDAY, CANCALED]
+
+    //status can be [EMPTY, VOTED, GAMEDAY, CANCALED, MISSED]
     private $status;
 
     public function setNumber(int $number)
@@ -46,16 +48,6 @@ class Day
         return $this->date;
     }
 
-    // public function setGame(Game $game)
-    // {
-    //     $this->game = $game;
-    // }
-
-    // public function getGame()
-    // {
-    //     return  $this->game;
-    // }
-
     public function setEventArray($eventarray)
     {
         $this->events = $eventarray;
@@ -74,6 +66,16 @@ class Day
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public function setVoted($bool)  
+    {
+        $this->voted = $bool;
+    }
+
+    public function getVoted()
+    {
+        return $this->voted;
     }
 
     public function setPlayersLeftToVote($number)
@@ -180,7 +182,11 @@ class Day
                 foreach ($paths as $key => $path) {
                    if (($path[1] - $path[0]) < $game->getMinSessionLength() ) {
                     unset($paths[$key]);
+                   } else {
+                    $range = $this->changeMinutesToHours($path[0],$path[1]);
+                    array_push($this->availableHours, $range);
                    }
+
                 }
                 $this->status="GAMEDAY";
             } 
@@ -189,8 +195,35 @@ class Day
                 $this->status="MISSED";
             }
 
-            $this->availableHours = $paths;
+            // $this->availableHours = $paths;
         
         }
+    }
+
+    public function changeMinutesToHours($start, $finish)
+    {
+        
+        $startHour = intdiv($start, 60);
+        $startMin = $start % 60;
+
+        if ($startMin < 10) {
+            // dd();
+            $startMin = "00";
+        }
+
+        $finishHour = intdiv($finish, 60);
+        $finishMin = $finish % 60;
+
+        if ($finishMin < 10) {
+            $finishMin = '00';
+        }
+
+        $range = $startHour . ':' . $startMin . '-' . $finishHour . ':' . $finishMin;
+
+        // $startHour = (int) ($start / 60);
+
+        // dd($range);
+
+        return $range;
     }
 }

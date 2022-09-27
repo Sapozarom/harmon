@@ -49,6 +49,9 @@ td.MISSED
 {
     background-color: rgb(252, 177, 106);
 }
+td.previous-month {
+    color: rgb(192, 192, 192);
+}
 
 .picked-date
 {
@@ -62,4 +65,9 @@ i.exclamation {
     margin-top: 5px;
     align-self: center;
     float: left;
+}
+
+.calendar-day {
+    margin: auto;
+    width: 80%;
 }

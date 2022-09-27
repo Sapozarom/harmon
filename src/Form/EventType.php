@@ -38,6 +38,7 @@ class EventType extends AbstractType
             ],
         ])
         ->add('maxLength', TextType::class, [
+            'required' => false,
             'label' => false,
 
             'attr' => [

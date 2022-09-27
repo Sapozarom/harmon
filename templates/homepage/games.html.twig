@@ -4,18 +4,56 @@
 
 {% block body %}
 <div class="container">
+    <div class="d-flex justify-content-center">
 
-<div class="row">
-LIST OF GAMES
-</div>
-
-{% for game in playedGames %}
-    <div class="row">
-        {# Game: {{game.name}} | Title: {{game.title}} | Players: {{game.players|length}}  #}
-        <a class="text-dark text-bold" href="{{ path('show_game', {game: game.id}) }}">Game: {{game.name}} | Title: {{game.title}} | Players: {{game.players|length}} </a>
+            <h1 class="display-5 mt-4">List of parties</h1>
 
     </div>
-{% endfor %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="game-table-header"scope="col">Party</th>
+                <th class="game-table-header" scope="col">Activity</th>
+                <th class="game-table-header" scope="col">Members</th>
+                <th class="game-table-header" scope="col">Next session</th>
+                <th class="game-table-header" scope="col">Link</th>
+            </tr>
+        </thead>
+        {% for game in playedGames %}
+        
+                <tr>
+                    <td class="game-table bg-light">
+                        {{game.name}} 
+                    </td>
+                    <td class="game-table bg-light">
+                        {{game.title}}
+                    </td>
+                    <td class="game-table bg-light">
+                    {{game.players|length}}
+                    </td>
+                    <td class="game-table bg-light">
+                        XX.XX.XXXX
+                    </td>
+                    <td class="game-table bg-light">
+                       <a class="text-dark text-bold" href="{{ path('show_game', {game: game.id}) }}">Show</a>
+                    </td>
+                </tr>
+            </a>
+        {# <div class="row">
+
+            <a class="text-dark text-bold" href="{{ path('show_game', {game: game.id}) }}">Game: {{game.name}} | Title: {{game.title}} | Players: {{game.players|length}} </a>
+
+        </div> #}
+    {% endfor %}
+        <tbody>
+    </tbody>
+    {# {% for game in playedGames %}
+        <div class="row">
+   
+            <a class="text-dark text-bold" href="{{ path('show_game', {game: game.id}) }}">Game: {{game.name}} | Title: {{game.title}} | Players: {{game.players|length}} </a>
+
+        </div>
+    {% endfor %} #}
 
 </div>
 {% endblock %}

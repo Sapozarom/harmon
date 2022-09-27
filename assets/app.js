@@ -56,6 +56,17 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
   } );
 
   $( function() {
+
+    var loadDate = $('#load-date').html();
+
+    var gameId = $('.party-name').attr('id');
+
+    $('#'+loadDate).addClass('picked-date');
+    if (typeof gameId !== 'undefined') {
+      displayPlayersVotes(gameId, loadDate);
+    }
+ 
+
     $('td').click(function() {
 
       // get data
@@ -81,6 +92,9 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
       $( "#event_date_month" ).val(parseInt(split[1]));
       $( "#event_date_year" ).val(parseInt(split[0]));
       $( "#event_date_day" ).val(parseInt(split[2]));
+
+      // my votes
+      displayPlayersVotes(gameId, date);
     })
   });
 
@@ -108,6 +122,12 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
       $(this).css('background-color', '#f9f6f6');
     })
   });
+
+  
+    
+  
+
+
 function minutesIntoHour(minutes) {
 
   var hour = Math.floor(minutes / 60);
@@ -118,6 +138,41 @@ function minutesIntoHour(minutes) {
   }
 
   return hour + ":" +  min;
+}
+
+function displayPlayersVotes(game, date) {
+  $.ajax({  
+    url:        '/get-user-votes/'+ game + '/' + date,  
+    type:       'POST',   
+    dataType:   'json',  
+    async:      true,  
+    
+    success: function(data, status) {  
+
+      var dataString = "<b>My Votes:</b> ";
+
+      data.forEach(function (item) {
+        var nextDate = "<div class='vote-display' >"+ item['range'] +" <i class='fa-solid fa-trash fa-xs delete-vote'></i></div>";
+        // $nextDate = "<div class='vote-box'> </div>";
+        // $nextDate = "asd";
+        dataString = dataString + nextDate;
+      })
+      
+      $('#my-votes').html(dataString);
+
+      $('.delete-vote').mousedown(function() {
+
+        alert('asd');
+
+      });
+
+    }
+    
+    ,  
+    error : function(xhr, textStatus, errorThrown) {  
+       alert('Ajax request failed.');  
+    }  
+ }); 
 }
 
 

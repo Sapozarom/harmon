@@ -21,6 +21,10 @@ class Calendar
 
     private $numberOfPlayers;
 
+    private $user;
+
+    private $game;
+
     private $eventRepo;
 
     private $nextRow = 0;
@@ -35,9 +39,10 @@ class Calendar
 
     }
 
-    public function setupGameCalendarByDate($date, $game)
+    public function setupGameCalendarByDate($date, $game, $user)
     {      
         $this->game = $game;
+        $this->user = $user;
         // $this->gameId = $game->getId();
         $this->players = $game->getPlayers();
         $this->numberOfPlayers = count($game->getPlayers());
@@ -108,10 +113,20 @@ class Calendar
             }
             //$newDay->setGame($this->game);
             $newDayDateString = $newDate->format('Y-m-d');
-            $events = $this->eventRepo->findEventsByDate($newDayDateString);
+            // $events = $this->eventRepo->findEventsByDate($newDayDateString);
 
             $events = $this->eventRepo->findGameEventsByDate($newDayDateString, $this->game->getId());
 
+            if (count($events) > 0) {
+                $playerVotes = $this->eventRepo->findUserVotes($this->game->getId(), $date->format('Y-m-d'), $this->user);
+
+                if (count($playerVotes) > 0) {
+
+                    $newDay->setVoted(true);
+                    
+                } 
+            }
+                // dump($this->voted);
             $newDay->setEventArray($events);
             $newDay->generateStatus($this->game);
             

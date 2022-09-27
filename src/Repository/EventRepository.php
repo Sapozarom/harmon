@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -93,6 +94,37 @@ class EventRepository extends ServiceEntityRepository
         // }
 
         return $result;
+    }
+
+    public function findUserVotes($game, $date, $user)
+    {   
+        $dateFormat = new DateTime($date);
+        $qb = $this->createQueryBuilder('e');
+        $result = $qb
+        ->andWhere('e.user = :user')
+        ->setParameter('user', $user)
+        ->andWhere('e.date = :date')
+        ->setParameter('date', $dateFormat)
+        ->andWhere('e.game = :gameId')
+        ->setParameter('gameId', $game)
+        ->orderBy('e.start', 'ASC')
+        ->getQuery()
+        ->getResult();
+
+        $voteArray = array();
+
+        foreach ($result as $event) {
+            $vote['id'] = $event->getId();
+            $vote['range'] = $event->createRangeString();
+
+            array_push($voteArray, $vote);
+        }
+
+        // $jsonArray = json_encode($voteArray);
+
+        return $voteArray;
+
+        // dd($jsonArray);
     }
 //    public function findOneBySomeField($value): ?Event
 //    {

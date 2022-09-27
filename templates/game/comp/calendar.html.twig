@@ -21,12 +21,22 @@
             {% for  row in calendarArray %}
                 <tr id="">
                 {% for day in row %}
-                    <td id="{{day.date|date("Y-m-d")}}" class="{{day.status}}">
+                    {% if not day.currentMonth %}
+                    {% set monthType = 'previous-month' %}
+                    {% else %}
+                    {% set monthType = '' %}
+                    {% endif %}
+                    
+                    <td id="{{day.date|date("Y-m-d")}}" class="{{monthType}} {{day.status}}">
                     <div class="calendar-day">
                     {{day.number}}
                         {% if day.status == 'VOTED' %}
                         
-                        <i class="fa-solid fa-exclamation exclamation" data-bs-toggle="tooltip" data-bs-title="Waiting for your vote!"></i>
+                            {% if not day.voted %}
+                                <i class="fa-solid fa-exclamation exclamation" data-bs-toggle="tooltip" data-bs-title="Waiting for your vote!"></i>
+                            {% endif %}
+                        
+                        
                         
                         {# <i class="fa-solid fa-check" data-bs-toggle="tooltip" data-bs-title="Voted"></i> #}
                         <div class="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="{{day.playersLeftToVote}} more to vote"><i class="fa-sharp fa-solid fa-arrows-rotate"></i><b>{{day.playersLeftToVote}}</b><div> 
@@ -52,10 +62,10 @@
                         {# <i class="fa-solid fa-check" data-bs-toggle="tooltip"  #}
                         {# <i class="fa-sharp fa-solid fa-dice-d20" data-bs-toggle="tooltip"  #}
                         data-bs-title="
-                        Schedules matched!:
+                        Schedules matched:
                             {% for match in day.availableHours %}
-                                | {{match.0}}-{{match.1}}
-                            {% endfor %}
+                                | {{match}}
+                            {% endfor %} |
                         "></i>
 
                         </div>  
