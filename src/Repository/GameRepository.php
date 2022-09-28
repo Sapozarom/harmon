@@ -67,6 +67,21 @@ class GameRepository extends ServiceEntityRepository
         return $result;
 
     }
+
+    public function findIfIsMember($user, $gameId)
+    {
+        $result = $this->createQueryBuilder('g')
+        ->join('g.players', 'p')
+        ->andWhere('g.id = :gameId')
+        ->setParameter('gameId', $gameId->getId())
+        ->andWhere('p.id = :val')
+        ->setParameter('val', $user->getId())
+        ->orderBy('g.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+         
+    return $result;
+    }
 //    /**
 //     * @return Game[] Returns an array of Game objects
 //     */

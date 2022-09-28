@@ -17,7 +17,7 @@ class Game
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $Title = null;
+    private ?string $title = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
@@ -38,10 +38,17 @@ class Game
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\Column(length: 16)]
+    private ?string $slug = null;
+
+    #[ORM\Column]
+    private ?bool $locked = null;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->players = new ArrayCollection();
+        
     }
 
     public function getId(): ?int
@@ -51,12 +58,12 @@ class Game
 
     public function getTitle(): ?string
     {
-        return $this->Title;
+        return $this->title;
     }
 
-    public function setTitle(?string $Title): self
+    public function setTitle(?string $title): self
     {
-        $this->Title = $Title;
+        $this->title = $title;
 
         return $this;
     }
@@ -160,6 +167,30 @@ class Game
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function isLocked(): ?bool
+    {
+        return $this->locked;
+    }
+
+    public function setLocked(bool $locked): self
+    {
+        $this->locked = $locked;
 
         return $this;
     }

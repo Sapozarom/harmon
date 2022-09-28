@@ -10,21 +10,18 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Event;
+use App\Entity\Game;
 use App\Form\EventType;
+use App\Form\GameType;
+use App\Form\JoinGameType;
 use DateTime;
 
 class GameController extends AbstractController
 {
-    // #[Route('/game', name: 'app_game')]
-    // public function index(): Response
-    // {
-    //     return $this->render('game/index.html.twig', [
-    //         'controller_name' => 'GameController',
-    //     ]);
-    // }
 
-    #[Route('/game/{game}', name: 'show_game')]
-    public function showGame(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
+
+    #[Route('/game/show/{game}', name: 'show_game')]
+    public function showGameAction(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
     {
 
         //form data
@@ -59,35 +56,87 @@ class GameController extends AbstractController
         ]);
     }
 
+    #[Route('/game/create', name: 'app_game_create')]
+    public function createGameAction(Request $request, ManagerRegistry $doctrine): Response
+    {
+        $user = $this->getUser();
 
-    // /**
-    //  * @Route("/slider", name="slider_form")
-    //  */
-    // public function slider(Request $request, ManagerRegistry $doctrine): Response
-    // {   
-    //     $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $game = new Game;
 
-    //     $user = $this->getUser();
-    //     $date = new \DateTime();
-    //     //$date->format('d-m-Y');
-    //     $event = new Event;
+        $form = $this->createForm(GameType::class, $game);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $game = $form->getData();
+            $game->setCreatedBy($user);
+            $game->addPlayer($user);
+
+            $slug = bin2hex(random_bytes(8));
+
+            $game->setSlug($slug);
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($game);
+            $entityManager->flush();
+        }
+
+        return $this->render('game/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/game/invite/{slug}', name: 'app_game_invite')]
+    public function inviteToGameAction(string $slug, ManagerRegistry $doctrine, GameRepository $gameRepo, Request $request): Response
+    {
+        $user = $this->getUser();
+        $game = $gameRepo->findOneBy(['slug' => $slug]);
+        $playerCheck = $gameRepo->findIfIsMember($user, $game);
+
+        $acceptForm = $this->createForm(JoinGameType::class);
+
+        $acceptForm->handleRequest($request);
+
+        if ($game->isLocked()) {
+            return $this->render('game/invite.html.twig', [
+                'status' => 'locked',
+            ]);
+        }
         
-    //     $form = $this->createForm(EventType::class, $event);
+        if ($_POST) {
+            if (isset($_POST['join_game']['yes']) &&!($playerCheck)) {
+                $game->addPlayer($user);
+
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($game);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('show_game', ['game' => $game->getId()]);
+
+            } elseif (isset($_POST['join_game']['no'])) {
+                
+                return $this->redirectToRoute('my_activities', ['game' => $game->getId()]);
+            }
+        } else {
+
+           
+            
+            // CHECK IF PLAYER IS ALREADY A MEMBER
+            
+    
+            if ($playerCheck) {
+    
+                return $this->render('game/invite.html.twig', [
+                    'status' => 'member',
+                ]);
+            }
+        }
         
-    //     $form->handleRequest($request);
+        return $this->render('game/invite.html.twig', [
+            'status' => 'invite',
+            'slug' => $slug,
+            'accForm' => $acceptForm->createView(),
+        ]);
+    }
 
-    //     if ($form->isSubmitted() && $form->isValid()) {
-
-    //         $event = $form->getData();
-    //         $event->setUser($user);
-    //         $event->setDate($date);
-
-    //         $entityManager = $doctrine->getManager();
-    //         $entityManager->persist($event);
-    //         $entityManager->flush();
-    //     }
-    //     return $this->render('form/index.html.twig', [
-    //         'form' => $form->createView(),
-    //     ]);
-    // }
 }

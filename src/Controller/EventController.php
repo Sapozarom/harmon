@@ -37,12 +37,7 @@ class EventController extends AbstractController
 
         $deleteVote = $eventRepo->deleteUserVote($id, $user);
 
-
-        // $date = '2022-09-08';
-        // $playerVotes = $eventRepo->findUserVotes($game, $date, $user);
-        
         return new JsonResponse(['id' => $id], 200);
         
-        // dd($playerVotes);
     }
 }

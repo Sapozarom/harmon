@@ -32,7 +32,7 @@ class HomepageController extends AbstractController
         // dd($playedGames,$createdGames);
         return $this->render('homepage/games.html.twig', [
             'createdGames' => $createdGames,
-            'playedGames' => $playedGames,
+            'userId' => $uid,
         ]);
     }
 }

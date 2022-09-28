@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 /**
- * Form used to upload log files
+ * Form used vote for specific date and game
  */
 class EventType extends AbstractType
 {
@@ -21,7 +21,6 @@ class EventType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
         ->add('vote', ChoiceType::class, [
             'label' => false,
             'choices'  => [
