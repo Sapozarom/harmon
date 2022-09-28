@@ -126,6 +126,23 @@ class EventRepository extends ServiceEntityRepository
 
         // dd($jsonArray);
     }
+
+    public function deleteUserVote($id, $user) 
+    {
+        $qb = $this->createQueryBuilder('e');
+        $result = $qb
+        ->delete( 'App\Entity\Event','e')
+        ->andWhere('e.user = :user')
+        ->setParameter('user', $user)
+        ->andWhere('e.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getResult();
+
+        return $result;
+    }
+
+    
 //    public function findOneBySomeField($value): ?Event
 //    {
 //        return $this->createQueryBuilder('e')

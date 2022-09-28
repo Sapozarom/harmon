@@ -18,7 +18,7 @@ class EventController extends AbstractController
         ]);
     }
 
-    #[Route('/get-user-votes/{game}/{date}', name: 'api_get_player_votes')]
+    #[Route('/get-user-votes/{game}/{date}', name: 'api_get_user_votes')]
     public function getUserVotes(int $game, string $date, EventRepository $eventRepo)    
     {
         $user = $this->getUser();
@@ -40,8 +40,8 @@ class EventController extends AbstractController
 
         // $date = '2022-09-08';
         // $playerVotes = $eventRepo->findUserVotes($game, $date, $user);
-
-        return new JsonResponse();
+        
+        return new JsonResponse(['id' => $id], 200);
         
         // dd($playerVotes);
     }

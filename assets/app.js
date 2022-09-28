@@ -141,6 +141,7 @@ function minutesIntoHour(minutes) {
 }
 
 function displayPlayersVotes(game, date) {
+  // fetching votes
   $.ajax({  
     url:        '/get-user-votes/'+ game + '/' + date,  
     type:       'POST',   
@@ -152,7 +153,7 @@ function displayPlayersVotes(game, date) {
       var dataString = "<b>My Votes:</b> ";
 
       data.forEach(function (item) {
-        var nextDate = "<div class='vote-display' >"+ item['range'] +" <i class='fa-solid fa-trash fa-xs delete-vote'></i></div>";
+        var nextDate = "<div class='vote-display' id='"+ item['id'] +"'>"+ item['range'] +" <i id='"+ item['id'] +"' class='fa-solid fa-trash fa-xs delete-vote'></i></div>";
         // $nextDate = "<div class='vote-box'> </div>";
         // $nextDate = "asd";
         dataString = dataString + nextDate;
@@ -160,14 +161,29 @@ function displayPlayersVotes(game, date) {
       
       $('#my-votes').html(dataString);
 
+      // DELETE VOTES
       $('.delete-vote').mousedown(function() {
+        // alert($(this).attr('id'));  
+        alert('Do you realy delete this event?');
 
-        alert('asd');
-
+        $.ajax({  
+          url:        '/event/delete/' + $(this).attr('id'),  
+          type:       'POST',   
+          dataType:   'json',  
+          // async:      true,  
+          
+          success: function(data, status) {  
+            
+            $('.vote-display#' + data['id']).hide();
+            alert('Vote delted');
+          },  
+          error : function(xhr, textStatus, errorThrown) {  
+             alert('Something went wrong');  
+          }  
+       }); 
       });
 
     }
-    
     ,  
     error : function(xhr, textStatus, errorThrown) {  
        alert('Ajax request failed.');  
