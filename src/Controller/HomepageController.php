@@ -23,16 +23,15 @@ class HomepageController extends AbstractController
     #[Route('/my-activities', name: 'my_activities')]
     public function showGamesAction(GameRepository $gameRepo): Response
     {   
-        
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $uid = $user->getId();
-        //dd($uid);
         $playedGames = $gameRepo->findGamesInProgress($uid);
-        $createdGames = $gameRepo->findGamesCreatedByUser($user);
+        // $createdGames = $gameRepo->findGamesCreatedByUser($user);
         // dd($playedGames,$createdGames);
         return $this->render('homepage/games.html.twig', [
-            'createdGames' => $createdGames,
             'userId' => $uid,
+            'playedGames' => $playedGames,
         ]);
     }
 }

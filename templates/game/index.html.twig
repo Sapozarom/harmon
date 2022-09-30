@@ -9,7 +9,7 @@
     <div class="col-9 bg-light">
         {{ form_start(form) }}
 
-        <div class="d-flex flex-row justify-content-center w-60">
+        <div class="d-flex flex-row justify-content-center">
             {# errors #}
             <div class="my-custom-class-for-errors">
                 {{ form_errors(form) }}
@@ -37,8 +37,7 @@
 
         <div class="d-flex flex-row justify-content-center align-items-center">
             <div id="my-votes" class="p-2 lead me-auto">
-                {# <b>My Votes:</b> 13:24-14:35 | 18:44-20:35  #}
-                {# | 18:44-20:35 | 18:44-20:35 | 18:44-20:35 | 18:44-20:35 | #}
+                {# VOTE DISPLAY IN THIS CONTAINER #}
             </div>
             <div class="p-2 lead">
                 Max time (min):
@@ -53,55 +52,6 @@
     </div>
 </div>
 
-{# 
-{{ form_start(form) }}
-    <div class="row justify-content-center">
-        <div class="col-auto justify-content-center">
-            
-            <div class="my-custom-class-for-errors">
-                {{ form_errors(form) }}
-            </div>
-            <div class="vote-form date">
-                <h1 class="display-6 form-date m-0">{{date|date("Y-m-d")}}</h1>
-            </div> 
-            <div class="vote-form date">
-                {{ form_row(form.vote) }}
-            </div>
-            <div class="vote-form "> 
-                <label for="amount"><h1 class="display-6 m-0">Time: </h1></label>  
-            </div>
-            <!-- time display from slider -->
-
-            <div class="vote-form"> 
-                <input class="time-display" type="text" id="amount" readonly style="">
-            </div>
-
-            <!-- SLIDER -->
-            <div id="slider-range" class="mt-4 mb-4">
-            </div>
-            <div class="row align-items-center">
-                <div class="col-auto ">
-                    <div class="vote-form lead"> 
-                    <b>My Votes:</b> 13:24-14:35 | 18:44-20:35 |
-                    | 18:44-20:35 || 18:44-20:35 || 18:44-20:35 || 18:44-20:35 |
-                    </div>
-                </div>
-                <div class="col-auto me-auto">
-
-                    <div class="vote-form lead align-self-end"> 
-                    Max time (min):
-                    </div>
-                    <div class="vote-form time-input date align-self-end"> 
-                    {{ form_row(form.maxLength) }}
-                    </div>
-                    <div class="vote-form align-self-end"> 
-                    {{ form_end(form) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-     #}
 
 </div>    
     

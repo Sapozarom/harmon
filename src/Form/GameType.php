@@ -40,9 +40,9 @@ class GameType extends AbstractType
             'label' => 'Minimal session length (minutes):',
         ])
         ->add('Save', SubmitType::class, [
-            // 'attr' => [
-            //     'class' => 'btn btn-dark btn-lg'
-            // ],
+            'attr' => [
+                'class' => 'btn btn-dark btn-lg'
+            ],
         ]);
         ;
     }

@@ -6,30 +6,50 @@
 <div class="container">
     <div class="d-flex justify-content-center">
 
-            <h1 class="display-5 mt-4">List of parties</h1>
+            <h1 class="display-6 mt-4">List of parties</h1>
 
     </div>
-    <table class="table">
+    <table class="table party-list">
         <thead>
             <tr>
+                <th class="game-table-header host"scope="col"></th> 
                 <th class="game-table-header"scope="col">Party</th>
+                <th class="game-table-header host"scope="col"></th>
                 <th class="game-table-header" scope="col">Activity</th>
                 <th class="game-table-header" scope="col">Members</th>
+                <th class="game-table-header" scope="col">Status</th>
                 <th class="game-table-header" scope="col">Next session</th>
                 <th class="game-table-header" scope="col">Link</th>
             </tr>
         </thead>
         {% for game in playedGames %}
         
-                <tr>
-                    <td class="game-table bg-light">
+                <tr >                    
+                    <td  class="game-table host bg-light p-0">
+                        {% if game.createdBy.id == userId %}
+              
+                            <i id="{{game.id}}" class="fa-solid fa-circle-h info-icon" data-bs-toggle="tooltip" data-bs-title="You are host of this game"> </i>
+
+                        {% endif %} 
+                    </td>
+                    <td class="game-table bg-light" >
                         {{game.name}} 
+                    </td>
+                    <td class="game-table bg-light host p-0" >
+                        <i class="fa-solid fa-circle-info info-icon "  data-bs-toggle="tooltip" data-bs-html="true" data-bs-title='{{game.description}} '></i>
                     </td>
                     <td class="game-table bg-light">
                         {{game.title}}
                     </td>
                     <td class="game-table bg-light">
-                    {{game.players|length}}
+                        {{game.players|length}}
+                    </td>
+                    <td class="game-table bg-light">
+                        {% if game.locked %}
+                            <i class="fa-solid fa-lock info-icon" data-bs-toggle="tooltip" data-bs-title="Game is locked"></i>
+                        {% else %}
+                            <i id="{{game.slug}}" class="fa-solid fa-link info-icon" data-bs-toggle="tooltip" data-bs-title="Click to copy invitational link" ></i>
+                        {% endif %}
                     </td>
                     <td class="game-table bg-light">
                         XX.XX.XXXX

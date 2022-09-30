@@ -4,7 +4,7 @@
         {{ dump() }}
     </pre> #}
 
-        <table class="table">
+        <table class="table calendar">
         <caption >September</caption>
         <thead>
             <tr>
@@ -27,7 +27,7 @@
                     {% set monthType = '' %}
                     {% endif %}
                     
-                    <td id="{{day.date|date("Y-m-d")}}" class="{{monthType}} {{day.status}}">
+                    <td id="{{day.date|date("Y-m-d")}}" class="{{monthType}} {{day.status}} calendar-day">
                     <div class="calendar-day">
                     {{day.number}}
                         {% if day.status == 'VOTED' %}

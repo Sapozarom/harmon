@@ -23,7 +23,7 @@ class GameController extends AbstractController
     #[Route('/game/show/{game}', name: 'show_game')]
     public function showGameAction(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
     {
-
+        $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
         $user = $this->getUser();
         $date = new \DateTime();
@@ -53,12 +53,15 @@ class GameController extends AbstractController
             'game' =>  $gameObj,
             'calendarArray' => $calendarArray,
             'form' => $form->createView(),
+            'userId' => $user->getId(),
         ]);
     }
 
     #[Route('/game/create', name: 'app_game_create')]
     public function createGameAction(Request $request, ManagerRegistry $doctrine): Response
     {
+
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
 
         $game = new Game;
@@ -89,6 +92,7 @@ class GameController extends AbstractController
     #[Route('/game/invite/{slug}', name: 'app_game_invite')]
     public function inviteToGameAction(string $slug, ManagerRegistry $doctrine, GameRepository $gameRepo, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $game = $gameRepo->findOneBy(['slug' => $slug]);
         $playerCheck = $gameRepo->findIfIsMember($user, $game);

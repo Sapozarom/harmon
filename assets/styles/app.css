@@ -7,28 +7,29 @@ body {
     /* color: #00ff401f; */
 }
 
-.nav-item-text {
-    color: rgb(234, 234, 60);
-}
 
-.div-80 {
-    width: 60%;
-}
-
-th.game-table-header {
-    font-weight: bold;
-    text-align: center;
-    background-color: rgb(0, 0, 0);
-    color: #ffb300;
-    height: 3em;
-}
-
-td.game-table {
-    text-align: center;
-    background-color: rgb(255, 255, 255);
-    color: black;
-    height: 3em;
+.square-button {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
 }
 
 
+.info-icon:hover {
+
+    color: orange;
+    /* width: 100px; */
+
+}
+
+table.party-list {
+    /* width: auto; */
+}
+
+th.host td.host {
+    column-width: 1em;
+    padding-left: 0px;
+    padding-right: 0px;
+}
 

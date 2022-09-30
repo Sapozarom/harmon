@@ -34,7 +34,7 @@
 }
 
 .ui-slider-range {
-background-color: black;
+background-color: #212529;
 }
 
 .ui-state-active {
@@ -48,14 +48,14 @@ background-color: black;
     color: orange;
     padding-left: 5px;
     padding-right: 5px;
-    border-left: black 1px solid;
-    border-right: black 1px solid;
+    border-left: #212529 1px solid;
+    border-right: #212529 1px solid;
     margin-left: -1px;
 }
 
 .delete-vote {
     display: inline-block;
-    color: black;
+    color: #212529;
     /* width: 100px; */
 
 }
@@ -67,3 +67,17 @@ background-color: black;
 
 }
 
+th.game-table-header {
+    font-weight: bold;
+    text-align: center;
+    background-color: #212529;
+    color: #ffb300;
+    height: 3em;
+}
+
+td.game-table {
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    height: 3em;
+}

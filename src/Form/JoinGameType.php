@@ -31,13 +31,15 @@ class JoinGameType extends AbstractType
         ->add('yes', SubmitType::class, [
             'label' => 'Join',
             'attr' => [
-                'value' => 1
+                'value' => 1,
+                'class' => 'btn btn-dark btn-lrg'
             ],
         ])
         ->add('no', SubmitType::class, [
             'label' => 'No thanks',
             'attr' => [
-                'value' => 1
+                'value' => 1,
+                'class' => 'btn btn-dark btn-lrg'
             ],
         ]);
     }

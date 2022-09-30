@@ -22,13 +22,21 @@
                 {% elseif status == 'invite' %}
                 <i class="fa-solid fa-person-circle-question fa-10x text-center"></i>
                 <p class="lead text-center">Would you like to join this party?</p>
+                {{ form_start(accForm) }}
+                <div class="d-flex flex-row justify-content-center">
+                
 
-                 {{ form(accForm) }}
-                {# <form action="{{ path('app_game_invite', {slug: slug}) }}" method="get">
-                <input type="text" class="" id="join" value="1">
-                <button class="btn btn-dark mt-3" type="submit" >Join</button> #}
-                {# <button class="btn btn-dark mt-3" type="submit" id="no" value="0">No thanks</button> #}
-                </form>
+                    <div class="p-2 ">
+                        {{ form_row(accForm.yes) }}
+                    </div>
+                    <div class="p-2 ">
+                        {{ form_row(accForm.no) }}
+                    </div>
+                       
+                <div>
+                {{ form_end(accForm) }}
+
+            
                 {% endif %}
             </div>    
         </div>
