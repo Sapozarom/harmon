@@ -4,7 +4,7 @@ table.calendar {
     table-layout: fixed; 
     caption-side: top;
     /* width: 100%; */
-    background-color: rgb(238, 238, 238);
+    background-color: #f8f9fa;
     /* max-width: 150px; */
 }
 

@@ -33,3 +33,11 @@ th.host td.host {
     padding-right: 0px;
 }
 
+.nav-menu-item {
+    
+}
+
+.active {
+    color: #ffb300;
+}
+

@@ -81,3 +81,20 @@ td.game-table {
     color: black;
     height: 3em;
 }
+
+.vote-header {
+    margin-left: -10px;
+    margin-right: -10px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #212529;
+    color: #ffb300;
+}
+
+.party-header {
+
+    font-weight: bold;
+    text-align: center;
+    background-color: #212529;
+    color: #ffb300;
+}
