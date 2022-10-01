@@ -23,6 +23,7 @@ class GameFixtures extends Fixture
         $game = new Game();
         $game->setTitle('Civilization 6');
         $game->setName('2v2v2');
+        $game->setLocked(true);
         $slug = bin2hex(random_bytes(8));
 
         $game->setSlug($slug);
@@ -32,6 +33,7 @@ class GameFixtures extends Fixture
         $game2 = new Game();
         $game2->setTitle('Civilization 6');
         $game2->setName('FFA');
+        $game2->setLocked(false);
         $slug2 = bin2hex(random_bytes(8));
 
         $game2->setSlug($slug2);
