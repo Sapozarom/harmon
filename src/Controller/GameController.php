@@ -74,6 +74,7 @@ class GameController extends AbstractController
             $game = $form->getData();
             $game->setCreatedBy($user);
             $game->addPlayer($user);
+            $game->setLocked(false);
 
             $slug = bin2hex(random_bytes(8));
 
