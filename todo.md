@@ -1,10 +1,13 @@
--wyświetlanie oczekiwania na głos
+- po stworzeniu party przekierowanie na homepage + info dla użytkownika
+- poprawny link do zapraszania
 
--usuwanie głosów
+ZARZĄDZANIE PATRY
+-usuwanie party
+-usuwanie graczy
+-zmiana statusu gracza na active/not active
 
--tworzenie party
--dodawanie użytkowników do party
 
-- wyświetlanie listy gier
 
--ładniejsze wyświetlenie kalendarza
+
+
+
