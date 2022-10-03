@@ -20,15 +20,43 @@ $( function() {
   var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
     return new bootstrap.Tooltip(tooltipTriggerEl)
   })
+      // HTTPS
+  // $('.fa-link').click( function(){
+  //   var slug = $(this).attr('id');
+  //   var link = 'testowe.sasartele.p/game/invite'+ slug;
 
+  //   // link.select();
+  //   // link.setSelectionRange(0, 99999);
+  //   alert(link);
+  //   navigator.clipboard.writeText(link);
+
+    
+  // })
+
+  // HTTP
   $('.fa-link').click( function(){
     var slug = $(this).attr('id');
-    var link = 'testowe.sasartele.p/game/invite'+ slug;
+    var link = 'http://testowe.sasartele.pl/game/invite'+ slug;
 
+    var linkPar = document.createElement('textarea'); 
+    
+    $('textarea').addClass('invisible');
+    linkPar.innerHTML = link;
+
+    document.body.appendChild(linkPar);
+    linkPar.focus();
+    linkPar.select();
+    // linkPar.addClass('invisible');
+    try {
+      document.execCommand('copy');
+    } catch (err) {
+      console.error('Unable to copy to clipboard', err);
+    }
+    document.body.removeChild(linkPar);
     // link.select();
     // link.setSelectionRange(0, 99999);
     alert(link);
-    navigator.clipboard.writeText(link);
+    // navigator.clipboard.writeText(link);
 
     
   })

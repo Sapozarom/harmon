@@ -45,3 +45,7 @@ th.host td.host {
     background-color: #fafafa00;
 }
 
+.hidden {
+    display: none;
+}
+
