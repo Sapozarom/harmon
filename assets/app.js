@@ -36,7 +36,7 @@ $( function() {
   // HTTP
   $('.fa-link').click( function(){
     var slug = $(this).attr('id');
-    var link = 'http://testowe.sasartele.pl/game/invite/'+ slug;
+    var link = 'http://harmon.sasartele.pl/game/invite/'+ slug;
 
     var linkPar = document.createElement('textarea'); 
     
