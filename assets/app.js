@@ -27,10 +27,10 @@ $( function() {
 
     link.select();
     link.setSelectionRange(0, 99999);
-
+    alert(link);
     navigator.clipboard.writeText(link);
 
-    alert(link);
+    
   })
 
   // function copyInviLink(link) {
