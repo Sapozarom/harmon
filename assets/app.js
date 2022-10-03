@@ -25,8 +25,8 @@ $( function() {
     var slug = $(this).attr('id');
     var link = 'testowe.sasartele.p/game/invite'+ slug;
 
-    link.select();
-    link.setSelectionRange(0, 99999);
+    // link.select();
+    // link.setSelectionRange(0, 99999);
     alert(link);
     navigator.clipboard.writeText(link);
 
