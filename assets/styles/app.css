@@ -49,7 +49,8 @@ th.host td.host {
 
 .readme-pic {
     
-    background: url('http://127.0.0.1/image/day.png') left top no-repeat;
+    /* background: url('http://127.0.0.1/image/day.png') left top no-repeat; */
+    background: url('http://harmon.sasartele.pl/image/day.png') left top no-repeat;
     width: 213px;
     height: 109px;
     box-shadow: 0 0 15px 15px rgb(255, 255, 255) inset;
