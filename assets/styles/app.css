@@ -23,17 +23,12 @@ body {
 
 }
 
-
-
 th.host td.host {
     column-width: 1em;
     padding-left: 0px;
     padding-right: 0px;
 }
 
-/* .nav-menu-item {
-    
-} */
 
 .active {
     color: #ffb300;
