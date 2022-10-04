@@ -1,0 +1,120 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Activities{% endblock %}
+
+{% block body %}
+<div class="container ">
+    <div class="row">
+        <div class="col-sm text-center">
+        
+            <h1 class="display-6 mt-4">Instrukcje</h1>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+        
+           <p class="lead">
+                <b>1. Załóż konto </b><br>
+                <b>!!! nie używajcie żadnych legitnych danych(user/pass) bo na stronie nie ma żadnych zabezpieczeń i szyfrowania !!!</b><br>
+                Konto jest mi potrzebne żeby wyróznić użytkowników i ich głosy
+           </p>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+        
+           <p class="lead">
+                <b>2. Dołącz do gry za pomocą linku </b><br>
+            </p>
+                
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+        
+           <p class="lead">
+                <b>3. W widoku wydarzenia wybierz dzień na który chciałbyś zagłosować</b><br>
+            </p>
+            <div class="readme-pic">
+           
+            <div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm">
+        
+           <p class="lead">
+                <b>4. Przy pomocy formularza wybierz swój status i godziny</b><br>
+                Możesz oddać kilka głosów
+            </p>
+            <div class="col-md-6">
+                <img src='{{ asset('image/form.png') }}' class="w-100" >
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-2">
+        <div class="col-sm">
+        
+           <p class="lead">
+                <b>5. Wraz z oddawanymi głosami w kalendarzu będą pojawiać się różne informacje. Jak poniżej</b><br>
+                Gdy najedziesz na piktograrm, dostaniesz dodatkowe informacje
+            </p>
+            <div class="col-md-6">
+                
+                    <table class="table calendar">
+                
+                    <tbody>
+                    <tr>
+                    <div class="calendar-day">
+                        <td class="GAMEDAY">
+                            <div class="calendar-day">
+                                5
+                                <div class="players-left-to-vote">
+                                    <i class="fa-solid fa-calendar-check" data-bs-toggle="tooltip" data-bs-title="Schedules matched: | 18:00 - 20:00 |"></i>
+                                </div>  
+                            </div> 
+                        </td>
+
+                        <td class="VOTED">
+                            <div class="calendar-day">
+                                6
+                                <i class="fa-solid fa-exclamation exclamation" data-bs-toggle="tooltip" data-bs-title="Waiting for your vote!"></i>
+
+                                <div class="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="2 more to vote"><i class="fa-sharp fa-solid fa-arrows-rotate"></i><b>2</b><div> 
+ 
+                            </div> 
+                        </td>
+
+                        <td class="CANCELED">
+                            <div class="calendar-day">
+                                7
+
+                                <div class="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="Some members are unavailable"><i class="fa-solid fa-xmark"></i><div> 
+ 
+                            </div> 
+                        </td>
+
+                        <td class="MISSED">
+                            <div class="calendar-day">
+                                8
+
+                                <div class="players-left-to-vote"><i class="fa-solid fa-calendar-xmark" data-bs-toggle="tooltip" data-bs-title="Missed schedules"></i></div>
+ 
+                            </div> 
+                        </td>
+                    </tr>
+                    </tbody>
+                    </table
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

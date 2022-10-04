@@ -1,5 +1,11 @@
+- instrukcje
+
 - po stworzeniu party przekierowanie na homepage + info dla użytkownika
-- poprawny link do zapraszania
+
+OPCJE UŻYTKOWNIKA
+- leave party
+- make me inactive
+
 
 ZARZĄDZANIE PATRY
 -usuwanie party

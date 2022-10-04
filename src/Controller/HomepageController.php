@@ -34,4 +34,14 @@ class HomepageController extends AbstractController
             'playedGames' => $playedGames,
         ]);
     }
+
+    #[Route('/README', name: 'app_readme')]
+    public function showReadmeAction(GameRepository $gameRepo): Response
+    {   
+
+
+        return $this->render('homepage/readme.html.twig', [
+
+        ]);
+    }
 }

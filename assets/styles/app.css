@@ -23,9 +23,7 @@ body {
 
 }
 
-table.party-list {
-    /* width: auto; */
-}
+
 
 th.host td.host {
     column-width: 1em;
@@ -47,5 +45,13 @@ th.host td.host {
 
 .hidden {
     display: none;
+}
+
+.readme-pic {
+    
+    background: url('http://127.0.0.1/image/day.png') left top no-repeat;
+    width: 213px;
+    height: 109px;
+    box-shadow: 0 0 15px 15px rgb(255, 255, 255) inset;
 }
 

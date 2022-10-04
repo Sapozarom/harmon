@@ -36,6 +36,9 @@
         <li class="nav-item">
           <a class="nav-link nav-item-text fs-4" href="{{ path('my_activities') }}">My Activities</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link nav-item-text fs-4" href="{{ path('app_readme') }}">README</a>
+        </li>
         {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
           <li class="nav-item">
             <a class="nav-link nav-item-text fs-4" href="{{ path('app_register') }}">Register</a>

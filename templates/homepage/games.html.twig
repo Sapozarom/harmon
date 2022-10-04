@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomepageController!{% endblock %}
+{% block title %}My Activities{% endblock %}
 
 {% block body %}
 <div class="container">
@@ -28,8 +28,10 @@
                     <td  class="game-table host bg-light p-0">
                         {% if game.createdBy.id == userId %}
               
-                            <i id="{{game.id}}" class="fa-solid fa-circle-h info-icon" data-bs-toggle="tooltip" data-bs-title="You are host of this game"> </i>
-
+                            <i id="{{game.id}}" class="fa-solid fa-user-gear info-icon" data-bs-toggle="tooltip" data-bs-title="You are host of this game"> </i>
+               
+                        {% else %}
+                            <i id="{{game.id}}" class="fa-solid fa-gears info-icon" data-bs-toggle="tooltip" data-bs-title="Options"> </i>
                         {% endif %} 
                     </td>
                     <td class="game-table bg-light" >
