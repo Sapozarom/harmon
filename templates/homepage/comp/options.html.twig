@@ -1,0 +1,85 @@
+{# <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button> #}
+
+<!-- USER MODAL -->
+<div class="modal fade" id="userOptions" tabindex="-1" aria-labelledby="userOptions" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="userOptions">Options</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      {# MAKE INACTIVE #}
+        <p>
+            <a class="btn btn-dark dropdown-toggle" data-bs-toggle="collapse" href="#makeMeInactive" role="button" aria-expanded="false" aria-controls="makeMeInactive">
+                Make me inactive
+            </a>
+        </p>
+        <div class="collapse" id="makeMeInactive">
+            <div class="card card-body">
+                Inactive users can't vote  <b> Only a party creator can change your status to active</b>
+                
+                <a class="btn btn-danger mt-2">
+                    Proceed
+                </a>
+            </div>
+        </div>
+
+        <p>
+            <a class="btn btn-dark dropdown-toggle mt-2" data-bs-toggle="collapse" href="#leaveGame" role="button" aria-expanded="false" aria-controls="leaveGame">
+                Leave party
+            </a>
+        </p>
+        <div class="collapse" id="leaveGame">
+            <div class="card card-body">
+                After you leave party, you would not be able to open game panel. <b>You can't rejoin party if it's locked</b>
+                <a class="btn btn-danger mt-2">
+                Proceed
+            </a>
+            </div>
+            
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        footer
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN MODAL -->
+<div class="modal fade" id="adminOptions" tabindex="-1" aria-labelledby="adminOptions" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="adminOptions">Options</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      
+        <p>
+            <a class="btn btn-dark dropdown-toggle" data-bs-toggle="collapse" href="#makeMeInactive" role="button" aria-expanded="false" aria-controls="makeMeInactive">
+                Make me inactive
+            </a>
+        </p>
+        <div class="collapse" id="makeMeInactive">
+            <div class="card card-body">
+                Inactive users can't vote  <b> Only a party creator can change your status to active</b>
+                
+                <a class="btn btn-danger mt-2">
+                    Proceed
+                </a>
+            </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        footer
+      </div>
+    </div>
+  </div>
+</div>

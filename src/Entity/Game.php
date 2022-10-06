@@ -44,10 +44,15 @@ class Game
     #[ORM\Column]
     private ?bool $locked = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'gamesWhereInactive')]
+    #[ORM\JoinTable(name: "inactive_table")]
+    private Collection $inactivePlayers;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->players = new ArrayCollection();
+        $this->inactivePlayers = new ArrayCollection();
         
     }
 
@@ -191,6 +196,30 @@ class Game
     public function setLocked(bool $locked): self
     {
         $this->locked = $locked;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getInactivePlayers(): Collection
+    {
+        return $this->inactivePlayers;
+    }
+
+    public function addInactivePlayer(User $inactivePlayer): self
+    {
+        if (!$this->inactivePlayers->contains($inactivePlayer)) {
+            $this->inactivePlayers->add($inactivePlayer);
+        }
+
+        return $this;
+    }
+
+    public function removeInactivePlayer(User $inactivePlayer): self
+    {
+        $this->inactivePlayers->removeElement($inactivePlayer);
 
         return $this;
     }

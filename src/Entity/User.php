@@ -42,11 +42,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'players')]
     private Collection $games;
 
+    #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'inactivePlayers')]
+    private Collection $gamesWhereInactive;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->createdGames = new ArrayCollection();
         $this->games = new ArrayCollection();
+        $this->gamesWhereInactive = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -201,6 +205,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->games->removeElement($game)) {
             $game->removePlayer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Game>
+     */
+    public function getGamesWhereInactive(): Collection
+    {
+        return $this->gamesWhereInactive;
+    }
+
+    public function addGamesWhereInactive(Game $gamesWhereInactive): self
+    {
+        if (!$this->gamesWhereInactive->contains($gamesWhereInactive)) {
+            $this->gamesWhereInactive->add($gamesWhereInactive);
+            $gamesWhereInactive->addInactivePlayer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGamesWhereInactive(Game $gamesWhereInactive): self
+    {
+        if ($this->gamesWhereInactive->removeElement($gamesWhereInactive)) {
+            $gamesWhereInactive->removeInactivePlayer($this);
         }
 
         return $this;

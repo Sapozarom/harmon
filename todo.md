@@ -1,5 +1,3 @@
-- instrukcje
-
 - po stworzeniu party przekierowanie na homepage + info dla użytkownika
 
 OPCJE UŻYTKOWNIKA
@@ -11,7 +9,8 @@ ZARZĄDZANIE PATRY
 -usuwanie party
 -usuwanie graczy
 -zmiana statusu gracza na active/not active
-
+-przekaż hosta
+-lock game
 
 
 

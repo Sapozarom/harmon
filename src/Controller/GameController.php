@@ -143,5 +143,17 @@ class GameController extends AbstractController
             'accForm' => $acceptForm->createView(),
         ]);
     }
-
+    #[Route('/game/host-options/{game}', name: 'app_host_options')]
+    public function showOptionsAction(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
+    {
+        
+        
+        return $this->render('game/hostOptions.html.twig', [
+            // 'date' => $date,
+            // 'game' =>  $gameObj,
+            // 'calendarArray' => $calendarArray,
+            // 'form' => $form->createView(),
+            // 'userId' => $user->getId(),
+        ]);
+    }
 }

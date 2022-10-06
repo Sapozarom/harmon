@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Invite to game{% endblock %}
+
+
+{% block body %}
+<div class="container">
+
+    {# title #}
+    <div class="row justify-content-center">
+        <div class="col text-center">
+            <h1 class="display-6 text-center">Game Options</h1>
+        </div>
+    </div>
+    <h1 class="display-6 ">Player Options</h1>
+    {# MAKE ME INACTIVE #}
+        <div class="row mt-3 pt-3 bg-light border border-2">
+            <p>
+                <a class="btn btn-dark dropdown-toggle col-lg-3" data-bs-toggle="collapse" href="#makeMeInactive" role="button" aria-expanded="false" aria-controls="makeMeInactive">
+                Make me inactive/active
+                </a>
+            </p>
+            <div class="collapse mb-3" id="makeMeInactive">
+                <div class="card card-body">
+                    Inactive users can't vote  <b> Only a party creator can change your status to active</b>
+                    
+                    <a class="btn btn-danger mt-2 col-md-3 align-self-right">
+                        Proceed
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    <h1 class="display-6 ">Host Options</h1>
+    {# Remove Player #}
+    <div class="row mt-3 pt-3 bg-light border border-2">
+        <p>
+            <a class="btn btn-dark dropdown-toggle col-lg-3" data-bs-toggle="collapse" href="#removeMember" role="button" aria-expanded="false" aria-controls="makeMeInactive">
+               Remove Member
+            </a>
+        </p>
+        <div class="collapse mb-3" id="removeMember">
+            <div class="card card-body">
+                Inactive users can't vote  <b> Only a party creator can change your status to active</b>
+                
+                <a class="btn btn-danger mt-2 col-md-3 align-self-right">
+                    Proceed
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {# Change member status #}
+    <div class="row mt-3 pt-3 bg-light border border-2">
+        <p>
+            <a class="btn btn-dark dropdown-toggle col-lg-3" data-bs-toggle="collapse" href="#changeStatus" role="button" aria-expanded="false" aria-controls="makeMeInactive">
+               Change member status
+            </a>
+        </p>
+        <div class="collapse mb-3" id="changeStatus">
+            <div class="card card-body">
+                Inactive users can't vote  <b> Only a party creator can change your status to active</b>
+                
+                <a class="btn btn-danger mt-2 col-md-3 align-self-right">
+                    Proceed
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {# LOCK/UNLOCK#}
+    <div class="row mt-3 pt-3 bg-light border border-2">
+        <p>
+            <a class="btn btn-dark dropdown-toggle col-lg-3" data-bs-toggle="collapse" href="#lockUnlock" role="button" aria-expanded="false" aria-controls="makeMeInactive">
+               LOCK/UNLOCK <i class="fa-solid fa-lock text-warning"></i>
+            </a>
+        </p>
+        <div class="collapse mb-3" id="lockUnlock">
+            <div class="card card-body">
+                Inactive users can't vote  <b> Only a party creator can change your status to active</b>
+                
+                <a class="btn btn-danger mt-2 col-md-3 align-self-right">
+                    Proceed
+                </a>
+            </div>
+        </div>
+    </div>
+
+    {# swicth host  #}
+    <div class="row mt-3 pt-3 bg-light border border-2">
+        <p>
+            <a class="btn btn-dark dropdown-toggle col-lg-3" data-bs-toggle="collapse" href="#changeHost" role="button" aria-expanded="false" aria-controls="makeMeInactive">
+               Swich host <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+            </a>
+        </p>
+        <div class="collapse mb-3" id="changeHost">
+            <div class="card card-body">
+                Inactive users can't vote  <b> Only a party creator can change your status to active</b>
+                
+                <a class="btn btn-danger mt-2 col-md-3 align-self-right">
+                    Proceed
+                </a>
+            </div>
+        </div>
+    </div>
+    {# delete game #}
+    <div class="row mt-3 pt-3 bg-light border border-2">
+        <p>
+            <a class="btn btn-dark dropdown-toggle col-lg-3" data-bs-toggle="collapse" href="#deleteGame" role="button" aria-expanded="false" aria-controls="makeMeInactive">
+               DELETE GAME <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+            </a>
+        </p>
+        <div class="collapse mb-3" id="deleteGame">
+            <div class="card card-body">
+                Inactive users can't vote  <b> Only a party creator can change your status to active</b>
+                
+                <a class="btn btn-danger mt-2 col-md-3 align-self-right">
+                    Proceed
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

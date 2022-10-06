@@ -28,10 +28,10 @@
                     <td  class="game-table host bg-light p-0">
                         {% if game.createdBy.id == userId %}
               
-                            <i id="{{game.id}}" class="fa-solid fa-user-gear info-icon" data-bs-toggle="tooltip" data-bs-title="You are host of this game"> </i>
+                            <i id="{{game.id}}" class="fa-solid fa-user-gear info-icon" data-bs-toggle="modal" data-bs-title="You are host of this game" data-bs-target="#adminOptions"> </i>
                
                         {% else %}
-                            <i id="{{game.id}}" class="fa-solid fa-gears info-icon" data-bs-toggle="tooltip" data-bs-title="Options"> </i>
+                            <i id="{{game.id}}" class="fa-solid fa-gears info-icon" data-bs-toggle="modal" data-bs-title="Options" data-bs-target="#userOptions"> </i>
                         {% endif %} 
                     </td>
                     <td class="game-table bg-light" >
@@ -76,6 +76,6 @@
 
         </div>
     {% endfor %} #}
-
+     {% include 'homepage/comp/options.html.twig' %}
 </div>
 {% endblock %}
