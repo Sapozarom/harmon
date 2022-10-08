@@ -1,0 +1,53 @@
+body {
+    background-color: white;
+}
+
+#event_date {
+    display: none;
+    /* color: #00ff401f; */
+}
+
+
+.square-button {
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+
+.info-icon:hover {
+
+    color: orange;
+    /* width: 100px; */
+
+}
+
+th.host td.host {
+    column-width: 1em;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+.active {
+    color: #ffb300;
+}
+
+.transparent {
+    background-color: #fafafa00;
+}
+
+.hidden {
+    display: none;
+}
+
+.readme-pic {
+    
+    /* background: url('http://127.0.0.1/image/day.png') left top no-repeat; */
+    background: url('http://harmon.sasartele.pl/image/day.png') left top no-repeat;
+    width: 213px;
+    height: 109px;
+    box-shadow: 0 0 15px 15px rgb(255, 255, 255) inset;
+}
+

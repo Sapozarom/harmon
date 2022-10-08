@@ -1,0 +1,100 @@
+.vote-form {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.time-display {
+    
+    border:0; 
+    color:#f6931f; 
+    font-weight: 400;
+    width: 250px;
+    font-size: 40px;
+    padding: 2px;
+    height: 50px;
+    background-color: rgba(128, 128, 128, 0);
+    
+}
+
+.time-input {
+    width: 70px;
+    /* background-color: #f6931f; */
+}
+
+.date {
+    margin-right: 30px;
+}
+
+.bg-green {
+    background-color: rgb(94, 255, 85);
+}
+
+.bg-red {
+    background-color: rgb(255, 130, 85);
+}
+
+.ui-slider-range {
+background-color: #212529;
+}
+
+.ui-state-active {
+    background-color: #f9f6f6;
+    color: #f6931f;
+}
+
+.vote-display {
+    display: inline-block;
+    font-weight: 400;
+    color: orange;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-left: #212529 1px solid;
+    border-right: #212529 1px solid;
+    margin-left: -1px;
+}
+
+.delete-vote {
+    display: inline-block;
+    color: #212529;
+    /* width: 100px; */
+
+}
+
+.delete-vote:hover {
+
+    color: orange;
+    /* width: 100px; */
+
+}
+
+th.game-table-header {
+    font-weight: bold;
+    text-align: center;
+    background-color: #212529;
+    color: #ffb300;
+    height: 3em;
+}
+
+td.game-table {
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    height: 3em;
+}
+
+.vote-header {
+    margin-left: -10px;
+    margin-right: -10px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #212529;
+    color: #ffb300;
+}
+
+.party-header {
+
+    font-weight: bold;
+    text-align: center;
+    background-color: #212529;
+    color: #ffb300;
+}
