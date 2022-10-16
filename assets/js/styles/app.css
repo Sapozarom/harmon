@@ -11,8 +11,8 @@ body {
 .square-button {
     padding-left: 10px;
     padding-right: 10px;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 
@@ -51,3 +51,32 @@ th.host td.host {
     box-shadow: 0 0 15px 15px rgb(255, 255, 255) inset;
 }
 
+.rounded-wrapper {
+    overflow:hidden;
+    padding: 0;
+    border: rgb(149, 149, 149) solid 0.1px;
+    border-radius: 3em;
+    -moz-box-shadow: 0 0 10px rgb(149, 149, 149);
+    -webkit-box-shadow: 0 0 10px rgb(149, 149, 149);
+    box-shadow: 0 0 10px rgb(149, 149, 149);
+}
+
+.universal-shadow-text {
+    /* overflow:hidden;
+    padding: 0; */
+    /* border: rgb(149, 149, 149) solid 0.1px; */
+    /* border-radius: 3em; */
+    /* text-shadow: 2px 2px #ff0000; */
+    text-shadow: 0 0 7px rgb(149, 149, 149);
+    /* -moz-box-shadow: 0 0 10px rgb(149, 149, 149);
+    -webkit-box-shadow: 0 0 10px rgb(149, 149, 149);
+    box-shadow: 0 0 10px rgb(149, 149, 149); */
+}
+
+.universal-shadow-box {
+
+    /* text-shadow: 0 0 7px rgb(183, 183, 183); */
+    -moz-box-shadow: 0 0 10px rgb(149, 149, 149);
+    -webkit-box-shadow: 0 0 10px rgb(149, 149, 149);
+    box-shadow: 0 0 10px rgb(149, 149, 149);
+}

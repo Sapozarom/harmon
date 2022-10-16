@@ -20,6 +20,37 @@ class HomepageController extends AbstractController
         ]);
     }
 
+    #[Route('/api/homepage/nav', name: 'api_homepage_nav')]
+    public function getNavInfo(): Response
+    {      
+
+        if ($this->getUser()) {
+            return $this->json([
+                'user'  => $this->getUser()->getUserIdentifier(),
+            ]);
+        } else {
+            return $this->json([
+                'user'  => null,
+            ]);
+        }
+
+        return $this->render('homepage/index.html.twig', [
+            'controller_name' => 'HomepageController',
+        ]);
+    }
+
+    #[Route('/api/my-activities', name: 'api_my_activities')]
+    public function getUserActivitiesAction(GameRepository $gameRepo): Response
+    {   
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+        $playedGames = $gameRepo->findUserGames($user->getId());
+        // dd($playedGames);
+        return $this->json([
+            'activityTable'  => $playedGames,
+        ]);
+    }
+
     #[Route('/my-activities', name: 'my_activities')]
     public function showGamesAction(GameRepository $gameRepo): Response
     {   
@@ -35,7 +66,7 @@ class HomepageController extends AbstractController
         ]);
     }
 
-    #[Route('/README', name: 'app_readme')]
+    #[Route('/readme', name: 'app_readme')]
     public function showReadmeAction(GameRepository $gameRepo): Response
     {   
 

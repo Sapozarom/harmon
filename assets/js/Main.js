@@ -5,17 +5,25 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import App from './components/App';
 import Homepage from "./pages/Homepage";
 import Readme from "./pages/Readme";
+import MyActivities from "./pages/MyActivities";
+import NavBar from './components/nav/NavBar'
 // import {StrictMode} from 'react';
 // import {createRoot} from 'react-dom/client';
 
 function Main() {
     return (
+        <>
+        <NavBar />
         <Router>
             <Routes>
+                {/* <Route exact path=""  element={<Homepage />} /> */}
                 <Route exact path="/"  element={<Homepage />} />
-                <Route exact path="/README"  element={<Readme />} />
+                <Route exact path="/readme"  element={<Readme />} />
+                <Route exact path="/my-activities"  element={<MyActivities />} />
             </Routes>
         </Router>
+        </>
+
     )
     
 }

@@ -14,3 +14,4 @@ import './styles/game.css';
 import './bootstrap';
  
 require('./Main');
+

@@ -68,6 +68,24 @@ class GameRepository extends ServiceEntityRepository
 
     }
 
+    public function findUserGames($userId)
+    {
+        $result = $this->createQueryBuilder('g')
+            ->leftJoin('g.players', 'p')
+            ->leftJoin('g.createdBy', 'creator')
+            // ->leftJoin('g.events', 'e')
+            ->select('g.id, g.name, g.description, g.description, g.title , g.locked, count(g.id) as players, g.slug, creator.id as hosted')
+            ->leftJoin('g.players', 'play')
+            ->andWhere('p.id = :val')
+            ->setParameter('val', $userId)
+            ->orderBy('g.id', 'ASC')
+            ->groupBy('g')
+            ->getQuery()
+            ->getResult();
+             
+        return $result;
+    }
+
     public function findIfIsMember($user, $gameId)
     {
         $result = $this->createQueryBuilder('g')
