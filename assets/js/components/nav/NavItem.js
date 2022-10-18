@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-
+import { Outlet, Link } from "react-router-dom";
 
 const NavItem = ({item}) => {
 
@@ -10,11 +10,11 @@ const NavItem = ({item}) => {
         return (
             <>
                 <li className="nav-item">
-                    <a className="nav-link fs-4 nav-menu-item"  href={item.route} >
+                    <Link to={item.route} className="nav-link fs-4 nav-menu-item " >
                         <div  className = "border border-2 rounded square-button" >
                             <i className="fa-solid fa-plus "></i>
                         </div>
-                    </a>
+                    </Link>
                 </li>
             </>
             )          
@@ -22,7 +22,8 @@ const NavItem = ({item}) => {
         return (
             <>
                 <li className="nav-item ">
-                    <a className="nav-link fs-4 nav-menu-item "  href={item.route} >{item.name}</a>
+                    <Link to={item.route} className="nav-link fs-4 nav-menu-item " > {item.name} </Link>
+                    {/* <a className="nav-link fs-4 nav-menu-item "  href={item.route} >{item.name}</a> */}
                 </li>
             </>
             )

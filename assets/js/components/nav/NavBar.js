@@ -71,7 +71,7 @@ const Navbar = (props) => {
                 }
             }
         });
-
+        console.log(user);
         setNavbar(navbarContent);
     }
 

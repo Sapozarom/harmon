@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import { Routes } from 'react-router-dom';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import {useState, useRef, useEffect} from 'react';
 import App from './components/App';
+import Layout from "./pages/Layout";
 import Homepage from "./pages/Homepage";
 import Readme from "./pages/Readme";
 import MyActivities from "./pages/MyActivities";
@@ -33,20 +34,29 @@ const Main = () => {
 
     return (
         <>
-        <NavBar props={user}/>
-        <Router>
+        {/* <NavBar props={user}/> */}
+        {/* <Router>
             <Routes>
-                <Route exact path="/"  element={<Homepage />} />
-                <Route exact path="/readme"  element={<Readme />} />
-                <Route exact path="/my-activities"  element={<MyActivities />} />
+            <Route exact path="/"  element={<Homepage />} />
+            <Route exact path="/readme"  element={<Readme />} />
+            <Route exact path="/my-activities"  element={<MyActivities />} />
+            </Route>    
             </Routes>
-        </Router>
-        </>
+        </Router> */}
 
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Layout />}>
+                            <Route index element={<Homepage />} />
+                            <Route path="readme" element={<Readme />} />
+                            <Route path="my-activities" element={<MyActivities />} />
+                            {/* <Route path="*" element={<NoPage />} /> */}
+                    </Route>
+                </Routes>
+            </BrowserRouter>
+        </>
     )
 }
-
-
 
 
 
