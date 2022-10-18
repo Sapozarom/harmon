@@ -26,7 +26,7 @@ class HomepageController extends AbstractController
 
         if ($this->getUser()) {
             return $this->json([
-                'user'  => $this->getUser()->getUserIdentifier(),
+                'user'  => $this->getUser()->getId(),
             ]);
         } else {
             return $this->json([

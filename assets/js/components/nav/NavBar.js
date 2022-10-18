@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import NavItem from './NavItem';
 
 
-const Navbar = () => {
+const Navbar = (props) => {
 
     const navItem1 = {
         'name': 'Home',
@@ -55,46 +55,32 @@ const Navbar = () => {
 
     const allNavbarItems = [navItem1, navItem2, navItem3, navItem4, navItem5, navItem6, navItem7];
 
-    const [user,setUser] = useState('');
+    const [user,setUser] = useState(props);
     const [navbar,setNavbar] = useState([]);
 
-    const checkIfLoggedIn = async () => {
-        const loginRoute = '/api/homepage/nav';
-        const response = await fetch(`${loginRoute}`);
-        const data = await response.json();
-
-        setUser(data.user);
-        createNavbar(data.user, allNavbarItems);   
-    }
-
-    const createNavbar = (user, allNavbarItems) => {
+    const createNavbar = () => {
         const navbarContent = [];
         allNavbarItems.forEach(item => {
-
-
             if (user == null) {
                 if (item.type == 'loggedOut' || item.type == 'open' ) {
                     navbarContent.push(item);
                 }
             } else {
                 if ( item.type == 'loggedIn' || item.type == 'special' || item.type == 'open' ) {
-                    
-                            navbarContent.push(item);
-                        }
+                    navbarContent.push(item);
+                }
             }
-
         });
 
         setNavbar(navbarContent);
     }
 
     useEffect(() => {
-        checkIfLoggedIn();
+        createNavbar();
     },[]);
 
         return (
             <>
-
             {/* PAGE TITLE */}
                 <div className='row text-center'>
                     <h1 className='display-1 universal-shadow-text'>HARMON</h1>
