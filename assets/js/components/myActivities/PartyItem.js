@@ -1,12 +1,13 @@
 import React, {useState, useRef, useEffect} from 'react';
 import { async } from 'regenerator-runtime';
+import { Link } from "react-router-dom";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
 
-const PartyItem = ({activity}) => {
+const PartyItem = ({activity, userData}) => {
 
-    const partyRoute = '/game/show/' + activity.id;
+    const partyRoute = '/party/show/' + activity.id;
     const invitationalLink = '/game/invite/' + activity.slug;
 
         const optionsTooltip = (props) => (
@@ -14,6 +15,12 @@ const PartyItem = ({activity}) => {
             Options
           </Tooltip>
         );
+
+        const hostTooltip = (props) => (
+            <Tooltip id="options-tooltip" {...props}>
+              You are host of this game
+            </Tooltip>
+          );
 
         const descriptionTooltip = (props) => (
             <Tooltip id="description-tooltip" {...props}>
@@ -47,12 +54,26 @@ const PartyItem = ({activity}) => {
             <>
                 <tr>  
                     <td  className="game-table host bg-light p-0">
-                        <OverlayTrigger
+                        {activity.hosted == userData ? 
+                        (
+                            <OverlayTrigger
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={hostTooltip}
+                        >
+                            <i id="{{game.id}}" className="fa-solid fa-user-gear info-icon" data-bs-toggle="modal"  data-bs-target="#adminOptions"> </i>
+
+                        </OverlayTrigger>
+                        ) : 
+                        (
+                           
+                            <OverlayTrigger
                             delay={{ show: 250, hide: 400 }}
                             overlay={optionsTooltip}
                         >
-                            <i id="{{game.id}}" className="fa-solid fa-gears info-icon" data-bs-toggle="modal" data-bs-title="Options" data-bs-target="#userOptions"> </i>
+                            <i id="{{game.id}}" className="fa-solid fa-gears info-icon" data-bs-toggle="modal" data-bs-title="Options" data-bs-target="#userOptions"></i>
                         </OverlayTrigger>
+                        )}
+
                     </td>
                     <td className="game-table bg-light" >
                         {activity.name}
@@ -99,7 +120,8 @@ const PartyItem = ({activity}) => {
                         XX.XX.XXXX
                     </td>
                     <td className="game-table bg-light">
-                        <a className="text-dark text-bold" href={partyRoute}>Show</a>
+                        <Link to={partyRoute} className="text-dark text-bold" > show </Link>
+                        {/* <a className="text-dark text-bold" href={partyRoute}>Show</a> */}
                     </td>
                 </tr>
         </>

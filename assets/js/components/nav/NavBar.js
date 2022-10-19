@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from 'react';
 import NavItem from './NavItem';
 
 
-const Navbar = (props) => {
+const Navbar = ({userData}) => {
 
     const navItem1 = {
         'name': 'Home',
@@ -55,7 +55,7 @@ const Navbar = (props) => {
 
     const allNavbarItems = [navItem1, navItem2, navItem3, navItem4, navItem5, navItem6, navItem7];
 
-    const [user,setUser] = useState(props);
+    const [user,setUser] = useState(userData);
     const [navbar,setNavbar] = useState([]);
 
     const createNavbar = () => {
@@ -68,6 +68,7 @@ const Navbar = (props) => {
             } else {
                 if ( item.type == 'loggedIn' || item.type == 'special' || item.type == 'open' ) {
                     navbarContent.push(item);
+                    // console.log(user.id);
                 }
             }
         });
@@ -77,10 +78,12 @@ const Navbar = (props) => {
 
     useEffect(() => {
         createNavbar();
-    },[]);
+    },[user]);
+
 
         return (
             <>
+            {/* navbar user = {userData}; */}
             {/* PAGE TITLE */}
                 <div className='row text-center'>
                     <h1 className='display-1 universal-shadow-text'>HARMON</h1>
@@ -100,7 +103,7 @@ const Navbar = (props) => {
                                     <ul className="navbar-nav m-0 align-middle">
 
                                         {navbar.map((navItem) => (
-                                            <NavItem key={navItem.name} item={navItem} />
+                                            <NavItem key={navItem.name} item={navItem} user={user}/>
                                         ))}
 
                                     </ul>

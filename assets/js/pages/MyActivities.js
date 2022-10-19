@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import PartyList from '../components/myActivities/PartyList';
 import Box from '../components/homepage/Box';
 import Disclaimer from '../components/homepage/Disclaimer';
+import { useOutletContext } from "react-router-dom";
 
 const MyActivities = () => {
+
+    const [user,setUser] =  useOutletContext();
 
     const box1 = {
         'title': 'Create party',
@@ -16,6 +19,7 @@ const MyActivities = () => {
 
     return(
         <>
+        {/* acti : {user} */}
             {/* title */}
             <div className='row justify-content-center mt-4'>
                 <h1 className='display-6 text-center universal-shadow-text'>
@@ -25,7 +29,7 @@ const MyActivities = () => {
 
             {/* table */}
             <div className='row justify-content-center mt-4'>
-                <PartyList />
+                <PartyList userData={user}/>
             </div>
 
         </>

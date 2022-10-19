@@ -92,6 +92,7 @@ class Calendar
 
         $this->fillCalendarTableObj($nextMonthRemainingDays, $firstDayOfMonthDateVar->modify("+1 months"));
 
+        dd($this->calendarArray);
         return $this->calendarArray;
     }
 
@@ -126,7 +127,7 @@ class Calendar
                     
                 } 
             }
-                // dump($this->voted);
+
             $newDay->setEventArray($events);
             $newDay->generateStatus($this->game);
             

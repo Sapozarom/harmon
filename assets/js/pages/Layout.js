@@ -1,46 +1,23 @@
 import React from 'react';
 import { Outlet, Link } from "react-router-dom";
 import {useState, useRef, useEffect} from 'react';
+import useLoad from 'react-use-load';
+import { useLoadState, Loading } from 'react-use-load';
+// import useLoad from 'react-use-load';
 import NavBar from '../components/nav/NavBar'
 
-const Layout = () => {
+const Layout = ({user}) => {
 
-    const [user,setUser] = useState(null);
-
-    const checkIfLoggedIn = async () => {
-        const loginRoute = '/api/homepage/nav';
-        const response = await fetch(`${loginRoute}`);
-        const data = await response.json();
-        setUser(data.user);
-
-    }
-    useEffect(() => {
-        checkIfLoggedIn();
-        // setUser(checkIfLoggedIn());
-    },[]);
-
-    useEffect(() => {
-        
-        // checkIfLoggedIn();
-        // setUser(checkIfLoggedIn());
-    },[user]);
+    const [userId,setUserId] = useState(user);
+    
   return (
     <>
-    {typeof user == 'object' ?
-    (
         <div>
-            <NavBar props={user}/>
-            <Outlet props={user} />
+            {/* <DataComponent /> */}
+            {/* User = {user} */}
+            <NavBar userData={user}/>
+            <Outlet context={[userId,setUserId]} />
         </div>
-
-    ) : (
-        <div>
-        <NavBar props={0}/>
-        <Outlet props={0} />
-        </div>
-    )
-    }
-
     </>
   )
 };

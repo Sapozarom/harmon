@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react';
 import { Outlet, Link } from "react-router-dom";
 
-const NavItem = ({item}) => {
+const NavItem = ({item, user}) => {
 
     // const classNames = "nav-link fs-4 nav-menu-item";
 
@@ -23,12 +23,10 @@ const NavItem = ({item}) => {
             <>
                 <li className="nav-item ">
                     <Link to={item.route} className="nav-link fs-4 nav-menu-item " > {item.name} </Link>
-                    {/* <a className="nav-link fs-4 nav-menu-item "  href={item.route} >{item.name}</a> */}
                 </li>
             </>
             )
     }
-
 
 }
 

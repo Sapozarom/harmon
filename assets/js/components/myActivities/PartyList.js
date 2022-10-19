@@ -1,7 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react';
 import PartyItem from './PartyItem';
 
-const PartyList = ({item}) => {
+const PartyList = ({userData}) => {
 
     
     const [activityList, setActivityList] = useState([]);
@@ -35,7 +35,7 @@ const PartyList = ({item}) => {
                 </thead>
                 <tbody>
                 {activityList.map((activity) => (
-                    <PartyItem key={activity.id} activity={activity} />
+                    <PartyItem key={activity.id} activity={activity} userData={userData}/>
                 ))}
                  
                 </tbody>

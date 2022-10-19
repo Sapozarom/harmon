@@ -20,7 +20,7 @@ class GameController extends AbstractController
 {
 
 
-    #[Route('/game/show/{game}', name: 'show_game')]
+    #[Route('/party/show/{game}', name: 'show_game')]
     public function showGameAction(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -55,6 +55,25 @@ class GameController extends AbstractController
             'form' => $form->createView(),
             'userId' => $user->getId(),
         ]);
+    }
+
+    #[Route('api/callendar/{game}', name: 'sapi_get_callendar')]
+    public function getCallendarInfo(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        //form data
+        $user = $this->getUser();
+        $date = new \DateTime();
+        $date->format("Y-m-d");
+        // dd($_POST);
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+
+        $calendarArray =  $calendarService->setupGameCalendarByDate(new DateTime(), $gameObj, $user);
+        return $this->json([
+            'callendar'  => $calendarArray,
+        ]);
+
     }
 
     #[Route('/game/create', name: 'app_game_create')]
@@ -146,7 +165,7 @@ class GameController extends AbstractController
     #[Route('/game/host-options/{game}', name: 'app_host_options')]
     public function showOptionsAction(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
     {
-        
+
         
         return $this->render('game/hostOptions.html.twig', [
             // 'date' => $date,
