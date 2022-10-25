@@ -39,7 +39,6 @@ class GameController extends AbstractController
             $event = $form->getData();
             $event->setUser($user);
             $event->setGame($gameObj);
-            //$event->setDate($date);
             $date = $event->getDate()->format("Y-m-d");
             $entityManager = $doctrine->getManager();
             $entityManager->persist($event);
@@ -57,7 +56,7 @@ class GameController extends AbstractController
         ]);
     }
 
-    #[Route('api/callendar/{game}', name: 'sapi_get_callendar')]
+    #[Route('api/calendar/{game}', name: 'sapi_get_callendar')]
     public function getCallendarInfo(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
@@ -69,9 +68,9 @@ class GameController extends AbstractController
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
 
 
-        $calendarArray =  $calendarService->setupGameCalendarByDate(new DateTime(), $gameObj, $user);
+        $calendarArray =  $calendarService->setupGameCalendarByDateApi(new DateTime(), $gameObj, $user);
         return $this->json([
-            'callendar'  => $calendarArray,
+            'calendar'  => $calendarArray,
         ]);
 
     }

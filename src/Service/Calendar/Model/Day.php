@@ -8,6 +8,8 @@ class Day
 {
     private $number;
 
+    private $monthNumber;
+
     private $date;
 
     // private Game $game;
@@ -36,10 +38,21 @@ class Day
         return $this->number;
     }
 
+    public function setMonthNumber(int $number)
+    {
+        $this->monthNumber = $number;
+    }
+
+    public function getMonthNumber()
+    {
+        return $this->monthNumber;
+    }
+
     public function setDate($date)   
     {   
         $this->date = $date;
         $this->setNumber($date->format('d'));
+        $this->setMonthNumber($date->format('m'));
         return $this;
     }
 
@@ -103,7 +116,7 @@ class Day
         return $this->currentMonth;
     }
 
-    public function generateStatus($game)
+    public function generateStatus($game, $events)
     {
         $players = $game->getPlayers();
 
@@ -118,7 +131,7 @@ class Day
             // $checkArray[$player->getId()] = array();
         }
         
-        foreach ($this->events as $event) {
+        foreach ($events as $event) {
             $voter = $event->getUser()->getId();
             if (!($event->isVote())) {
                 $this->status="CANCELED";
@@ -136,7 +149,7 @@ class Day
          });
 
         
-        if(count($this->events) == 0){
+        if(count($events) == 0){
             $this->status="EMPTY";
             $this->playersLeftToVote = NULL;
             

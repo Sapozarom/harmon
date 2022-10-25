@@ -72,7 +72,7 @@ const Navbar = ({userData}) => {
                 }
             }
         });
-        console.log(user);
+        // console.log(user);
         setNavbar(navbarContent);
     }
 

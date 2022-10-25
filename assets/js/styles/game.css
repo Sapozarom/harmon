@@ -98,3 +98,16 @@ td.game-table {
     background-color: #212529;
     color: #ffb300;
 }
+
+div.form-time-input {
+    display: inline-block;
+    width: 3em;
+    
+}
+
+div.form-time-separator {
+    display: inline-block;
+    width: 1em;
+    text-align: center;
+    
+}

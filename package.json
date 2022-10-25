@@ -27,6 +27,7 @@
         "react-bootstrap": "^2.5.0",
         "react-router-dom": "^6.4.2",
         "react-use-load": "^1.0.0",
+        "react-uuid": "^1.0.3",
         "uuid": "^9.0.0"
     }
 }
