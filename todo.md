@@ -13,6 +13,7 @@ ZARZĄDZANIE PATRY
 -lock game
 
 
-
+REACT
+CSRF protection in forms
 
 

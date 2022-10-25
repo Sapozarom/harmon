@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 const Form = ({activeDate}) => {
     return(
         <>
-            <form>
+            {/* <form>
                 <div className="row"> 
                     <div className="col-4"> 
 
@@ -15,7 +15,7 @@ const Form = ({activeDate}) => {
                                 <option className="bg-green" value="1">I'm in</option>
                                 <option className="bg-red" value="0">I'm out</option>
                             </select>
-                            <input type="time" class="form-control " id="exampleFormControlInput1" placeholder="h" />
+                     
                         </div>
                     </div>
                 </div>
@@ -68,11 +68,12 @@ const Form = ({activeDate}) => {
                         <button type="submit" class="btn btn-dark">Save</button>
                     </div>
                 </div>
-            </form>
+            </form> */}
 
             <form name="vote" method="post">
-            <label for="start-minutes" class="form-label"></label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="m" />
+            <label for="start-minutes" class="form-label" >asd</label>
+            <input type="text" class="form-control"  placeholder="m" id="vote_test" name="vote[test]" />
+            <button type="submit" class="btn btn-dark">Save</button>
             </form>
         </>
 

@@ -13,6 +13,7 @@ use App\Entity\Event;
 use App\Entity\Game;
 use App\Form\EventType;
 use App\Form\GameType;
+use App\Form\VoteType;
 use App\Form\JoinGameType;
 use DateTime;
 
@@ -45,6 +46,13 @@ class GameController extends AbstractController
             $entityManager->flush();
         }
 
+        $newForm = $this->createForm(VoteType::class);
+        $newForm->handleRequest($request);
+
+        if ($newForm->isSubmitted() && $newForm->isValid()) {
+            dd('succes');
+        } 
+
         $calendarArray =  $calendarService->setupGameCalendarByDate(new DateTime(), $gameObj, $user);
         
         return $this->render('game/index.html.twig', [
@@ -52,6 +60,7 @@ class GameController extends AbstractController
             'game' =>  $gameObj,
             'calendarArray' => $calendarArray,
             'form' => $form->createView(),
+            'newForm' => $newForm->createView(),
             'userId' => $user->getId(),
         ]);
     }
@@ -102,6 +111,8 @@ class GameController extends AbstractController
             $entityManager->persist($game);
             $entityManager->flush();
         }
+
+        
 
         return $this->render('game/create.html.twig', [
             'form' => $form->createView(),
