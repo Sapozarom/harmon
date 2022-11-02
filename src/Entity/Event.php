@@ -35,6 +35,12 @@ class Event
     #[ORM\Column(nullable: true)]
     private ?int $maxLength = null;
 
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $startTime = null;
+
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $finishTime = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,5 +159,29 @@ class Event
         // dd($range);
 
         return $range;
+    }
+
+    public function getStartTime(): ?\DateTimeInterface
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(?\DateTimeInterface $startTime): self
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    public function getFinishTime(): ?\DateTimeInterface
+    {
+        return $this->finishTime;
+    }
+
+    public function setFinishTime(?\DateTimeInterface $finishTime): self
+    {
+        $this->finishTime = $finishTime;
+
+        return $this;
     }
 }

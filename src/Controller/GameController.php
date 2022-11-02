@@ -45,11 +45,17 @@ class GameController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
         }
-
+        
         $newForm = $this->createForm(VoteType::class);
         $newForm->handleRequest($request);
 
         if ($newForm->isSubmitted() && $newForm->isValid()) {
+            $event->setUser($user);
+            $event->setGame($gameObj);
+            $event = $newForm->getData();
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($event);
+            $entityManager->flush();
             dd('succes');
         } 
 
