@@ -99,9 +99,13 @@ td.game-table {
     color: #ffb300;
 }
 
+div.hidden-date {
+    display: none;
+}
+
 div.form-time-input {
     display: inline-block;
-    width: 3em;
+    width: 5em;
     
 }
 

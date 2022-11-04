@@ -20,7 +20,6 @@ use DateTime;
 class GameController extends AbstractController
 {
 
-
     #[Route('/party/show/{game}', name: 'show_game')]
     public function showGameAction(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
     {
@@ -68,6 +67,62 @@ class GameController extends AbstractController
             'form' => $form->createView(),
             'newForm' => $newForm->createView(),
             'userId' => $user->getId(),
+        ]);
+    }
+
+
+    #[Route('/api/send-vote/{game}', name: 'api_send_vote')]
+    public function sendVote(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        //form data
+        $user = $this->getUser();
+        $date = new \DateTime();
+        $date->format("Y-m-d");
+        $event = new Event;
+        // $form = $this->createForm(EventType::class, $event);
+        // dd($_POST);
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+        // $form->handleRequest($request);
+
+        // if ($form->isSubmitted() && $form->isValid()) {
+        //     $event = $form->getData();
+        //     $event->setUser($user);
+        //     $event->setGame($gameObj);
+        //     $date = $event->getDate()->format("Y-m-d");
+        //     $entityManager = $doctrine->getManager();
+        //     $entityManager->persist($event);
+        //     $entityManager->flush();
+        // }
+        
+        $newForm = $this->createForm(VoteType::class);
+        $newForm->handleRequest($request);
+
+        if ($newForm->isSubmitted() && $newForm->isValid()) {
+
+            $event = $newForm->getData();
+            $event->setUser($user);
+            $event->setGame($gameObj);
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($event);
+            $entityManager->flush();
+            return $this->json([
+                'message'  => 'success',
+            ]);
+        } 
+        // else {
+        //     $errors = $newForm->getErrors();
+        //     dd($errors);
+        //     // $errors = $newForm['date']->getErrors();
+        //     return $this->json([
+        //         'message'  =>$errors,
+        //     ]);
+        // }
+
+        
+        return $this->json([
+            'message'  => 'fail',
         ]);
     }
 

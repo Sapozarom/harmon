@@ -10,9 +10,31 @@ const Party = () => {
 
     let { id } = useParams();
 
-    const [calendar, setCalendar] = useState([]);
-    const [activeDate, setActiveDate] = useState('date')
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    let currentMonth = currentDate.getMonth() +1;
 
+    if (currentMonth < 10) {
+        currentMonth = '0' + currentMonth.toString();
+    } 
+
+    let currentDay = currentDate.getDate();
+
+    if (currentDay < 10) {
+        currentDay = '0' + currentDay.toString();
+    } 
+    const dateString = currentYear + '-' + currentMonth + '-' + currentDay;
+    // console.log(currentDate);
+    const [calendar, setCalendar] = useState([]);
+    const [activeDate, setActiveDate] = useState(dateString)
+
+    // const checkNumber = (number) => {
+    //     if (number.length == 1) {
+    //         const newNumber = '0' + number.toString();
+
+    //         return newNumber;
+    //     } 
+    // }
 
     const getCalendarData = async () => {
         
@@ -56,7 +78,7 @@ const Party = () => {
 
                             {calendar.map((week, index) => (
                                 <tr>
-                                    <Week key={index} weekData = {week} setActiveDate={setActiveDate} />
+                                    <Week key={index} weekData = {week} setActiveDate={setActiveDate} activeDate={activeDate}/>
                                 </tr>
                                 ))}
                         </tbody>
@@ -64,7 +86,7 @@ const Party = () => {
                 </div>
                 {/* FORM */}
                 <div className="col-lg-6">
-                    <Form activeDate={activeDate} />
+                    <Form activeDate={activeDate} gameId = {id}/>
                 </div>
             </div>
         </>

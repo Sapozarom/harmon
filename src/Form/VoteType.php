@@ -29,16 +29,16 @@ class VoteType extends AbstractType
                 "I'm out" => false,
             ],
         ])
-        // ->add('date', DateType ::class, [
-        //     'label' => false,
-        //     'required' => true,
-        // ])
-        // ->add('startTime', TimeType::class, [
-        //     'required' => true,
-        // ])
-        // ->add('finishTime', TimeType::class, [
-        //     'required' => true,
-        // ])
+        ->add('date', DateType ::class, [
+            'label' => false,
+            'required' => true,
+        ])
+        ->add('startTime', TimeType::class, [
+            'required' => true,
+        ])
+        ->add('finishTime', TimeType::class, [
+            'required' => true,
+        ])
         ;
 
     }
