@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Repository\GameRepository;
 use App\Service\Calendar\Calendar;
+use App\Service\DayManager\DayManager;
+use App\Repository\DayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -72,29 +74,19 @@ class GameController extends AbstractController
 
 
     #[Route('/api/send-vote/{game}', name: 'api_send_vote')]
-    public function sendVote(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
+    public function sendVote(int $game, GameRepository $gameRepo , DayRepository $dayRepo, Request $request, ManagerRegistry $doctrine, DayManager $dayMng): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
         $user = $this->getUser();
-        $date = new \DateTime();
-        $date->format("Y-m-d");
+        // $date = new \DateTime();
+        $date = new DateTime('today midnight');
+        // $dateString = $date->format("Y-m-d");
         $event = new Event;
-        // $form = $this->createForm(EventType::class, $event);
-        // dd($_POST);
+
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
-
-        // $form->handleRequest($request);
-
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $event = $form->getData();
-        //     $event->setUser($user);
-        //     $event->setGame($gameObj);
-        //     $date = $event->getDate()->format("Y-m-d");
-        //     $entityManager = $doctrine->getManager();
-        //     $entityManager->persist($event);
-        //     $entityManager->flush();
-        // }
+        // $day = $gameObj->getDays();
+        $day = $dayRepo->findDayByDateAndGameId($date, $gameObj);
         
         $newForm = $this->createForm(VoteType::class);
         $newForm->handleRequest($request);
@@ -104,22 +96,26 @@ class GameController extends AbstractController
             $event = $newForm->getData();
             $event->setUser($user);
             $event->setGame($gameObj);
+
+            $date = $event->getDate();
+
+            $day = $dayRepo->findDayByDateAndGameId($date, $gameObj);
+
+            if ($day == null) {
+                $day = $dayMng->createNewDay($date, $gameObj);
+            } else {
+                $day = $day[0];
+            }
+
+            $day->addVote($event);
+            
             $entityManager = $doctrine->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
             return $this->json([
                 'message'  => 'success',
             ]);
-        } 
-        // else {
-        //     $errors = $newForm->getErrors();
-        //     dd($errors);
-        //     // $errors = $newForm['date']->getErrors();
-        //     return $this->json([
-        //         'message'  =>$errors,
-        //     ]);
-        // }
-
+        }
         
         return $this->json([
             'message'  => 'fail',

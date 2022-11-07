@@ -48,11 +48,15 @@ class Game
     #[ORM\JoinTable(name: "inactive_table")]
     private Collection $inactivePlayers;
 
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Day::class)]
+    private Collection $days;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->players = new ArrayCollection();
         $this->inactivePlayers = new ArrayCollection();
+        $this->days = new ArrayCollection();
         
     }
 
@@ -220,6 +224,36 @@ class Game
     public function removeInactivePlayer(User $inactivePlayer): self
     {
         $this->inactivePlayers->removeElement($inactivePlayer);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Day>
+     */
+    public function getDays(): Collection
+    {
+        return $this->days;
+    }
+
+    public function addDay(Day $day): self
+    {
+        if (!$this->days->contains($day)) {
+            $this->days->add($day);
+            $day->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDay(Day $day): self
+    {
+        if ($this->days->removeElement($day)) {
+            // set the owning side to null (unless already changed)
+            if ($day->getGame() === $this) {
+                $day->setGame(null);
+            }
+        }
 
         return $this;
     }

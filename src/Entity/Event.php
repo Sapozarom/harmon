@@ -41,6 +41,9 @@ class Event
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $finishTime = null;
 
+    #[ORM\ManyToOne(inversedBy: 'votes')]
+    private ?Day $day = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -181,6 +184,18 @@ class Event
     public function setFinishTime(?\DateTimeInterface $finishTime): self
     {
         $this->finishTime = $finishTime;
+
+        return $this;
+    }
+
+    public function getDay(): ?Day
+    {
+        return $this->day;
+    }
+
+    public function setDay(?Day $day): self
+    {
+        $this->day = $day;
 
         return $this;
     }
