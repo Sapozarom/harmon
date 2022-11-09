@@ -39,7 +39,7 @@ const Form = ({activeDate, gameId, setActiveDateStatus}) => {
         const data = await response.json();
 
         if (data.message == 'success') {
-            console.log('status ' + data.status);
+            // console.log('status ' + data.status);
             setActiveDateStatus(data.status);
         } else {
             alert('Something went wrong. Please try again');
@@ -48,6 +48,7 @@ const Form = ({activeDate, gameId, setActiveDateStatus}) => {
         console.log(data.message);
         // console.log(formData);
     }
+    
     return(
         <>
             <p className="lead">{day}-{month}-{year}</p>

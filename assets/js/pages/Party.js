@@ -28,7 +28,7 @@ const Party = () => {
     const [calendar, setCalendar] = useState([]);
     const [activeDate, setActiveDate] = useState(dateString);
     const [activeDateStatus, setActiveDateStatus] = useState();
-    const [updatedData, setUpdatedData] = useState(false);
+
 
     const getCalendarData = async () => {
         
@@ -43,18 +43,18 @@ const Party = () => {
         getCalendarData();
     },[]);
 
-    useEffect(() => {
-        if (updatedData) {
-            getCalendarData();
-            // console.log(calendar);
-        }
-        setUpdatedData(false);
+    // useEffect(() => {
+    //     if (updatedData) {
+    //         getCalendarData();
+    //         // console.log(calendar);
+    //     }
+    //     setUpdatedData(false);
         
-    },[updatedData]);
+    // },[updatedData]);
 
-    useEffect(() => {
-        getCalendarData();
-    },[]);
+    // useEffect(() => {
+    //     getCalendarData();
+    // },[]);
 
     console.log(activeDateStatus);
 

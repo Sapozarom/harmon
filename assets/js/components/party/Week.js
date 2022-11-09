@@ -7,9 +7,9 @@ const Week = ({weekData, setActiveDate, activeDate, setActiveDateStatus, activeD
     const [dataLoaded, setDataLoaded] = useState(false);
     
 
-    const pickDate = (date, status) => {
-        setActiveDate(date.substring(0,10))
-        setActiveDateStatus(status);
+    const pickDate = (day) => {
+        setActiveDate(day.date.substring(0,10))
+        setActiveDateStatus(day.status);
     }
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const Week = ({weekData, setActiveDate, activeDate, setActiveDateStatus, activeD
                 week.map((day) => (
                     <td 
                     className={activeDate == (day.date).substring(0,10) ? (activeDateStatus +" p-0  picked-date") : day.status+" p-0" } 
-                    onClick={() => pickDate(day.date, day.status)}>
+                    onClick={() => pickDate(day)}>
                         {/* {day.date.substring(0,10)} */}
                         <Day 
                         key={day.monthNumber.toString() +"-"+ day.number.toString()} 
