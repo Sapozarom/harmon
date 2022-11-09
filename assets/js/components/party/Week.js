@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Day from './Day';
-const Week = ({weekData, setActiveDate, activeDate, setActiveDateStatus}) => {
+const Week = ({weekData, setActiveDate, activeDate, setActiveDateStatus, activeDateStatus}) => {
 
 
     const [week, setWeek] =  useState(weekData);
@@ -26,7 +26,7 @@ const Week = ({weekData, setActiveDate, activeDate, setActiveDateStatus}) => {
         {dataLoaded ? (
                 week.map((day) => (
                     <td 
-                    className={activeDate == (day.date).substring(0,10) ? (day.status+" p-0  picked-date") : day.status+" p-0" } 
+                    className={activeDate == (day.date).substring(0,10) ? (activeDateStatus +" p-0  picked-date") : day.status+" p-0" } 
                     onClick={() => pickDate(day.date, day.status)}>
                         {/* {day.date.substring(0,10)} */}
                         <Day 

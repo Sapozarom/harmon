@@ -46,13 +46,17 @@ const Party = () => {
     useEffect(() => {
         if (updatedData) {
             getCalendarData();
-            console.log(calendar);
+            // console.log(calendar);
         }
         setUpdatedData(false);
         
     },[updatedData]);
 
-    console.log(updatedData);
+    useEffect(() => {
+        getCalendarData();
+    },[]);
+
+    console.log(activeDateStatus);
 
 
     return(
@@ -82,7 +86,7 @@ const Party = () => {
 
                             {calendar.map((week, index) => (
                                 <tr>
-                                    <Week key={index} weekData = {week} setActiveDate={setActiveDate} activeDate={activeDate} setActiveDateStatus={setActiveDateStatus}/>
+                                    <Week key={index} weekData = {week} setActiveDate={setActiveDate} activeDate={activeDate} activeDateStatus={activeDateStatus} setActiveDateStatus={setActiveDateStatus}/>
                                 </tr>
                                 ))}
                         </tbody>
@@ -90,7 +94,7 @@ const Party = () => {
                 </div>
                 {/* FORM */}
                 <div className="col-lg-6">
-                    <Form activeDate={activeDate} setUpdatedData={setUpdatedData} gameId = {id}/>
+                    <Form activeDate={activeDate} setActiveDateStatus={setActiveDateStatus} gameId = {id}/>
                 </div>
             </div>
         </>

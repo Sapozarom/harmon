@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-const Form = ({activeDate, gameId, setUpdatedData}) => {
+const Form = ({activeDate, gameId, setActiveDateStatus}) => {
 
     const splitedDate = activeDate.split('-');
 
@@ -39,7 +39,8 @@ const Form = ({activeDate, gameId, setUpdatedData}) => {
         const data = await response.json();
 
         if (data.message == 'success') {
-            setUpdatedData(true);
+            console.log('status ' + data.status);
+            setActiveDateStatus(data.status);
         } else {
             alert('Something went wrong. Please try again');
         }
