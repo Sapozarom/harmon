@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\GameRepository;
 use App\Service\Calendar\Calendar;
 use App\Service\DayManager\DayManager;
+use App\Service\CalendarManager\CalendarManager;
 use App\Repository\DayRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -108,10 +109,14 @@ class GameController extends AbstractController
             }
 
             $day->addVote($event);
-            
+
+            // /$day->seteStatus();
+            $day->updateStatus();
+
             $entityManager = $doctrine->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
+            
             return $this->json([
                 'message'  => 'success',
             ]);
@@ -122,8 +127,8 @@ class GameController extends AbstractController
         ]);
     }
 
-    #[Route('api/calendar/{game}', name: 'sapi_get_callendar')]
-    public function getCallendarInfo(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
+    #[Route('api/calendar/{game}', name: 'api_get_calendar')]
+    public function getCallendarInfo(int $game, GameRepository $gameRepo , Calendar $calendarService, CalendarManager $calendarMng, Request $request, ManagerRegistry $doctrine): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
@@ -133,12 +138,26 @@ class GameController extends AbstractController
         // dd($_POST);
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
 
-
-        $calendarArray =  $calendarService->setupGameCalendarByDateApi(new DateTime(), $gameObj, $user);
+        $calendarArray = $calendarMng->setupCalendar(new DateTime(), $gameObj, $user);
+        // $calendarArray =  $calendarService->setupGameCalendarByDateApi(new DateTime(), $gameObj, $user);
         return $this->json([
             'calendar'  => $calendarArray,
         ]);
+    }
 
+    #[Route('/test/status', name: 'app_test')]
+    public function testStatus(DayRepository $dayRepo, ManagerRegistry $doctrine): Response
+    {
+        $dayObj = $dayRepo->findOneBy(['id' => 20]);
+
+        $dayObj->updateStatus();
+
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($dayObj);
+        $entityManager->flush();
+        return $this->json([
+            'msg'  => 'finished',
+        ]);
     }
 
     #[Route('/game/create', name: 'app_game_create')]

@@ -24,17 +24,11 @@ const Party = () => {
         currentDay = '0' + currentDay.toString();
     } 
     const dateString = currentYear + '-' + currentMonth + '-' + currentDay;
-    // console.log(currentDate);
+
     const [calendar, setCalendar] = useState([]);
-    const [activeDate, setActiveDate] = useState(dateString)
-
-    // const checkNumber = (number) => {
-    //     if (number.length == 1) {
-    //         const newNumber = '0' + number.toString();
-
-    //         return newNumber;
-    //     } 
-    // }
+    const [activeDate, setActiveDate] = useState(dateString);
+    const [activeDateStatus, setActiveDateStatus] = useState();
+    const [updatedData, setUpdatedData] = useState(false);
 
     const getCalendarData = async () => {
         
@@ -49,6 +43,16 @@ const Party = () => {
         getCalendarData();
     },[]);
 
+    useEffect(() => {
+        if (updatedData) {
+            getCalendarData();
+            console.log(calendar);
+        }
+        setUpdatedData(false);
+        
+    },[updatedData]);
+
+    console.log(updatedData);
 
 
     return(
@@ -78,7 +82,7 @@ const Party = () => {
 
                             {calendar.map((week, index) => (
                                 <tr>
-                                    <Week key={index} weekData = {week} setActiveDate={setActiveDate} activeDate={activeDate}/>
+                                    <Week key={index} weekData = {week} setActiveDate={setActiveDate} activeDate={activeDate} setActiveDateStatus={setActiveDateStatus}/>
                                 </tr>
                                 ))}
                         </tbody>
@@ -86,7 +90,7 @@ const Party = () => {
                 </div>
                 {/* FORM */}
                 <div className="col-lg-6">
-                    <Form activeDate={activeDate} gameId = {id}/>
+                    <Form activeDate={activeDate} setUpdatedData={setUpdatedData} gameId = {id}/>
                 </div>
             </div>
         </>

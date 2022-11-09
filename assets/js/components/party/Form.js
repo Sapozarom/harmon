@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 
-const Form = ({activeDate, gameId}) => {
+const Form = ({activeDate, gameId, setUpdatedData}) => {
 
     const splitedDate = activeDate.split('-');
 
@@ -19,29 +19,11 @@ const Form = ({activeDate, gameId}) => {
         setMonth(parseInt(splitedDate[1]));
         setYear(splitedDate[0]);
     },[activeDate]);
-    // const day = (activeDate) => {
-    //     const split = activeDate.split('.');
-    //     console.log(split[0]);
-    //     return split[0];
-    // }
-    // useEffect(() => {
-    //     // const splitedDate = activeDate.split('-');
-    //     // console.log(voteStatus)
-    //     // setDay(parseInt(splitedDate[2]));
-    //     // setMonth(parseInt(splitedDate[1]));
-    //     // setYear(splitedDate[0]);
-    // },[voteStatus]);
-    // const setImIn = (event) => {
-    //     setVoteStatus(true);
-    // }
-
-    // const setImOut = (event) => {
-    //     setVoteStatus(false);
-    // }
+   
     const checkVoteStatus = (event) => {
-        // const vote = Boolean(event.target.value)
+
         setVoteStatus(event.target.value);
-        // console.log(vote)
+
     }
     const handleSubmit = async(event) => {
         event.preventDefault();
@@ -56,6 +38,11 @@ const Form = ({activeDate, gameId}) => {
         })
         const data = await response.json();
 
+        if (data.message == 'success') {
+            setUpdatedData(true);
+        } else {
+            alert('Something went wrong. Please try again');
+        }
         // alert(data.message);
         console.log(data.message);
         // console.log(formData);
@@ -70,19 +57,17 @@ const Form = ({activeDate, gameId}) => {
                        Your vote
                     </div>
                     <div className="col"> 
-                    
                         <div>
                             <select className={voteStatus == 0 ? "form-select bg-red" : "form-select bg-green" } onChange={checkVoteStatus} id="vote_vote" name="vote[vote]">
                                 <option className="bg-green" value="1" >I'm in</option>
                                 <option className="bg-red" value="0" >I'm out</option>
                             </select>
-                     
                         </div>
                     </div>
                 </div>
 
 
-                <div className="row hidden-date ">
+                <div className="row hidden-date">
                     <div className="col-4"> 
                         {/* <input type="date" class="form-control " id="vote_date" name="vote[date]" value={activeDate} readonly/> */}
                         Date

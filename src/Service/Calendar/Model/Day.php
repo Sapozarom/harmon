@@ -146,7 +146,7 @@ class Day
         }
         usort($voteArray, function($a, $b){
             return count($a) > count($b);
-         });
+        });
 
         
         if(count($events) == 0){

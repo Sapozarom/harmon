@@ -29,7 +29,7 @@ td.GAMEDAY
     background: rgb(94, 255, 85);
 }
 
-td.VOTED
+div.VOTED
 {
     background-color: rgb(255, 255, 133);
 }

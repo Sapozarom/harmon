@@ -47,8 +47,21 @@ class DayRepository extends ServiceEntityRepository
         ->setParameter('game', $game)
         ->andWhere('d.date = :date')
         ->setParameter('date', $date)
+        ->getQuery()
+        ->getResult();
 
-        // ->orderBy('e.start', 'ASC')
+        return $result;
+    }
+
+    public function getDaysForCalendar($game, $firstDay, $lastDay) {
+        $qb = $this->createQueryBuilder('d');
+        $result = $qb
+        ->andWhere('d.game = :game')
+        ->setParameter('game', $game)
+        ->andWhere('d.date >= :firstDay')
+        ->setParameter('firstDay', $firstDay)
+        ->andWhere('d.date <= :lastDay')
+        ->setParameter('lastDay', $lastDay)
         ->getQuery()
         ->getResult();
 

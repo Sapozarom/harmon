@@ -1,10 +1,10 @@
 import React from 'react';
 
 const Day = ({dayData}) => {
-
+    
         return (
         <>
-            <div className="calendar-day">     
+            <div className="calendar-day" >     
                 {dayData.number}
             </div>
         </>

@@ -25,8 +25,9 @@ class Day
 
 
     #[ORM\OneToMany(mappedBy: 'day', targetEntity: Event::class)]
-    private Collection $votes;
+    private ?Collection $votes;
 
+    //status can be [EMPTY, VOTED, GAMEDAY, CANCALED, MISSED]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
@@ -75,7 +76,7 @@ class Day
     /**
      * @return Collection<int, Event>
      */
-    public function getVotes(): Collection
+    public function getVotes(): ?Collection
     {
         return $this->votes;
     }
@@ -135,6 +136,100 @@ class Day
     {
         $this->playersLeftToVote = $playersLeftToVote;
 
+        return $this;
+    }
+
+    public function updateStatus() {
+        $players= $this->game->getPlayers();
+        $voteArray = array();
+
+        // $checkArray = array();
+
+        $this->playersLeftToVote = count($players);
+
+        foreach ($players as $player) {
+            $voteArray[$player->getId()] = array();
+        }
+
+        foreach ($this->votes as $event) {
+            $voter = $event->getUser()->getId();
+            if (!($event->isVote())) {
+                $this->status="CANCELED";
+            }
+            if (isset($voteArray[$voter])) {
+                if (count($voteArray[$voter]) == 0) {
+                    $this->playersLeftToVote = $this->playersLeftToVote - 1;
+                }
+                array_push($voteArray[$voter], $event);
+            }
+        }
+
+        usort($voteArray, function($a, $b){
+            return count($a) > count($b);
+        });
+
+        if (!(isset($this->status)) && $this->playersLeftToVote > 0) {
+            $this->status="VOTED";
+        } elseif ($this->playersLeftToVote == 0) {
+            $paths = array();
+            
+            foreach ($voteArray[0] as $voteNumber => $vote) {
+                
+                array_push( $paths, [$vote->getStartTime(), $vote->getFinishTime()]);
+
+                for ($row=1 ; $row < count($voteArray) ; $row++) { 
+                    foreach ($paths as $key => $path) {
+                        $match = 0;
+                        $tempPath = $path;
+                        
+                        foreach ($voteArray[$row] as $currentVote) {
+                            $start = max($tempPath[0], $currentVote->getStartTime());
+                            $finish = min($tempPath[1], $currentVote->getFinishTime());
+                            
+                            if ($start < $finish) {
+                                $updatedPath = [$start, $finish];
+                                
+                                if ($match == 0) {
+                                    $paths[$key] = $updatedPath;
+                                } else {
+                                    array_push($paths, $updatedPath);
+                                }
+                                $match++;
+                            }
+                        }
+
+                        if ($match == 0) {
+                            unset($paths[$key]);
+                        }
+                    }
+                }
+            }
+
+            if (count($paths) > 0 ) {
+                foreach ($paths as $key => $path) {
+                    $startHour = intval($path[0]->format('h'));
+                    $startMinutes = intval($path[0]->format('i'));
+                    $finishtHour = intval($path[0]->format('h'));
+                    $finishMinutes = intval($path[0]->format('i'));
+                    
+                    $length =($finishtHour*60 + $finishMinutes)- ($startHour*60 + $startMinutes);
+                    dd($length);
+                   if ($length < $this->game->getMinSessionLength() ) {
+                    unset($paths[$key]);
+                   } else {
+                    $range = [$path[0],$path[1]];
+                    array_push($this->availableHours, $range);
+                   }
+                }
+                $this->status="GAMEDAY";
+            } 
+            
+            if (count($paths) == 0) {
+                $this->status="MISSED";
+            }
+        }
+
+        // dd($this->playersLeftToVote, $voteArray,$paths,  $this->status);
         return $this;
     }
 }

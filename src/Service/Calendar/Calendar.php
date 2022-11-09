@@ -34,19 +34,56 @@ class Calendar
     public function __construct(EntityManagerInterface $em, EventRepository $er)
     {
         $this->entityManager = $em;
-
         $this->eventRepo = $er;
 
     }
 
+    public function createCalendar($date, $game, $user) {
+        $this->game = $game;
+        $this->user = $user;
+        // $this->players = $game->getPlayers();
+        // $this->numberOfPlayers = count($game->getPlayers());
+        $this->monthNumber =  $date->format('m');
+
+        //Starting day of the month => row:0 col:$firstDayOfMonthNumber
+
+        $firstDayOfMonthString = $date->format('Y-m-01');
+        $firstDayOfMonthDate = new \DateTime($firstDayOfMonthString);
+        $firstDayOfMonthDateVar = clone $firstDayOfMonthDate;
+        $firstDayOfMonthNumber=   $firstDayOfMonthDate->format('w');
+        
+        if ($firstDayOfMonthNumber == 0) {
+            $firstDayOfMonthNumber = 7;
+        }
+
+        //number of last day of month
+        $lastDayOfMonth = $date->format('Y-m-t');
+        $lastDayOfMonthDate = new \DateTime($lastDayOfMonth);
+        $lastDayOfMonthNumber = $lastDayOfMonthDate->format('d');
+
+        //previous month
+        $reaminingDays = $firstDayOfMonthNumber - 1;
+
+        $lastDayOfPreviousMonthDate = $firstDayOfMonthDate->modify("-1 days");
+        // $lastDayOfPreviousMonthNumber = $lastDayOfPreviousMonthDate->format('d');
+        
+
+        // row:0, col:0
+        // $start = $lastDayOfPreviousMonthNumber - $reaminingDays + 1;
+        $substractor = -$reaminingDays + 1;
+        $startDate = $lastDayOfPreviousMonthDate ->modify("$substractor days");
+
+        
+    }
+
+
+    //OLD METHOD
     public function setupGameCalendarByDate($date, $game, $user)
     {      
         $this->game = $game;
         $this->user = $user;
-        // $this->gameId = $game->getId();
         $this->players = $game->getPlayers();
         $this->numberOfPlayers = count($game->getPlayers());
-        //name of month to JSON table
         $this->monthNumber =  $date->format('m');
 
         //Starting day of the month => row:0 col:$firstDayOfMonthNumber
