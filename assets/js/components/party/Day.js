@@ -11,5 +11,4 @@ const Day = ({dayData}) => {
         )
     }
 
-
 export default Day

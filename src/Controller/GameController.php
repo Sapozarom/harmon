@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Day;
 use App\Repository\GameRepository;
 use App\Service\Calendar\Calendar;
 use App\Service\DayManager\DayManager;
@@ -129,20 +130,34 @@ class GameController extends AbstractController
     }
 
     #[Route('api/calendar/{game}', name: 'api_get_calendar')]
-    public function getCallendarInfo(int $game, GameRepository $gameRepo , Calendar $calendarService, CalendarManager $calendarMng, Request $request, ManagerRegistry $doctrine): Response
+    public function getCallendarInfo(int $game, GameRepository $gameRepo , DayRepository $dayRepo, CalendarManager $calendarMng, ): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
         $user = $this->getUser();
-        $date = new \DateTime();
-        $date->format("Y-m-d");
+        $date = new \DateTime('today midnight');
+        $dateString = $date->format("Y-m-d");
         // dd($_POST);
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
 
-        $calendarArray = $calendarMng->setupCalendar(new DateTime(), $gameObj, $user);
+        $calendarArray = $calendarMng->setupCalendar($date, $gameObj, $user);
+
+        $currentDay = $dayRepo->getDayInfo($dateString, $gameObj);
+
+        if ($currentDay == null) {
+            // $dayData = new Day;
+            $dayData['date'] = $date;
+            $dayData['status'] = 'EMPTY';
+            $dayData['playersLeftToVote'] = [];
+        } else {
+            $dayData = $currentDay[0];
+        }
+        // dd($currentDay);
         // $calendarArray =  $calendarService->setupGameCalendarByDateApi(new DateTime(), $gameObj, $user);
         return $this->json([
             'calendar'  => $calendarArray,
+            'currentDay' => $dayData,
+            // 'date'=> $currentDay['date'],
         ]);
     }
 

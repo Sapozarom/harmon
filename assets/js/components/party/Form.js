@@ -1,24 +1,37 @@
 import React, {useEffect, useState} from 'react';
 
-const Form = ({activeDate, gameId, setActiveDateStatus}) => {
+const Form = ({activeDay, gameId, setActiveDateStatus}) => {
 
-    const splitedDate = activeDate.split('-');
-
+    // let dayData = activeDay;
+    // const splitedDate = activeDay.date.substring(0,10).split('-');
+    
     // console.log(splitedDate[0]);
-    const [day,setDay] = useState(parseInt(splitedDate[2]));
-    const [month,setMonth] = useState(parseInt(splitedDate[1]));
-    const [year, setYear] = useState(parseInt(splitedDate[0]));
+    // const [day,setDay] = useState(parseInt(splitedDate[2]));
+    // const [month,setMonth] = useState(parseInt(splitedDate[1]));
+    // const [year, setYear] = useState(parseInt(splitedDate[0]));
+
+    const [day,setDay] = useState();
+    const [month,setMonth] = useState();
+    const [year, setYear] = useState();
 
     const [voteStatus, setVoteStatus] = useState(1);
 
-    
     useEffect(() => {
-        const splitedDate = activeDate.split('-');
+        if (typeof activeDay !== 'undefined') {
+            const splitedDate = activeDay.date.substring(0,10).split('-');
+            setDay(parseInt(splitedDate[2]));
+            setMonth(parseInt(splitedDate[1]));
+            setYear(splitedDate[0]);
+        }
+    },[activeDay]);
 
-        setDay(parseInt(splitedDate[2]));
-        setMonth(parseInt(splitedDate[1]));
-        setYear(splitedDate[0]);
-    },[activeDate]);
+    // useEffect(() => {
+    //     const splitedDate = activeDate.split('-');
+
+    //     setDay(parseInt(splitedDate[2]));
+    //     setMonth(parseInt(splitedDate[1]));
+    //     setYear(splitedDate[0]);
+    // },[activeDate]);
    
     const checkVoteStatus = (event) => {
 
@@ -41,6 +54,10 @@ const Form = ({activeDate, gameId, setActiveDateStatus}) => {
         if (data.message == 'success') {
             // console.log('status ' + data.status);
             setActiveDateStatus(data.status);
+            // dayData.status = data.status;
+            // console.log( 'asda' );
+            // console.log( 'asda' + dayData.status);
+            // setActiveDay(dayData);
         } else {
             alert('Something went wrong. Please try again');
         }
@@ -48,10 +65,11 @@ const Form = ({activeDate, gameId, setActiveDateStatus}) => {
         console.log(data.message);
         // console.log(formData);
     }
-    
+
     return(
         <>
             <p className="lead">{day}-{month}-{year}</p>
+            {typeof activeDay !== 'undefined' ?  activeDay.status : 'status unknown'}
             <form name="vote" method="post" onSubmit={handleSubmit}>
                 <div className="row">
                     <div className="col-4"> 

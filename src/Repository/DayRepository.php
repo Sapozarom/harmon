@@ -40,6 +40,21 @@ class DayRepository extends ServiceEntityRepository
         }
     }
 
+    public function getDayInfo($date, $game) {
+        $qb = $this->createQueryBuilder('d');
+        $result = $qb
+        ->select('d.date, d.status, d.playersLeftToVote')
+        ->andWhere('d.game = :game')
+        ->setParameter('game', $game)
+        ->andWhere('d.date = :date')
+        ->setParameter('date', $date)
+        ->getQuery()
+        ->getResult();
+
+        // dd($result);
+        return $result;
+    }
+
     public function findDayByDateAndGameId($date, $game) {
         $qb = $this->createQueryBuilder('d');
         $result = $qb
@@ -50,6 +65,7 @@ class DayRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
 
+        // dd($result);
         return $result;
     }
 

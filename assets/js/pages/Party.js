@@ -26,8 +26,10 @@ const Party = () => {
     const dateString = currentYear + '-' + currentMonth + '-' + currentDay;
 
     const [calendar, setCalendar] = useState([]);
-    const [activeDate, setActiveDate] = useState(dateString);
+    const [activeDate, setActiveDate] = useState();
     const [activeDateStatus, setActiveDateStatus] = useState();
+    const [leftToVote, setLeftToVote] = useState();
+    const [activeDay, setActiveDay] = useState();
 
 
     const getCalendarData = async () => {
@@ -36,12 +38,21 @@ const Party = () => {
         const response = await fetch(loginRoute);
         const data = await response.json();
         // console.log(data.calendar);
+        setActiveDate(data.currentDay.date);
+        setActiveDateStatus(data.currentDay.status);
         setCalendar(data.calendar);
+        
     }
 
     useEffect(() => {
         getCalendarData();
     },[]);
+
+    // useEffect(() => {
+    //     if (typeof activeDay !== 'undefined') {
+    //         setActiveDateStatus(activeDay.status)
+    //     }
+    // },[activeDay]);
 
     // useEffect(() => {
     //     if (updatedData) {
@@ -56,7 +67,7 @@ const Party = () => {
     //     getCalendarData();
     // },[]);
 
-    console.log(activeDateStatus);
+    // console.log('active day: ' + activeDay + ' +  activeDate: '+ activeDate);
 
 
     return(
@@ -86,7 +97,15 @@ const Party = () => {
 
                             {calendar.map((week, index) => (
                                 <tr>
-                                    <Week key={index} weekData = {week} setActiveDate={setActiveDate} activeDate={activeDate} activeDateStatus={activeDateStatus} setActiveDateStatus={setActiveDateStatus}/>
+                                    <Week 
+                                    key={index} 
+                                    weekData = {week} 
+                                    activeDay={activeDay} 
+                                    setActiveDay={setActiveDay}
+                                    activeDateStatus={activeDateStatus}
+                                    setActiveDateStatus={setActiveDateStatus}
+                                    />
+                                    {/* // setActiveDate={setActiveDate} activeDate={activeDate} activeDateStatus={activeDateStatus} setActiveDateStatus={setActiveDateStatus}/> */}
                                 </tr>
                                 ))}
                         </tbody>
@@ -94,7 +113,8 @@ const Party = () => {
                 </div>
                 {/* FORM */}
                 <div className="col-lg-6">
-                    <Form activeDate={activeDate} setActiveDateStatus={setActiveDateStatus} gameId = {id}/>
+                    <Form activeDay={activeDay} setActiveDay={setActiveDay} 
+                    activeDate={activeDate} setActiveDateStatus={setActiveDateStatus} gameId = {id}/>
                 </div>
             </div>
         </>
