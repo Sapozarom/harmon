@@ -2,13 +2,6 @@ import React, {useEffect, useState} from 'react';
 
 const Form = ({activeDay, gameId, setActiveDateStatus}) => {
 
-    // let dayData = activeDay;
-    // const splitedDate = activeDay.date.substring(0,10).split('-');
-    
-    // console.log(splitedDate[0]);
-    // const [day,setDay] = useState(parseInt(splitedDate[2]));
-    // const [month,setMonth] = useState(parseInt(splitedDate[1]));
-    // const [year, setYear] = useState(parseInt(splitedDate[0]));
 
     const [day,setDay] = useState();
     const [month,setMonth] = useState();
@@ -25,13 +18,6 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
         }
     },[activeDay]);
 
-    // useEffect(() => {
-    //     const splitedDate = activeDate.split('-');
-
-    //     setDay(parseInt(splitedDate[2]));
-    //     setMonth(parseInt(splitedDate[1]));
-    //     setYear(splitedDate[0]);
-    // },[activeDate]);
    
     const checkVoteStatus = (event) => {
 
@@ -40,30 +26,24 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
     }
     const handleSubmit = async(event) => {
         event.preventDefault();
-        // data = event.target.serialize();
+
         const formData = new FormData(event.target)
         const response = await fetch('/api/send-vote/'+ gameId, {
             method: 'POST',
             body: formData,
-            // headers: {
-            //   'Content-Type': 'application/json'
-            // },
+
         })
         const data = await response.json();
 
         if (data.message == 'success') {
-            // console.log('status ' + data.status);
+
             setActiveDateStatus(data.status);
-            // dayData.status = data.status;
-            // console.log( 'asda' );
-            // console.log( 'asda' + dayData.status);
-            // setActiveDay(dayData);
+
         } else {
             alert('Something went wrong. Please try again');
         }
-        // alert(data.message);
+
         console.log(data.message);
-        // console.log(formData);
     }
 
     return(
@@ -89,7 +69,6 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
 
                 <div className="row hidden-date">
                     <div className="col-4"> 
-                        {/* <input type="date" class="form-control " id="vote_date" name="vote[date]" value={activeDate} readonly/> */}
                         Date
                     </div>
                     <div className="col"> 
@@ -109,7 +88,7 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
                     </div>
                 </div>
 
-                <div className="row">
+                <div className="row mt-2">
                     <div className="col-4"> 
                         {/* <input type="date" class="form-control " id="vote_date" name="vote[date]" value={activeDate} readonly/> */}
                         Start time
@@ -128,7 +107,7 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
                     </div>
                 </div>
 
-                <div className="row">
+                <div className="row mt-2">
                     <div className="col-4"> 
                         {/* <input type="date" class="form-control " id="vote_date" name="vote[date]" value={activeDate} readonly/> */}
                         Finish time
@@ -146,49 +125,6 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
                         </div>
                     </div>
                 </div>
-{/* 
-                <div className="row mt-2">
-                    <div className="col-4"> 
-                        Start
-                    </div>
-                    <div className="col"> 
-                    <div class="form-time-input">
-                        <label for="start-hours" class="form-label" >test</label>
-                        <input type="text" class="form-control " id="exampleFormControlInput1" placeholder="h" />
-                    </div>
-                    <div class="form-time-separator">
-                    :
-                    </div>
-
-                    <div class="form-time-input">
-                        <label for="start-minutes" class="form-label" hidden></label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="m" />
-                    </div>
-                    </div>
-
-                </div>
-
-                
-                <div className="row mt-2">
-                    <div className="col-4"> 
-                        Finish
-                    </div>
-                    <div className="col"> 
-                    <div class="form-time-input">
-                        <label for="start-hours" class="form-label" hidden></label>
-                        <input type="text" class="form-control " id="exampleFormControlInput1" placeholder="h" />
-                    </div>
-                    <div class="form-time-separator">
-                    :
-                    </div>
-
-                    <div class="form-time-input">
-                        <label for="start-minutes" class="form-label" hidden></label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="m" />
-                    </div>
-                    </div>
-
-                </div> */}
 
                 <div className="row mt-2">
                     <div className="col-12">
@@ -197,11 +133,6 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
                 </div>
             </form>
 
-            {/* <form name="vote" method="post">
-            <label for="start-minutes" class="form-label" >asd</label>
-            <input type="text" class="form-control"  placeholder="m" id="vote_test" name="vote[test]" />
-            <button type="submit" class="btn btn-dark">Save</button>
-            </form> */}
         </>
 
     )

@@ -38,8 +38,10 @@ const Party = () => {
         const response = await fetch(loginRoute);
         const data = await response.json();
         // console.log(data.calendar);
-        setActiveDate(data.currentDay.date);
-        setActiveDateStatus(data.currentDay.status);
+        // setActiveDate(data.currentDay.date);
+        setActiveDay(data.currentDay);
+        // setActiveDateStatus(data.currentDay.status);
+
         setCalendar(data.calendar);
         
     }
@@ -48,11 +50,11 @@ const Party = () => {
         getCalendarData();
     },[]);
 
-    // useEffect(() => {
-    //     if (typeof activeDay !== 'undefined') {
-    //         setActiveDateStatus(activeDay.status)
-    //     }
-    // },[activeDay]);
+    useEffect(() => {
+        if (typeof activeDay !== 'undefined') {
+            setActiveDateStatus(activeDay.status)
+        }
+    },[activeDay]);
 
     // useEffect(() => {
     //     if (updatedData) {
@@ -67,14 +69,14 @@ const Party = () => {
     //     getCalendarData();
     // },[]);
 
-    // console.log('active day: ' + activeDay + ' +  activeDate: '+ activeDate);
+    console.log('active day: ' + activeDay + ' +  activeDate: '+ activeDate);
 
 
     return(
         <>
             <div className='row justify-content-center mt-4'>
                 <h1 className='display-6 text-center universal-shadow-text'>
-                    Prty XXX
+                    Party XXX
                 </h1>
             </div>
             <div className="row">
@@ -100,10 +102,11 @@ const Party = () => {
                                     <Week 
                                     key={index} 
                                     weekData = {week} 
-                                    activeDay={activeDay} 
+                                    activeDay={activeDay}
                                     setActiveDay={setActiveDay}
                                     activeDateStatus={activeDateStatus}
                                     setActiveDateStatus={setActiveDateStatus}
+                                    // setActiveDate={setActiveDate}
                                     />
                                     {/* // setActiveDate={setActiveDate} activeDate={activeDate} activeDateStatus={activeDateStatus} setActiveDateStatus={setActiveDateStatus}/> */}
                                 </tr>
