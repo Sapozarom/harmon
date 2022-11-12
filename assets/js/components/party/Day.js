@@ -11,9 +11,6 @@ const Day = ({dayData, setActiveDay, setActiveDate, activeDay, activeDateStatus}
         setActiveDay(day);
     }
 
-    const DisplayDayInfo = (dayData) => {
-        return dayData.number;
-    } 
 
     useEffect(() => {
         if (isActive) {
@@ -36,16 +33,7 @@ const Day = ({dayData, setActiveDay, setActiveDate, activeDay, activeDateStatus}
             onClick={() => pickDate(dayData)}>
 
                 <div className="calendar-day" >     
-                <b>{dayData.number}</b>
-                {/* ADD TOOLTIP!!!!!!!!! */}
-                {status == "VOTED" ? (
-                    <div className="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="{{day.playersLeftToVote}} more to vote"><i class="fa-sharp fa-solid fa-arrows-rotate"></i><b>{dayData.playersLeftToVote}</b></div> 
-                    ) : (
-                ''
-                )}
-
-
-
+                    {dayData.number}
                 </div>
 
                 {/* ADD TOOLTIP!!!!!!!!! */}
@@ -53,6 +41,27 @@ const Day = ({dayData, setActiveDay, setActiveDate, activeDay, activeDateStatus}
                 {status == "CANCELED" ? (
                         <div class="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="Some members are unavailable"><i class="fa-solid fa-xmark "></i></div> 
                     ) : (
+                ''
+                )}
+
+                {/* ADD TOOLTIP!!!!!!!!! */}
+                {status == "VOTED" ? (
+                    <div className="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="{{day.playersLeftToVote}} more to vote"><i class="fa-sharp fa-solid fa-arrows-rotate"></i><b>{dayData.playersLeftToVote}</b></div> 
+                    ) : (
+                ''
+                )}
+
+                {status == "MISSED" ? (
+                    // <i class="fa-solid fa-ban"></i>
+                         <div class="players-left-to-vote"><i class="fa-solid fa-ban" data-bs-toggle="tooltip" data-bs-title="Missed schedules"></i></div>
+                         ) : (
+                ''
+                )}
+
+                {status == "GAMEDAY" ? (
+
+                         <div class="players-left-to-vote"><i class="fa-solid fa-check " data-bs-toggle="tooltip" data-bs-title="Missed schedules"></i></div>
+                         ) : (
                 ''
                 )}
             </td>
