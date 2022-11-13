@@ -53,7 +53,7 @@ const Day = ({dayData, setActiveDay, setActiveDate, activeDay, activeDateStatus}
 
                 {status == "MISSED" ? (
                     // <i class="fa-solid fa-ban"></i>
-                         <div class="players-left-to-vote"><i class="fa-solid fa-ban" data-bs-toggle="tooltip" data-bs-title="Missed schedules"></i></div>
+                         <div className="players-left-to-vote"><i class="fa-solid fa-ban" data-bs-toggle="tooltip" data-bs-title="Missed schedules"></i></div>
                          ) : (
                 ''
                 )}

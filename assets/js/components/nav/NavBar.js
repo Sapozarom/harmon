@@ -57,7 +57,7 @@ const Navbar = ({userData}) => {
 
     const [user,setUser] = useState(userData);
     const [navbar,setNavbar] = useState([]);
-
+    console.log("nav user: ",user);
     const createNavbar = () => {
         const navbarContent = [];
         allNavbarItems.forEach(item => {
@@ -68,11 +68,9 @@ const Navbar = ({userData}) => {
             } else {
                 if ( item.type == 'loggedIn' || item.type == 'special' || item.type == 'open' ) {
                     navbarContent.push(item);
-                    // console.log(user.id);
                 }
             }
         });
-        // console.log(user);
         setNavbar(navbarContent);
     }
 

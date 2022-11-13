@@ -16,21 +16,30 @@ import NavBar from './components/nav/NavBar'
 // import {createRoot} from 'react-dom/client';
 
 import { useLoadState, Loading } from 'react-use-load';
+import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 
 
 const Main = ({user, logged}) => {
     // const localUser = window.localStorage.getItem('MY_APP_USER');
 
+    const checkIfLoggedIn = async () => {
+        const route = '/api/homepage/nav';
+        const response = await fetch(route);
+        return response.json();
+    }
+
+    const { data, status } = useQuery(['user'], () => checkIfLoggedIn());
     const [userId,setUserId] = useState(user);
     const [userLogged,setserLogged] = useState(logged);
 
+    console.log(data, status);
     return (
         <>
-        
+        {status == "success" ? (
             <BrowserRouter>
-            user : {userId}, Logged:  {userLogged ? 'true' : 'false'}
+            user : {data.user}
                 <Routes>
-                    <Route path="/" element={<Layout user={userId}/>}>
+                    <Route path="/" element={<Layout user={data.user}/>}>
                             <Route index element={<Homepage />} />
                             <Route path="readme" element={<Readme />} />
                             <Route path="my-activities" element={<MyActivities />} />
@@ -39,6 +48,10 @@ const Main = ({user, logged}) => {
                     </Route>
                 </Routes>
             </BrowserRouter>
+        ) : (
+            'loading'
+        ) }
+            
         </>
     )
 }
@@ -78,7 +91,6 @@ const UserCheck = () => {
     // const localUser = null;
     const [user,setUser] = useState();
     const [userLogged,setUserLogged] = useState(false);
-    // const [,updateState] = useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
 
     const checkIfLoggedIn = async () => {
@@ -110,19 +122,27 @@ const UserCheck = () => {
         return <Slave />
     }
     
-   
+}
 
+const MainPage = () => {
+    
+    const queryClient = new QueryClient();
+
+        return(
+            <QueryClientProvider client={queryClient}>
+                <Main />
+            </QueryClientProvider>
+        );
 }
 
 export default Main;
 
-
 const container = document.getElementById('root');
 const root = createRoot(container);
-root.render(<UserCheck  />);
+root.render(
+    <MainPage  />
+);
 
-// if (document.getElementById('root')) {
-//     ReactDOM.render(<Main />, document.getElementById('root'));
-// }
+
 
 
