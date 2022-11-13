@@ -55,13 +55,13 @@ const Navbar = ({userData}) => {
 
     const allNavbarItems = [navItem1, navItem2, navItem3, navItem4, navItem5, navItem6, navItem7];
 
-    const [user,setUser] = useState(userData);
+    // const [user,setUser] = useState(userData);
     const [navbar,setNavbar] = useState([]);
-    console.log("nav user: ",user);
+    console.log("nav user: ",userData);
     const createNavbar = () => {
         const navbarContent = [];
         allNavbarItems.forEach(item => {
-            if (user == null) {
+            if (userData == null) {
                 if (item.type == 'loggedOut' || item.type == 'open' ) {
                     navbarContent.push(item);
                 }
@@ -76,7 +76,7 @@ const Navbar = ({userData}) => {
 
     useEffect(() => {
         createNavbar();
-    },[user]);
+    },[userData]);
 
 
         return (
@@ -101,7 +101,7 @@ const Navbar = ({userData}) => {
                                     <ul className="navbar-nav m-0 align-middle">
 
                                         {navbar.map((navItem) => (
-                                            <NavItem key={navItem.name} item={navItem} user={user}/>
+                                            <NavItem key={navItem.name} item={navItem} user={userData}/>
                                         ))}
 
                                     </ul>
