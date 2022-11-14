@@ -166,17 +166,17 @@ class GameController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
-        $user = $this->getUser();
+        // $user = $this->getUser();
 
-        // dd($_POST);
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
 
         $dayInfo = $dayRepo->getDayInfo($date, $gameObj);
 
         if ($dayInfo == null) {
-            $dayData['date'] = $date;
+            $dayData['date'] = new DateTime($date) ;
             $dayData['status'] = 'EMPTY';
             $dayData['playersLeftToVote'] = [];
+            $dayData['number'] = intval(substr($date,8,2)); 
         } else {
             $dayData = $dayInfo[0];
             $dayData['number'] = intval($dayInfo[0]['date']->format('d')); 

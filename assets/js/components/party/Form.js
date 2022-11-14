@@ -1,9 +1,13 @@
 import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import React, {useEffect, useState} from 'react';
+import { useParams } from 'react-router-dom';
 
-const Form = ({activeDay, gameId, setActiveDateStatus}) => {
+const Form = ({activeDay}) => {
+
 
     const queryClient = useQueryClient();
+
+    const { id }= useParams();
     const [day,setDay] = useState();
     const [month,setMonth] = useState();
     const [year, setYear] = useState();
@@ -21,75 +25,22 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
 
    
     const checkVoteStatus = (event) => {
-
         setVoteStatus(event.target.value);
-
     }
-
-    // const handleSubmit = async(event) => {
-    //     event.preventDefault();
-
-    //     const formData = new FormData(event.target)
-    //     const response = await fetch('/api/send-vote/'+ gameId, {
-    //         method: 'POST',
-    //         body: formData,
-
-    //     })
-    //     const data = await response.json();
-
-    //     if (data.message == 'success') {
-
-    //         setActiveDateStatus(data.status);
-
-    //     } else {
-    //         alert('Something went wrong. Please try again');
-    //     }
-
-    //     console.log(data.message);
-    // }
-
-    // const dataMutation = useMutation({
-    //     mutationFn: newTodo => {
-    //       return axios.post('/todos', newTodo)
-    //     }
-    //   })
-
-    // const handleSubmit = async(event) => {
-    //     event.preventDefault();
-
-    //     const formData = new FormData(event.target)
-    //     const response = await fetch('/api/send-vote/'+ gameId, {
-    //         method: 'POST',
-    //         body: formData,
-
-    //     })
-
-    //     // console.log(data.message);
-    //     console.log('submit');
-    //     return response.json();
-        
-    // }
 
     const dataMutation = useMutation({
         mutationFn: (event) => {
             event.preventDefault();
-
-        const formData = new FormData(event.target)
-        const response =  fetch('/api/send-vote/'+ gameId, {
-            method: 'POST',
-            body: formData,
-
-        })
-
-        // console.log(data.message);
-        console.log('submit');
-        return response;
+            console.log(id);
+            const formData = new FormData(event.target)
+            const response =  fetch('/api/send-vote/'+ id, {
+                method: 'POST',
+                body: formData,
+            })
+            return response;
         },
         onSuccess: () => {
-            console.log('succc')
             queryClient.invalidateQueries([activeDay.date.substring(0,10)])
-            // QueryClient.invalidateQueries('calendar')
-            
         }
     })
 

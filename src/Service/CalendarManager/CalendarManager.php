@@ -50,7 +50,7 @@ class CalendarManager
 
         $firstDayOfMonthString = $date->format('Y-m-01');
         $firstDayOfMonthDate = new \DateTime($firstDayOfMonthString);
-        $firstDayOfMonthDateVar = clone $firstDayOfMonthDate;
+        // $firstDayOfMonthDateVar = clone $firstDayOfMonthDate;
         $firstDayOfMonthNumber=   $firstDayOfMonthDate->format('w');
         
         if ($firstDayOfMonthNumber == 0) {
@@ -60,7 +60,7 @@ class CalendarManager
         //number of last day of month
         $lastDayOfMonth = $date->format('Y-m-t');
         $lastDayOfMonthDate = new \DateTime($lastDayOfMonth);
-        $lastDayOfMonthNumber = $lastDayOfMonthDate->format('d');
+        // $lastDayOfMonthNumber = $lastDayOfMonthDate->format('d');
 
         //previous month
         $reaminingDays = $firstDayOfMonthNumber - 1;
@@ -89,14 +89,11 @@ class CalendarManager
         // get all voted days
         $activeDayArray = $this->dayRepo->getDaysForCalendar($game, $firstDayInCalendar, $lastDayInCalendar);
 
-
         // populate date array with fetched data
         
         foreach ($activeDayArray as  $activeDay) {
             $key = $activeDay->getDate()->format('Y-m-d');
             $dateArray[$key] = $activeDay;
-
-            // dd($key,$dateArray);
         }
 
         // format to calendar table
@@ -118,10 +115,18 @@ class CalendarManager
             $data['number'] = intval($currentDay->getDate()->format('d'));
             $data['monthNumber'] = intval($currentDay->getDate()->format('m'));
             $data['date'] = $currentDay->getDate();
-            $data['status'] = $currentDay->getStatus();
-            $data['playersLeftToVote'] = $currentDay->getPlayersLeftToVote();
-            $data['currentMonth'] = null;
-            $data['availableHours'] = $currentDay->getAvailableHours();
+            
+            if ($currentDay->getDate() == new \DateTime('today midnight')) {
+                $data['today'] = true;
+            } else {
+                $data['today'] = false;
+            }
+
+
+            // $data['status'] = $currentDay->getStatus();
+            // $data['playersLeftToVote'] = $currentDay->getPlayersLeftToVote();
+            // $data['currentMonth'] = null;
+            // $data['availableHours'] = $currentDay->getAvailableHours();
 
             $this->calendarArray[$this->nextRow][$this->nextCol] = $data;
 
@@ -134,7 +139,6 @@ class CalendarManager
         }
         // dd($activeDayArray, $dateArray, $this->calendarArray);
         return $this->calendarArray;
- 
         // dd($firstDayInCalendar, $lastDayInCalendar);
 
     }

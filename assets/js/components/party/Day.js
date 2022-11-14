@@ -1,21 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useState, useEffect } from 'react';
-import { render } from 'react-dom';
+import { useParams } from 'react-router-dom';
 
-const Day = ({dayData, setActiveDay, setActiveDate, activeDay, activeDateStatus}) => {
+const Day = ({dayData, setActiveDay, activeDay}) => {
 
-    // const [status, setStatus] = useState(dayData.status);
-    const [isActive, setIsActive]= useState(false);
-    
 
+
+    const { id } = useParams();
     const dateString = dayData.date.substring(0,10);
+    
     const { data, status } = useQuery([dateString], () => getDayData());
-
-    // console.log(data);
+    const [isActive, setIsActive]= useState(false);
 
     const getDayData = async () => {
-        
-        const route = 'http://127.0.0.1/api/day/2/'+ dateString ;
+        // console.log(dateString);
+        const route = 'http://127.0.0.1/api/day/'+ id +'/'+ dateString ;
         const response = await fetch(route);
         return response.json();
     }
@@ -24,12 +23,11 @@ const Day = ({dayData, setActiveDay, setActiveDate, activeDay, activeDateStatus}
         setActiveDay(day);
     }
 
+    if (typeof activeDay === 'undefined' && typeof data !== 'undefined' && dayData.today) {
+        // console.log('pick');
+        setActiveDay(data.dayInfo);
+    }
 
-    // useEffect(() => {
-    //     if (isActive) {
-    //         setStatus(activeDateStatus);
-    //     }
-    // },[activeDateStatus]);
 
     useEffect(() => {
         if (typeof activeDay !== 'undefined' && activeDay.date == dayData.date) {
@@ -40,12 +38,14 @@ const Day = ({dayData, setActiveDay, setActiveDate, activeDay, activeDateStatus}
     },[activeDay]);
 
     // useEffect(() => {
+    //     if (typeof data !== 'undefined' && data.dayInfo.today) {
+    //         console.log('pick');
+    //         pickDate(data.dayInfo);
+    //     }
+    // },[]);
 
-    //         setStatus(dayData.status);
-        
-    // },[dayData]);
 
-        return (
+    return (
         <>
         {status =='success' ? (
           //success 

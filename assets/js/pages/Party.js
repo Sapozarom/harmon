@@ -11,10 +11,8 @@ const Party = () => {
 
     let { id } = useParams();
 
-    const [calendar, setCalendar] = useState([]);
     const [activeDate, setActiveDate] = useState();
     const [activeDateStatus, setActiveDateStatus] = useState();
-    const [leftToVote, setLeftToVote] = useState();
     const [activeDay, setActiveDay] = useState();
 
     const { data, status } = useQuery(['calendar'], () => getCalendarData());
@@ -26,23 +24,7 @@ const Party = () => {
         return response.json();
     }
 
-    // useEffect(() => {
-    //     getCalendarData();
-    // },[]);
-
-    useEffect(() => {
-        if (typeof activeDay !== 'undefined') {
-            setActiveDateStatus(activeDay.status)
-        }
-    },[activeDay]);
-
-    // useEffect(() => {
-    //     if (typeof data !== 'undefined') {
-    //     setCalendar(data.calendar)
-    //     }
-    // },[data]);
-
-    // console.log('active day: ' + activeDay + ' +  activeDate: '+ activeDate);
+    // USUŃ
     console.log(data);
 
     return(
@@ -56,7 +38,7 @@ const Party = () => {
                 {/* table */}
                 <div className="col-lg-6">
                     <table className="table calendar">
-                        <caption className="bg-dark bg-gradient" >September</caption>
+                        <caption className="bg-dark bg-gradient" >MONTH DISPLAY</caption>
                         <thead>
                             <tr>
                             <th scope="col">Mon</th>
@@ -73,12 +55,10 @@ const Party = () => {
                             data.calendar.map((week, index) => (
                                 <tr>
                                     <Week 
-                                    key={index} 
+                                    key={'t'+index} 
                                     weekData = {week} 
                                     activeDay={activeDay}
                                     setActiveDay={setActiveDay}
-                                    activeDateStatus={activeDateStatus}
-                                    setActiveDateStatus={setActiveDateStatus}
                                     />
                                 </tr>
                                 ))
@@ -89,8 +69,7 @@ const Party = () => {
                 </div>
                 {/* FORM */}
                 <div className="col-lg-6">
-                    <Form activeDay={activeDay} setActiveDay={setActiveDay} 
-                    activeDate={activeDate} setActiveDateStatus={setActiveDateStatus} gameId = {id}/>
+                    <Form activeDay={activeDay}/>
                 </div>
             </div>
         </>

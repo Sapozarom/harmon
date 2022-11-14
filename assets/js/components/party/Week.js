@@ -7,10 +7,7 @@ const Week = ({weekData, activeDay, setActiveDay, activeDateStatus, setActiveDat
     const [dataLoaded, setDataLoaded] = useState(false);
     
 
-    // const pickDate = (day) => {
-    //     setActiveDay(day);
-    //     setActiveDateStatus(day.status)
-    // }
+
 
     useEffect(() => {
 
@@ -26,15 +23,11 @@ const Week = ({weekData, activeDay, setActiveDay, activeDateStatus, setActiveDat
 
         {dataLoaded ? (
                 week.map((day) => (
-
-
                         <Day 
                         key={day.monthNumber.toString() +"-"+ day.number.toString()} 
                         dayData = {day} 
                         activeDay={activeDay}
                         setActiveDay={setActiveDay}
-                        setActiveDate={setActiveDate}
-                        activeDateStatus={activeDateStatus}
                         />
 
                     ))
