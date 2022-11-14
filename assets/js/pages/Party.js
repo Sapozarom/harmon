@@ -11,21 +11,6 @@ const Party = () => {
 
     let { id } = useParams();
 
-    // const currentDate = new Date();
-    // const currentYear = currentDate.getFullYear();
-    // let currentMonth = currentDate.getMonth() +1;
-
-    // if (currentMonth < 10) {
-    //     currentMonth = '0' + currentMonth.toString();
-    // } 
-
-    // let currentDay = currentDate.getDate();
-
-    // if (currentDay < 10) {
-    //     currentDay = '0' + currentDay.toString();
-    // } 
-    // const dateString = currentYear + '-' + currentMonth + '-' + currentDay;
-
     const [calendar, setCalendar] = useState([]);
     const [activeDate, setActiveDate] = useState();
     const [activeDateStatus, setActiveDateStatus] = useState();
@@ -94,9 +79,7 @@ const Party = () => {
                                     setActiveDay={setActiveDay}
                                     activeDateStatus={activeDateStatus}
                                     setActiveDateStatus={setActiveDateStatus}
-                                    // setActiveDate={setActiveDate}
                                     />
-                                    {/* // setActiveDate={setActiveDate} activeDate={activeDate} activeDateStatus={activeDateStatus} setActiveDateStatus={setActiveDateStatus}/> */}
                                 </tr>
                                 ))
                         ) : (<tr><td>loading</td></tr>)}

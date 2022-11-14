@@ -87,7 +87,7 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
         },
         onSuccess: () => {
             console.log('succc')
-            queryClient.invalidateQueries(['calendar'])
+            queryClient.invalidateQueries([activeDay.date.substring(0,10)])
             // QueryClient.invalidateQueries('calendar')
             
         }

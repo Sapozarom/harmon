@@ -161,6 +161,32 @@ class GameController extends AbstractController
         ]);
     }
 
+    #[Route('api/day/{game}/{date}', name: 'api_get_day')]
+    public function GetDayInfo(int $game, string $date, GameRepository $gameRepo , DayRepository $dayRepo): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        //form data
+        $user = $this->getUser();
+
+        // dd($_POST);
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+        $dayInfo = $dayRepo->getDayInfo($date, $gameObj);
+
+        if ($dayInfo == null) {
+            $dayData['date'] = $date;
+            $dayData['status'] = 'EMPTY';
+            $dayData['playersLeftToVote'] = [];
+        } else {
+            $dayData = $dayInfo[0];
+            $dayData['number'] = intval($dayInfo[0]['date']->format('d')); 
+        }
+
+        return $this->json([
+            'dayInfo' => $dayData,
+        ]);
+    }
+
     #[Route('/test/status', name: 'app_test')]
     public function testStatus(DayRepository $dayRepo, ManagerRegistry $doctrine): Response
     {
