@@ -3,6 +3,7 @@ import uuid from 'react-uuid';
 import { useParams } from 'react-router-dom';
 import Week from '../components/party/Week';
 import Form from '../components/party/Form';
+import { useQuery } from '@tanstack/react-query';
 
 
 
@@ -10,20 +11,20 @@ const Party = () => {
 
     let { id } = useParams();
 
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    let currentMonth = currentDate.getMonth() +1;
+    // const currentDate = new Date();
+    // const currentYear = currentDate.getFullYear();
+    // let currentMonth = currentDate.getMonth() +1;
 
-    if (currentMonth < 10) {
-        currentMonth = '0' + currentMonth.toString();
-    } 
+    // if (currentMonth < 10) {
+    //     currentMonth = '0' + currentMonth.toString();
+    // } 
 
-    let currentDay = currentDate.getDate();
+    // let currentDay = currentDate.getDate();
 
-    if (currentDay < 10) {
-        currentDay = '0' + currentDay.toString();
-    } 
-    const dateString = currentYear + '-' + currentMonth + '-' + currentDay;
+    // if (currentDay < 10) {
+    //     currentDay = '0' + currentDay.toString();
+    // } 
+    // const dateString = currentYear + '-' + currentMonth + '-' + currentDay;
 
     const [calendar, setCalendar] = useState([]);
     const [activeDate, setActiveDate] = useState();
@@ -31,24 +32,18 @@ const Party = () => {
     const [leftToVote, setLeftToVote] = useState();
     const [activeDay, setActiveDay] = useState();
 
+    const { data, status } = useQuery(['calendar'], () => getCalendarData());
 
     const getCalendarData = async () => {
         
         const loginRoute = 'http://127.0.0.1/api/calendar/'+ id ;
         const response = await fetch(loginRoute);
-        const data = await response.json();
-        // console.log(data.calendar);
-        // setActiveDate(data.currentDay.date);
-        setActiveDay(data.currentDay);
-        // setActiveDateStatus(data.currentDay.status);
-
-        setCalendar(data.calendar);
-        
+        return response.json();
     }
 
-    useEffect(() => {
-        getCalendarData();
-    },[]);
+    // useEffect(() => {
+    //     getCalendarData();
+    // },[]);
 
     useEffect(() => {
         if (typeof activeDay !== 'undefined') {
@@ -57,20 +52,13 @@ const Party = () => {
     },[activeDay]);
 
     // useEffect(() => {
-    //     if (updatedData) {
-    //         getCalendarData();
-    //         // console.log(calendar);
+    //     if (typeof data !== 'undefined') {
+    //     setCalendar(data.calendar)
     //     }
-    //     setUpdatedData(false);
-        
-    // },[updatedData]);
+    // },[data]);
 
-    // useEffect(() => {
-    //     getCalendarData();
-    // },[]);
-
-    console.log('active day: ' + activeDay + ' +  activeDate: '+ activeDate);
-
+    // console.log('active day: ' + activeDay + ' +  activeDate: '+ activeDate);
+    console.log(data);
 
     return(
         <>
@@ -96,8 +84,8 @@ const Party = () => {
                             </tr>
                         </thead>
                         <tbody>
-
-                            {calendar.map((week, index) => (
+                        {status == 'success' ? (
+                            data.calendar.map((week, index) => (
                                 <tr>
                                     <Week 
                                     key={index} 
@@ -110,7 +98,9 @@ const Party = () => {
                                     />
                                     {/* // setActiveDate={setActiveDate} activeDate={activeDate} activeDateStatus={activeDateStatus} setActiveDateStatus={setActiveDateStatus}/> */}
                                 </tr>
-                                ))}
+                                ))
+                        ) : (<tr><td>loading</td></tr>)}
+                           
                         </tbody>
                     </table>   
                 </div>

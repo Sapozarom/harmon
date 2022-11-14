@@ -1,8 +1,9 @@
+import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import React, {useEffect, useState} from 'react';
 
 const Form = ({activeDay, gameId, setActiveDateStatus}) => {
 
-
+    const queryClient = useQueryClient();
     const [day,setDay] = useState();
     const [month,setMonth] = useState();
     const [year, setYear] = useState();
@@ -24,33 +25,79 @@ const Form = ({activeDay, gameId, setActiveDateStatus}) => {
         setVoteStatus(event.target.value);
 
     }
-    const handleSubmit = async(event) => {
-        event.preventDefault();
+
+    // const handleSubmit = async(event) => {
+    //     event.preventDefault();
+
+    //     const formData = new FormData(event.target)
+    //     const response = await fetch('/api/send-vote/'+ gameId, {
+    //         method: 'POST',
+    //         body: formData,
+
+    //     })
+    //     const data = await response.json();
+
+    //     if (data.message == 'success') {
+
+    //         setActiveDateStatus(data.status);
+
+    //     } else {
+    //         alert('Something went wrong. Please try again');
+    //     }
+
+    //     console.log(data.message);
+    // }
+
+    // const dataMutation = useMutation({
+    //     mutationFn: newTodo => {
+    //       return axios.post('/todos', newTodo)
+    //     }
+    //   })
+
+    // const handleSubmit = async(event) => {
+    //     event.preventDefault();
+
+    //     const formData = new FormData(event.target)
+    //     const response = await fetch('/api/send-vote/'+ gameId, {
+    //         method: 'POST',
+    //         body: formData,
+
+    //     })
+
+    //     // console.log(data.message);
+    //     console.log('submit');
+    //     return response.json();
+        
+    // }
+
+    const dataMutation = useMutation({
+        mutationFn: (event) => {
+            event.preventDefault();
 
         const formData = new FormData(event.target)
-        const response = await fetch('/api/send-vote/'+ gameId, {
+        const response =  fetch('/api/send-vote/'+ gameId, {
             method: 'POST',
             body: formData,
 
         })
-        const data = await response.json();
 
-        if (data.message == 'success') {
-
-            setActiveDateStatus(data.status);
-
-        } else {
-            alert('Something went wrong. Please try again');
+        // console.log(data.message);
+        console.log('submit');
+        return response;
+        },
+        onSuccess: () => {
+            console.log('succc')
+            queryClient.invalidateQueries(['calendar'])
+            // QueryClient.invalidateQueries('calendar')
+            
         }
-
-        console.log(data.message);
-    }
+    })
 
     return(
         <>
             <p className="lead">{day}-{month}-{year}</p>
             {typeof activeDay !== 'undefined' ?  activeDay.status : 'status unknown'}
-            <form name="vote" method="post" onSubmit={handleSubmit}>
+            <form name="vote" method="post" onSubmit={dataMutation.mutate}>
                 <div className="row">
                     <div className="col-4"> 
                         {/* <input type="date" class="form-control " id="vote_date" name="vote[date]" value={activeDate} readonly/> */}

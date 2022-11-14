@@ -121,7 +121,7 @@ class GameController extends AbstractController
             return $this->json([
                 'message'  => 'success',
                 'status' => $day->getStatus(),
-            ]);
+            ], 200);
         }
         
         return $this->json([

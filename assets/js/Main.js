@@ -28,8 +28,12 @@ const Main = () => {
     }
 
     const { data, status } = useQuery(['user'], () => checkIfLoggedIn());
+    
+    
 
+    // USUŃ
     console.log(data, status);
+
     return (
         <>
         {status == "success" ? (
@@ -66,7 +70,7 @@ const MainPage = () => {
         );
 }
 
-export default Main;
+export default MainPage;
 
 const container = document.getElementById('root');
 const root = createRoot(container);

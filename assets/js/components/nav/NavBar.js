@@ -57,7 +57,7 @@ const Navbar = ({userData}) => {
 
     // const [user,setUser] = useState(userData);
     const [navbar,setNavbar] = useState([]);
-    console.log("nav user: ",userData);
+    // console.log("nav user: ",userData);
     const createNavbar = () => {
         const navbarContent = [];
         allNavbarItems.forEach(item => {
