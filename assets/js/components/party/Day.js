@@ -10,7 +10,11 @@ const Day = ({dayData, setActiveDay, activeDay}) => {
     const dateString = dayData.date.substring(0,10);
     const queryKey = id + '-' + dateString;
     
-    const { data, status } = useQuery([queryKey], () => getDayData());
+    const { data, status } = useQuery({
+        queryKey: [queryKey], 
+        queryFn: () => getDayData(),
+        refetchOnWindowFocus: false,
+    });
     const [isActive, setIsActive]= useState(false);
 
     const getDayData = async () => {
@@ -24,10 +28,7 @@ const Day = ({dayData, setActiveDay, activeDay}) => {
         setActiveDay(day);
     }
 
-    if (typeof activeDay === 'undefined' && typeof data !== 'undefined' && dayData.today) {
-        // console.log('pick');
-        setActiveDay(data.dayInfo);
-    }
+
 
 
     useEffect(() => {
@@ -38,12 +39,12 @@ const Day = ({dayData, setActiveDay, activeDay}) => {
         }
     },[activeDay]);
 
-    // useEffect(() => {
-    //     if (typeof data !== 'undefined' && data.dayInfo.today) {
-    //         console.log('pick');
-    //         pickDate(data.dayInfo);
-    //     }
-    // },[]);
+    useEffect(() => {
+        if (typeof activeDay === 'undefined' && typeof data !== 'undefined' && dayData.today) {
+            // console.log('pick');
+            setActiveDay(data.dayInfo);
+        }
+    },[status]);
 
 
     return (

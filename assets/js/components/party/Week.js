@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Day from './Day';
-const Week = ({weekData, activeDay, setActiveDay, activeDateStatus, setActiveDateStatus, setActiveDate, activeDate, }) => {
+const Week = ({weekData, activeDay, setActiveDay}) => {
 
 
     const [week, setWeek] =  useState(weekData);
     const [dataLoaded, setDataLoaded] = useState(false);
     
-
+    let { id } = useParams();
 
 
     useEffect(() => {
@@ -24,7 +25,7 @@ const Week = ({weekData, activeDay, setActiveDay, activeDateStatus, setActiveDat
         {dataLoaded ? (
                 week.map((day) => (
                         <Day 
-                        key={day.monthNumber.toString() +"-"+ day.number.toString()} 
+                        key={id+'-'+day.monthNumber.toString() +"-"+ day.number.toString()} 
                         dayData = {day} 
                         activeDay={activeDay}
                         setActiveDay={setActiveDay}

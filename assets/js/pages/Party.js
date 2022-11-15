@@ -11,8 +11,6 @@ const Party = () => {
 
     let { id } = useParams();
 
-    const [activeDate, setActiveDate] = useState();
-    const [activeDateStatus, setActiveDateStatus] = useState();
     const [activeDay, setActiveDay] = useState();
 
     const { data, status } = useQuery(['calendar'], () => getCalendarData());
@@ -24,8 +22,6 @@ const Party = () => {
         return response.json();
     }
 
-    // USUŃ
-    // console.log(data);
 
     return(
         <>
@@ -55,7 +51,7 @@ const Party = () => {
                             data.calendar.map((week, index) => (
                                 <tr>
                                     <Week 
-                                    key={'t'+index} 
+                                    key={id+'-'+index} 
                                     weekData = {week} 
                                     activeDay={activeDay}
                                     setActiveDay={setActiveDay}
