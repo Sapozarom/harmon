@@ -31,7 +31,7 @@ const Form = ({activeDay}) => {
     const dataMutation = useMutation({
         mutationFn: (event) => {
             event.preventDefault();
-            console.log(id);
+            // console.log(id);
             const formData = new FormData(event.target)
             const response =  fetch('/api/send-vote/'+ id, {
                 method: 'POST',
@@ -40,7 +40,7 @@ const Form = ({activeDay}) => {
             return response;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries([activeDay.date.substring(0,10)])
+            queryClient.invalidateQueries([id+'-'+activeDay.date.substring(0,10)])
         }
     })
 

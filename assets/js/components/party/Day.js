@@ -8,8 +8,9 @@ const Day = ({dayData, setActiveDay, activeDay}) => {
 
     const { id } = useParams();
     const dateString = dayData.date.substring(0,10);
+    const queryKey = id + '-' + dateString;
     
-    const { data, status } = useQuery([dateString], () => getDayData());
+    const { data, status } = useQuery([queryKey], () => getDayData());
     const [isActive, setIsActive]= useState(false);
 
     const getDayData = async () => {

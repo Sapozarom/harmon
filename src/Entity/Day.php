@@ -209,11 +209,12 @@ class Day
                 foreach ($paths as $key => $path) {
                     $startHour = intval($path[0]->format('h'));
                     $startMinutes = intval($path[0]->format('i'));
-                    $finishtHour = intval($path[0]->format('h'));
-                    $finishMinutes = intval($path[0]->format('i'));
+                    $finishtHour = intval($path[1]->format('h'));
+                    $finishMinutes = intval($path[1]->format('i'));
                     
                     $length =($finishtHour*60 + $finishMinutes)- ($startHour*60 + $startMinutes);
-                    dd($length);
+
+                    // dd($finishtHour, $finishMinutes, $startHour, $startMinutes, $length);
                    if ($length < $this->game->getMinSessionLength() ) {
                     unset($paths[$key]);
                    } else {

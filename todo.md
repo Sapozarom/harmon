@@ -16,6 +16,15 @@ ZARZĄDZANIE PATRY
 REACT
 CSRF protection in forms
 
+    Party
+    - wyłączyć query po zmianie okna
+    - wyświetlić info głos dodany
+    - wyświetlanie leftToVote
+    - wyświetlanie "oczekiwania na oddanie głosu"
+    - wyświetlanie dostępnych godzin
+    - wyświetlanie i usuwanie głosów
+    - preset (później)
+
 
 
 

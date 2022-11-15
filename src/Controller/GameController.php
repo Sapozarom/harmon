@@ -190,7 +190,7 @@ class GameController extends AbstractController
     #[Route('/test/status', name: 'app_test')]
     public function testStatus(DayRepository $dayRepo, ManagerRegistry $doctrine): Response
     {
-        $dayObj = $dayRepo->findOneBy(['id' => 20]);
+        $dayObj = $dayRepo->findOneBy(['id' => 107]);
 
         $dayObj->updateStatus();
 
