@@ -153,8 +153,8 @@ div.form-time-separator {
     border: solid 1px #2a2d2f;
     padding-left: 7px;
     padding-right: 7px;
-    border-radius:16px;
-    margin-right: 5px;
+    border-radius: 16px;
+    margin-right: 20px;
     -moz-box-shadow: 0 0 5px rgb(149, 149, 149);
     -webkit-box-shadow: 0 0 5px rgb(149, 149, 149);
     box-shadow: 0 0 5px rgb(149, 149, 149);

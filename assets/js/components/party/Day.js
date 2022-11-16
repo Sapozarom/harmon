@@ -28,11 +28,19 @@ const Day = ({dayData, setActiveDay, activeDay}) => {
         setActiveDay(day);
     }
 
-
+    useEffect(() => {
+        if (status == 'success' && typeof activeDay !== 'undefined'  && isActive) {
+            // console.log(data.dayInfo);
+            pickDate(data.dayInfo);
+        } else {
+           
+        }
+    },[data]);
+    
 
 
     useEffect(() => {
-        if (typeof activeDay !== 'undefined' && activeDay.date == dayData.date) {
+        if (typeof activeDay !== 'undefined' && typeof activeDay.date !== 'undefined' && activeDay.date == dayData.date) {
             setIsActive(true);
         } else {
             setIsActive(false);

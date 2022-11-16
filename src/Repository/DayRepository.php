@@ -63,6 +63,7 @@ class DayRepository extends ServiceEntityRepository
             $dayData['monthNumber'] = intval(substr($date,5,2)); 
             $dayData['remainigVoters'] = count($game->getPlayers());
             $dayData['playerStatus'] = false;
+            $dayData['hours'] = [];
 
         } else {
             // $dayData = $result[0];
@@ -72,11 +73,19 @@ class DayRepository extends ServiceEntityRepository
             $dayData['monthNumber'] = intval($result[0]->getDate()->format('m')); 
             $dayData['remainingVoters'] = count($game->getPlayers()) -  count($result[0]->getVoted());
             $dayData['playerStatus'] = false;
+            $dayData['hours'] = [];
 
             foreach ($result[0]->getVoted() as $voter) {
                 if ($user->getId() == $voter->getId()) {
                     $dayData['playerStatus'] = true;
                 }
+            }
+
+            foreach ($result[0]->getAvailableHours() as $range) {
+                $match=array();
+                $match['start'] = $range[0];
+                $match['finish'] = $range[1];
+                array_push($dayData['hours'] , $match);
             }
 
 

@@ -17,8 +17,6 @@ REACT
 CSRF protection in forms
 
     Party
-
-    - wyświetlanie dostępnych godzin
     - wyświetlanie i usuwanie głosów
     - preset (później)
     - wyświetlić info głos dodany (bootsrap toast)

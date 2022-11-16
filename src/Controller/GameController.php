@@ -194,9 +194,10 @@ class GameController extends AbstractController
             $dayData['date'] = $date;
             $dayData['status'] = 'EMPTY';
             $dayData['userStatus'] = null;
-            $data['userStatu'] = false;
+            $dayData['userStatu'] = false;
             // $data['voters'] = array();
-            $data['remainingVoters'] = count($gameObj->getPLayers()) ;
+            $dayData['remainingVoters'] = count($gameObj->getPLayers()) ;
+            $dayData['hours'] = [];
         } else {
             $dayData = $currentDay;
         }

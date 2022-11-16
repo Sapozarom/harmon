@@ -155,14 +155,42 @@ const Form = ({activeDay}) => {
                             <p className="date-display border-bottom  pb-3 "><b>{day}-{month}-{year}</b></p>
                         </div>
                         <div className="row">
-                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">VOTING STATUS</span></b> No votes yet</p>
+                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">VOTING STATUS</span></b>
+                            {typeof activeDay !== 'undefined'
+                            && activeDay.status == 'CANCELED' ? ('Some members are unavailable') : ''}
+                            {typeof activeDay !== 'undefined'
+                            && activeDay.status == 'MISSED' ? ('Schedules missed') : ''}
+                            {typeof activeDay !== 'undefined'
+                            && activeDay.status == 'VOTED' ? ('Voting in progress') : ''}
+                            {typeof activeDay !== 'undefined'
+                            && activeDay.status == 'EMPTY' ? ('Noone voted yet') : ''}
+                            {typeof activeDay !== 'undefined'
+                            && activeDay.status == 'GAMEDAY' ? ('Schedules matched!') : ''}                             </p>
                         </div>
                         <div className="row">
-                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">YOUR STATUS</span></b> You didn't vote</p>
+                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">YOUR STATUS</span></b>
+                                {typeof activeDay !== 'undefined'
+                                && activeDay.playerStatus ? 'Voted' : "You didn't vote"}                       
+                            </p>
                         </div>
                         <div className="row">
-                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">WAITING FOR</span></b> 11 players</p>
+                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">YOUR STATUS</span></b>
+                                {typeof activeDay !== 'undefined'
+                                &&  activeDay.voted !== 'undefined'  ? 'Voted' : "You didn't vote"}                       
+                            </p>
                         </div>
+                      
+
+                            <div className="row">
+                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">HOURS</span></b>
+                            {typeof activeDay !== 'undefined'
+                                &&  activeDay.hours !== 'undefined'  ? activeDay.hours.map((range) => (
+                                    <div>{'- '+range.start.substring(11,16)+' <->'+range.finish.substring(11,17)}</div>
+                                    )) : ""} 
+                            </p>
+                            </div>
+                  
+
                     </div>
                 </div>
 
