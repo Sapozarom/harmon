@@ -44,6 +44,14 @@ td.VOTED
     right: 10%; 
 }
 
+.players-vote-status {
+    /* display: inline-block; */
+    position: absolute;
+    font-size: 13px;
+    bottom :6%;
+    right: 10%; 
+}
+
 td.CANCELED
 {
     background-color:rgb(255, 130, 85);

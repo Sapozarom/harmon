@@ -45,12 +45,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Game::class, mappedBy: 'inactivePlayers')]
     private Collection $gamesWhereInactive;
 
+    #[ORM\ManyToMany(targetEntity: Day::class, mappedBy: 'voted')]
+    private Collection $votedDays;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->createdGames = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->gamesWhereInactive = new ArrayCollection();
+        $this->votedDays = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,6 +236,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->gamesWhereInactive->removeElement($gamesWhereInactive)) {
             $gamesWhereInactive->removeInactivePlayer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Day>
+     */
+    public function getVotedDays(): Collection
+    {
+        return $this->votedDays;
+    }
+
+    public function addVotedDay(Day $votedDay): self
+    {
+        if (!$this->votedDays->contains($votedDay)) {
+            $this->votedDays->add($votedDay);
+            $votedDay->addVoted($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVotedDay(Day $votedDay): self
+    {
+        if ($this->votedDays->removeElement($votedDay)) {
+            $votedDay->removeVoted($this);
         }
 
         return $this;

@@ -142,21 +142,23 @@ class GameController extends AbstractController
 
         $calendarArray = $calendarMng->setupCalendar($date, $gameObj, $user);
 
-        $currentDay = $dayRepo->getDayInfo($dateString, $gameObj);
+        $currentDay = $dayRepo->getDayInfo($dateString, $gameObj, $user);
 
         if ($currentDay == null) {
             // $dayData = new Day;
             $dayData['date'] = $date;
             $dayData['status'] = 'EMPTY';
-            $dayData['playersLeftToVote'] = [];
+            $dayData['userStatus'] = null;
+            $data['userStatu'] = false;
+            // $data['voters'] = array();
+            $data['remainingVoters'] = count($gameObj->getPLayers()) ;
         } else {
-            $dayData = $currentDay[0];
+            $dayData = $currentDay;
         }
-        // dd($currentDay);
-        // $calendarArray =  $calendarService->setupGameCalendarByDateApi(new DateTime(), $gameObj, $user);
+
         return $this->json([
             'calendar'  => $calendarArray,
-            'currentDay' => $dayData,
+            // 'currentDay' => $dayData,
             // 'date'=> $currentDay['date'],
         ]);
     }
@@ -166,24 +168,24 @@ class GameController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
-        // $user = $this->getUser();
+        $user = $this->getUser();
 
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
 
-        $dayInfo = $dayRepo->getDayInfo($date, $gameObj);
+        $dayInfo = $dayRepo->getDayInfo($date, $gameObj, $user);
 
-        if ($dayInfo == null) {
-            $dayData['date'] = new DateTime($date) ;
-            $dayData['status'] = 'EMPTY';
-            $dayData['playersLeftToVote'] = [];
-            $dayData['number'] = intval(substr($date,8,2)); 
-        } else {
-            $dayData = $dayInfo[0];
-            $dayData['number'] = intval($dayInfo[0]['date']->format('d')); 
-        }
+        // if ($dayInfo == null) {
+        //     $dayData['date'] = new DateTime($date) ;
+        //     $dayData['status'] = 'EMPTY';
+        //     $dayData['playersLeftToVote'] = [];
+        //     $dayData['number'] = intval(substr($date,8,2)); 
+        // } else {
+        //     $dayData = $dayInfo[0];
+        //     $dayData['number'] = intval($dayInfo[0]['date']->format('d')); 
+        // }
 
         return $this->json([
-            'dayInfo' => $dayData,
+            'dayInfo' => $dayInfo,
         ]);
     }
 

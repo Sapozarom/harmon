@@ -22,8 +22,6 @@ class Day
     #[ORM\ManyToOne(inversedBy: 'days')]
     private ?Game $game = null;
 
-
-
     #[ORM\OneToMany(mappedBy: 'day', targetEntity: Event::class)]
     private ?Collection $votes;
 
@@ -37,9 +35,13 @@ class Day
     #[ORM\Column(nullable: true)]
     private ?int $playersLeftToVote = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'votedDays')]
+    private Collection $voted;
+
     public function __construct()
     {
         $this->votes = new ArrayCollection();
+        $this->voted = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -72,7 +74,6 @@ class Day
     }
 
 
-
     /**
      * @return Collection<int, Event>
      */
@@ -86,6 +87,8 @@ class Day
         if (!$this->votes->contains($vote)) {
             $this->votes->add($vote);
             $vote->setDay($this);
+            $user = $vote->getUser();
+            $this->addVoted($user);
         }
 
         return $this;
@@ -142,8 +145,6 @@ class Day
     public function updateStatus() {
         $players= $this->game->getPlayers();
         $voteArray = array();
-
-        // $checkArray = array();
 
         $this->playersLeftToVote = count($players);
 
@@ -214,7 +215,6 @@ class Day
                     
                     $length =($finishtHour*60 + $finishMinutes)- ($startHour*60 + $startMinutes);
 
-                    // dd($finishtHour, $finishMinutes, $startHour, $startMinutes, $length);
                    if ($length < $this->game->getMinSessionLength() ) {
                     unset($paths[$key]);
                    } else {
@@ -231,6 +231,30 @@ class Day
         }
 
         // dd($this->playersLeftToVote, $voteArray,$paths,  $this->status);
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getVoted(): Collection
+    {
+        return $this->voted;
+    }
+
+    public function addVoted(User $voted): self
+    {
+        if (!$this->voted->contains($voted)) {
+            $this->voted->add($voted);
+        }
+
+        return $this;
+    }
+
+    public function removeVoted(User $voted): self
+    {
+        $this->voted->removeElement($voted);
+
         return $this;
     }
 }

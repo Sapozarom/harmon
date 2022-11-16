@@ -27,10 +27,12 @@
 
 .bg-green {
     background-color: rgb(94, 255, 85);
+    width: 177px;
 }
 
 .bg-red {
     background-color: rgb(255, 130, 85);
+    width: 177px;
 }
 
 .ui-slider-range {
@@ -90,6 +92,19 @@ td.game-table {
     background-color: #212529;
     color: #ffb300;
 }
+.display-table {
+    display: table;
+}
+
+.table-cell {
+    display: table-cell;
+}
+
+.form-panel {
+    height: 100%;
+    padding: 2.5em 1em 1em 1em;
+    position: relative;
+}
 
 .party-header {
 
@@ -97,6 +112,10 @@ td.game-table {
     text-align: center;
     background-color: #212529;
     color: #ffb300;
+    position:absolute;
+    top:0;
+    left: 0;
+    width: 100%;
 }
 
 div.hidden-date {

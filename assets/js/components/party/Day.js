@@ -69,7 +69,16 @@ const Day = ({dayData, setActiveDay, activeDay}) => {
 
               {/* ADD TOOLTIP!!!!!!!!! */}
               {data.dayInfo.status == "VOTED" ? (
-                  <div className="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="{{day.playersLeftToVote}} more to vote"><i className="fa-sharp fa-solid fa-arrows-rotate"></i><b>{dayData.playersLeftToVote}</b></div> 
+                <>
+                    <div className="players-left-to-vote" data-bs-toggle="tooltip" data-bs-title="{{day.playersLeftToVote}} more to vote"><i className="fa-sharp fa-solid fa-arrows-rotate">{data.dayInfo.remainingVoters}</i></div> 
+                    
+                    {!data.dayInfo.playerStatus ? (
+                        <div className="players-vote-status" data-bs-toggle="tooltip" data-bs-title="{{day.playersLeftToVote}} more to vote"><i className="fa-sharp fa-solid fa-exclamation"></i></div> 
+                    ) : ''}
+
+
+                </>
+
                   ) : (
               ''
               )}

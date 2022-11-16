@@ -122,8 +122,20 @@ class CalendarManager
                 $data['today'] = false;
             }
 
+            $data['userStatu'] = false;
+            // $data['voters'] = array();
+            $data['remainingVoters'] = count($game->getPlayers()) - count($currentDay->getVoted());
 
-            // $data['status'] = $currentDay->getStatus();
+            foreach ($currentDay->getVoted() as $voter) {
+                // array_push($data['voters'], $voter->getId());
+                
+                if ( $user->getId() == $voter->getId()) {
+                    $data['userStatu'] = true;
+                }
+            }
+
+
+
             // $data['playersLeftToVote'] = $currentDay->getPlayersLeftToVote();
             // $data['currentMonth'] = null;
             // $data['availableHours'] = $currentDay->getAvailableHours();

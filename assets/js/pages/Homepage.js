@@ -13,7 +13,7 @@ const Homepage = () => {
     const box2 = {
         'title': 'Add Members',
         'icon': 'fa-regular fa-people-pulling fa-8x m-3 mb-5',
-        'text': "Everything is awesome when you're part of a team!"
+        'text': "Invite your friends"
     };
 
     const box3 = {
