@@ -129,6 +129,51 @@ class GameController extends AbstractController
         ]);
     }
 
+    #[Route('api/game-data/{game}', name: 'api_get_game_data')]
+    public function getGameDataInfo(int $game, GameRepository $gameRepo , DayRepository $dayRepo, CalendarManager $calendarMng, ): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        //form data
+        $user = $this->getUser();
+
+        // $dateString = $date->format("Y-m-d");
+        // dd($_POST);
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+        // $calendarArray = $calendarMng->setupCalendar($date, $gameObj, $user);
+
+        // $currentDay = $dayRepo->getDayInfo($dateString, $gameObj, $user);
+
+        if ($gameObj != null) {
+            // $dayData = new Day;
+            $party['name'] = $gameObj->getName();
+            $party['activity'] = $gameObj->getTitle();
+            $party['description'] = $gameObj->getDescription();
+            $party['activeMembers'] = array();
+            
+            // dd($gameObj->getPlayers());
+            foreach($gameObj->getPlayers() as $player) {
+                $new['id'] = $player->getId();
+                $new['name'] = $player->getUsername();
+                array_push($party['activeMembers'], $new);
+            }
+            // $dayData['status'] = 'EMPTY';
+            // $dayData['userStatus'] = null;
+            // $data['userStatu'] = false;
+            // $data['voters'] = array();
+            // $data['remainingVoters'] = count($gameObj->getPLayers()) ;
+        } else {
+            // $dayData = $currentDay;
+        }
+
+        // dd($party);
+        return $this->json([
+            'partyInfo'  => $party,
+            // 'currentDay' => $dayData,
+            // 'date'=> $currentDay['date'],
+        ]);
+    }
+
     #[Route('api/calendar/{game}', name: 'api_get_calendar')]
     public function getCallendarInfo(int $game, GameRepository $gameRepo , DayRepository $dayRepo, CalendarManager $calendarMng, ): Response
     {

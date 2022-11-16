@@ -49,24 +49,25 @@ const Form = ({activeDay}) => {
 
             <div className="row g-3 ">
                 {/* FORM */}
-                <div className="col-xl-7 ">
+                <div className="col-xl-6">
                     <div className="border bg-light form-panel">
                         
                     
                     <div class="d-flex flex-row justify-content-center party-header bg-dark bg-gradient mb-2">
-                            <div class="">
+                            <div className="">
                             PLACE YOUR VOTE
                             </div>
                         </div>
                             
                         <form name="vote" method="post" onSubmit={dataMutation.mutate}>
-                            <div className="row">
-                                <div className="col-4"> 
-                                Your vote
+                            <div className="row custom-form-row pt-2">
+                                <div className="col-3 custom-form-label "> 
+                                {/* <span className=""></span> */}
+                                    Status
                                 </div>
                                 <div className="col"> 
                                     <div>
-                                        <select className={voteStatus == 0 ? "form-select bg-red" : "form-select bg-green" } onChange={checkVoteStatus} id="vote_vote" name="vote[vote]">
+                                        <select className={voteStatus == 0 ? "form-select-lg bg-red " : "form-select-lg bg-green" } onChange={checkVoteStatus} id="vote_vote" name="vote[vote]">
                                             <option className="bg-green" value="1" >I'm in</option>
                                             <option className="bg-red" value="0" >I'm out</option>
                                         </select>
@@ -76,7 +77,7 @@ const Form = ({activeDay}) => {
 
 
                             <div className="row hidden-date">
-                                <div className="col-4"> 
+                                <div className="col-3 custom-form-label"> 
                                     Date
                                 </div>
                                 <div className="col"> 
@@ -96,45 +97,45 @@ const Form = ({activeDay}) => {
                                 </div>
                             </div>
 
-                            <div className="row mt-2">
-                                <div className="col-4"> 
-                                    Start time
+                            <div className="row mt-3 custom-form-row">
+                                <div className="col-3 custom-form-label "> 
+                                    Start
                                 </div>
                                 <div className="col"> 
                                 
                                     <div className="form-time-input">
-                                    <select className="form-select " id="vote_startTime_hour" name="vote[startTime][hour]"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>
+                                    <select className="form-select-lg  time-select" id="vote_startTime_hour" name="vote[startTime][hour]"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>
                                     </div>
                                     <div className="form-time-separator">
                                     :
                                     </div>
                                     <div className="form-time-input">
-                                    <select className="form-select" id="vote_startTime_minute" name="vote[startTime][minute]"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select>          
+                                    <select className="form-select-lg time-select" id="vote_startTime_minute" name="vote[startTime][minute]"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select>          
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="row mt-2">
-                                <div className="col-4"> 
-                                    Finish time
+                            <div className="row mt-3 custom-form-row">
+                                <div className="col-3 custom-form-label"> 
+                                    Finish
                                 </div>
                                 <div className="col"> 
                                 
                                     <div className="form-time-input">
-                                        <select className="form-select" id="vote_finishTime_hour" name="vote[finishTime][hour]"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>
+                                        <select className="form-select-lg time-select" id="vote_finishTime_hour" name="vote[finishTime][hour]"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option></select>
                                     </div>
                                     <div className="form-time-separator">
                                         :
                                     </div>
                                     <div className="form-time-input">
-                                        <select className="form-select" id="vote_finishTime_minute" name="vote[finishTime][minute]"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select>          
+                                        <select className="form-select-lg time-select" id="vote_finishTime_minute" name="vote[finishTime][minute]"><option value="0">00</option><option value="1">01</option><option value="2">02</option><option value="3">03</option><option value="4">04</option><option value="5">05</option><option value="6">06</option><option value="7">07</option><option value="8">08</option><option value="9">09</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option><option value="47">47</option><option value="48">48</option><option value="49">49</option><option value="50">50</option><option value="51">51</option><option value="52">52</option><option value="53">53</option><option value="54">54</option><option value="55">55</option><option value="56">56</option><option value="57">57</option><option value="58">58</option><option value="59">59</option></select>          
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="row mt-2">
+                            <div className="row mt-3 mb-3">
                                 <div className="col-12">
-                                    <button type="submit" className="btn btn-dark">Save</button>
+                                    <button type="submit" className="btn btn-lg btn-dark">Save</button>
                                 </div>
                             </div>
                         </form>
@@ -142,28 +143,34 @@ const Form = ({activeDay}) => {
                 </div>
 
                 {/* INFORMATION */}
-                <div className="col-xl-5 ">
+                <div className="col-xl-6">
                     <div className="border bg-light form-panel">
-                        <div class="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
-                            <div class="p-0">
-                            INFO
+                        <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
+                            <div className="p-0">
+                            DATE INFO
                             </div>
                         </div>
 
                         <div className="row">
-                            <p className="lead"><b>{day}-{month}-{year}</b></p>
+                            <p className="date-display border-bottom  pb-3 "><b>{day}-{month}-{year}</b></p>
                         </div>
                         <div className="row">
-                            <p className="lead"><b>Status:</b> jakiś status</p>
+                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">VOTING STATUS</span></b> No votes yet</p>
+                        </div>
+                        <div className="row">
+                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">YOUR STATUS</span></b> You didn't vote</p>
+                        </div>
+                        <div className="row">
+                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">WAITING FOR</span></b> 11 players</p>
                         </div>
                     </div>
                 </div>
 
                 {/* VOTES */}
-                <div className="col-7 table-cell">
+                <div className="col-6 table-cell">
                     <div className="border bg-light form-panel">
-                        <div class="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
-                            <div class="p-0">
+                        <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
+                            <div className="p-0">
                             VOTES
                             </div>
                         </div>
@@ -176,10 +183,10 @@ const Form = ({activeDay}) => {
                 </div>
 
 
-                <div className="col-5 table-cell">
+                <div className="col-6 table-cell">
                     <div className="border bg-light form-panel">
-                            <div class="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
-                                <div class="p-0">
+                            <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
+                                <div className="p-0">
                                 PRESETS
                                 </div>
                             </div>

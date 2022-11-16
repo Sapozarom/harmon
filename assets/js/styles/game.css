@@ -26,13 +26,13 @@
 }
 
 .bg-green {
-    background-color: rgb(94, 255, 85);
-    width: 177px;
+    background-color: rgb(134, 253, 128);
+    width: 156px;
 }
 
 .bg-red {
     background-color: rgb(255, 130, 85);
-    width: 177px;
+    width: 156px;
 }
 
 .ui-slider-range {
@@ -102,7 +102,7 @@ td.game-table {
 
 .form-panel {
     height: 100%;
-    padding: 2.5em 1em 1em 1em;
+    padding: 2.5em 1em 0 1em;
     position: relative;
 }
 
@@ -111,8 +111,10 @@ td.game-table {
     font-weight: bold;
     text-align: center;
     background-color: #212529;
-    color: #ffb300;
+    color: #e1e1e1;
     position:absolute;
+    padding-top: 5px;
+    padding-bottom: 5px;
     top:0;
     left: 0;
     width: 100%;
@@ -124,8 +126,12 @@ div.hidden-date {
 
 div.form-time-input {
     display: inline-block;
-    width: 5em;
+    text-justify: center;
     
+}
+
+.time-select{
+    width:70px;
 }
 
 div.form-time-separator {
@@ -134,3 +140,51 @@ div.form-time-separator {
     text-align: center;
     
 }
+
+.date-display {
+    font-size: 30px;
+    font-weight: 300;
+}
+
+.info-label {
+    font-size: 17px;
+    font-weight: 300;
+    color:#2a2d2f;
+    border: solid 1px #2a2d2f;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius:16px;
+    margin-right: 5px;
+    -moz-box-shadow: 0 0 5px rgb(149, 149, 149);
+    -webkit-box-shadow: 0 0 5px rgb(149, 149, 149);
+    box-shadow: 0 0 5px rgb(149, 149, 149);
+}
+.player-name {
+    margin-right: 10px;
+    font-size: 24px;
+    font-weight: 300;
+
+}
+
+.party-name {
+    margin-right: 10px;
+    font-size: 30px;
+    font-weight: 300;
+
+}
+
+.info-display {
+    font-size: 20px;
+}
+
+.custom-form-label {
+    font-size: 20px;
+    padding-top: 8px;
+}
+
+.custom-form-row {
+    
+    padding-bottom: 15px;
+    border-bottom: solid 1px rgb(234, 234, 234);;
+}
+

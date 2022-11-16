@@ -34,7 +34,7 @@ const Main = () => {
         <>
         {status == "success" ? (
             <BrowserRouter>
-            user : {data.user}
+            {/* user : {data.user} */}
                 <Routes>
                     <Route path="/" element={<Layout user={data.user}/>}>
                             <Route index element={<Homepage />} />

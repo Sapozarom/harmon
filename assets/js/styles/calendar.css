@@ -12,7 +12,7 @@ caption {
     font-weight: bold;
     text-align: center;
     background-color: #212529;
-    color: #ffb300;
+    color: #e1e1e1;
     /* height: 3em; */
 }
 
@@ -28,7 +28,7 @@ td {
 
 td.GAMEDAY
 {
-    background: rgb(94, 255, 85);
+    background: rgb(134, 253, 128);
 }
 
 td.VOTED
@@ -68,7 +68,7 @@ td.previous-month {
 .picked-date
 {
     /* border-radius: 2px; */
-    outline: 3px solid rgb(255, 179, 0);
+    outline: 3px solid rgb(142, 151, 255);
     /* box-shadow: 0 0 0 2px #ee0000; */
     outline-offset: -5px;
 }
