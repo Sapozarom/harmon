@@ -1,18 +1,34 @@
 import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
+import AnimateHeight from 'react-animate-height';
+import { useQuery } from '@tanstack/react-query';
 
 const Form = ({activeDay}) => {
 
 
     const queryClient = useQueryClient();
 
-    const { id }= useParams();
+    const { id } = useParams();
     const [day,setDay] = useState();
     const [month,setMonth] = useState();
     const [year, setYear] = useState();
 
     const [voteStatus, setVoteStatus] = useState(1);
+
+    const { data, status } = useQuery({
+        queryKey: [id + '-'+ year + '-'+month +'-' +day+'-'+ 'votes'], 
+        queryFn: () => getVotes(),
+        refetchOnWindowFocus: false,
+    });
+
+    const getVotes = async () => {
+        
+        const route = 'http://127.0.0.1/api/get-votes/'+ id +'/'+ year + '-'+month +'-' +day ;
+        const response = await fetch(route);
+        return response.json();
+    }
+    
 
     useEffect(() => {
         if (typeof activeDay !== 'undefined') {
@@ -40,7 +56,8 @@ const Form = ({activeDay}) => {
             return response;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries([id+'-'+activeDay.date.substring(0,10)])
+            queryClient.invalidateQueries([id+'-'+activeDay.date.substring(0,10)]);
+            queryClient.invalidateQueries([id + '-'+ year + '-'+month +'-' +day+'-'+ 'votes'])
         }
     })
 
@@ -49,6 +66,7 @@ const Form = ({activeDay}) => {
 
             <div className="row g-3 ">
                 {/* FORM */}
+                
                 <div className="col-xl-6">
                     <div className="border bg-light form-panel">
                         
@@ -141,11 +159,11 @@ const Form = ({activeDay}) => {
                         </form>
                     </div>
                 </div>
-
+           
+                <div className="col-xl-6 animation">
                 {/* INFORMATION */}
-                <div className="col-xl-6">
-                    <div className="border bg-light form-panel">
-                        <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
+                    <div className="border bg-light form-panel animation">
+                        <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient animation">
                             <div className="p-0">
                             DATE INFO
                             </div>
@@ -174,37 +192,51 @@ const Form = ({activeDay}) => {
                             </p>
                         </div>
                         <div className="row">
-                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">YOUR STATUS</span></b>
+                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">WAITING FOR</span></b>
                                 {typeof activeDay !== 'undefined'
-                                &&  activeDay.voted !== 'undefined'  ? 'Voted' : "You didn't vote"}                       
+                                &&  activeDay.remainingVoters !== 'undefined'  ? activeDay.remainingVoters + ' member(s)' : ""}                       
                             </p>
                         </div>
                       
 
-                            <div className="row">
+                            {typeof activeDay !== 'undefined' && activeDay.status == 'GAMEDAY' ? (
+                                <div className="row">
                             <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">HOURS</span></b>
                             {typeof activeDay !== 'undefined'
-                                &&  activeDay.hours !== 'undefined'  ? activeDay.hours.map((range) => (
-                                    <div>{'- '+range.start.substring(11,16)+' <->'+range.finish.substring(11,17)}</div>
-                                    )) : ""} 
+                                &&  activeDay.hours !== 'undefined'  ? (
+                                    
+                                    activeDay.hours.map((range) => (
+                                    <div>{'- st: '+range.start.substring(11,16)+' <-> fin: ' +range.finish.substring(11,17)}</div>
+                                    ))
+                                    ) : ""} 
                             </p>
                             </div>
+                            ) : ''}
+                            
                   
 
                     </div>
+                    
                 </div>
+                
+            
+
 
                 {/* VOTES */}
                 <div className="col-6 table-cell">
                     <div className="border bg-light form-panel">
                         <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
                             <div className="p-0">
-                            VOTES
+                            YOUR VOTES 
                             </div>
                         </div>
 
-                        <div className="row">
-                            VOTES
+                        <div className="row justify-content-center">
+                           {status == 'success' ? (
+                            data.votes.map((event) => (
+                                <div className='custom-vote-display '>  {event.start+ ' - ' + event.finish} <span className="vote-trash"><i class="fa-solid fa-trash-can"></i></span>  </div>
+                            ))
+                            ) : 'Loading...'}
                         </div>
 
                     </div>
@@ -220,7 +252,7 @@ const Form = ({activeDay}) => {
                             </div>
 
                             <div className="row">
-                                PRESETS
+                                Coming soon...
                             </div>
 
                         </div>

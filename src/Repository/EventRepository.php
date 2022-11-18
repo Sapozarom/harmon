@@ -6,6 +6,7 @@ use App\Entity\Event;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use LDAP\Result;
 
 /**
  * @extends ServiceEntityRepository<Event>
@@ -143,13 +144,36 @@ class EventRepository extends ServiceEntityRepository
     }
 
     
-//    public function findOneBySomeField($value): ?Event
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+   public function getUsersEventsByDate($game, $date, $user): ?array
+   {
+        $qb = $this->createQueryBuilder('e');
+        $result = $qb
+           ->andWhere('e.game = :game')
+           ->setParameter('game', $game)
+           ->andWhere('e.date = :date')
+           ->setParameter('date', $date)
+           ->andWhere('e.user = :user')
+           ->setParameter('user', $user)
+           ->getQuery()
+           ->getResult();
+       ;
+
+       $voteList = array();
+
+       if ($result !== null) {
+            foreach ($result as $vote) {
+                
+                $newVote['id'] = $vote->getId();
+                $newVote['start'] = $vote->getStartTime()->format('H:i');
+                $newVote['finish'] = $vote->getFinishTime()->format('H:i');
+
+                array_push($voteList, $newVote);
+            }
+
+       }
+
+    //    dd($voteList);
+
+       return $voteList;
+   }
 }

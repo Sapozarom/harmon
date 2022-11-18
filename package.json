@@ -26,6 +26,7 @@
         "@fortawesome/fontawesome-svg-core": "^6.2.0",
         "@tanstack/react-query": "^4.15.0",
         "bootstrap": "^5.2.2",
+        "react-animate-height": "^3.0.5",
         "react-bootstrap": "^2.5.0",
         "react-router-dom": "^6.4.2",
         "react-use-load": "^1.0.0",

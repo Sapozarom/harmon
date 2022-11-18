@@ -19,6 +19,7 @@ use App\Form\EventType;
 use App\Form\GameType;
 use App\Form\VoteType;
 use App\Form\JoinGameType;
+use App\Repository\EventRepository;
 use DateTime;
 
 class GameController extends AbstractController
@@ -128,6 +129,68 @@ class GameController extends AbstractController
             'message'  => 'fail',
         ]);
     }
+
+    #[Route('/api/get-votes/{game}/{date}', name: 'api_get_votes')]
+    public function getVotes(int $game, string $date, EventRepository $eventRepo,  GameRepository $gameRepo , DayRepository $dayRepo, Request $request, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+
+
+
+        $dateObj = new DateTime($date);
+        // $dateString = $date->format("Y-m-d");
+        // $event = new Event;
+
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+        // $day = $gameObj->getDays();
+        $day = $dayRepo->findDayByDateAndGameId($date, $gameObj);
+        
+        // $newForm = $this->createForm(VoteType::class);
+        // $newForm->handleRequest($request);
+
+        // if ($newForm->isSubmitted() && $newForm->isValid()) {
+
+        $votes = $eventRepo->getUsersEventsByDate($gameObj, $dateObj, $user);
+            // $event->setUser($user);
+            // $event->setGame($gameObj);
+
+            // $date = $event->getDate();
+
+            // $day = $dayRepo->findDayByDateAndGameId($date, $gameObj);
+
+            // if ($day == null) {
+            //     $day = $dayMng->createNewDay($date, $gameObj);
+            // } else {
+            //     $day = $day[0];
+            // }
+
+            // $day->addVote($event);
+
+            // // /$day->seteStatus();
+            // $day->updateStatus();
+
+            // $entityManager = $doctrine->getManager();
+            // $entityManager->persist($event);
+            // $entityManager->flush();
+            if ($votes != null) {
+                return $this->json([
+                    'message'  => 'success',
+                    'votes' => $votes,
+                ], 200);
+            } else {
+                return $this->json([
+                    'message'  => 'fail',
+                    'votes' => $votes,
+                ], 401);
+            }
+
+        }
+        
+    
+    
 
     #[Route('api/game-data/{game}', name: 'api_get_game_data')]
     public function getGameDataInfo(int $game, GameRepository $gameRepo , DayRepository $dayRepo, CalendarManager $calendarMng, ): Response
