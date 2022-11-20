@@ -129,8 +129,23 @@ class EventRepository extends ServiceEntityRepository
     }
 
     public function deleteUserVote($id, $user) 
-    {
+    {   
+        $voteQuery = $this->createQueryBuilder('v');
+        
+        $vote = $voteQuery
+        ->select('v')
+        ->andWhere('v.user = :user')
+        ->setParameter('user', $user)
+        ->andWhere('v.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getResult();
+
+        $voteData['dayId'] = $vote[0]->getDay()->getId();
+        $voteData['voteType'] = $vote[0]->isVote();
+
         $qb = $this->createQueryBuilder('e');
+        
         $result = $qb
         ->delete( 'App\Entity\Event','e')
         ->andWhere('e.user = :user')
@@ -140,7 +155,7 @@ class EventRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult();
 
-        return $result;
+        return $voteData;
     }
 
     

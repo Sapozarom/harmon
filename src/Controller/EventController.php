@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\DayRepository;
 use App\Repository\EventRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,6 +30,27 @@ class EventController extends AbstractController
         return new JsonResponse($playerVotes);
         
         // dd($playerVotes);
+    }
+
+    #[Route('/api/vote/delete/{id}', name: 'api_delete_vote')]
+    public function deleteVote(int $id, EventRepository $eventRepo,  DayRepository $dayRepo, ManagerRegistry $doctrine,)    
+    {
+        $user = $this->getUser();
+
+        $vote = $eventRepo->deleteUserVote($id, $user);
+
+        $dayObj = $dayRepo->findOneBy(['id' => $vote['dayId']]);
+
+        $dayObj->updateStatus($vote['voteType']);
+
+        // dd($dayObj);
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($dayObj);
+        $entityManager->flush();
+
+
+        return new JsonResponse(['id' => $id], 200);
+        
     }
 
     #[Route('/event/delete/{id}', name: 'api_get_player_votes')]

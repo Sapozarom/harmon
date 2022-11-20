@@ -142,7 +142,7 @@ class Day
         return $this;
     }
 
-    public function updateStatus() {
+    public function updateStatus(?bool $voteType = NULL) {
         $players= $this->game->getPlayers();
         $voteArray = array();
 
@@ -152,11 +152,19 @@ class Day
             $voteArray[$player->getId()] = array();
         }
 
+        if ($voteType !== NULL && !$voteType) {
+            
+            $this->status = "EMPTY";
+
+        }
+        
         foreach ($this->votes as $event) {
             $voter = $event->getUser()->getId();
             if (!($event->isVote())) {
+                // sdd($event);
                 $this->status="CANCELED";
             }
+
             if (isset($voteArray[$voter])) {
                 if (count($voteArray[$voter]) == 0) {
                     $this->playersLeftToVote = $this->playersLeftToVote - 1;
@@ -169,7 +177,7 @@ class Day
             return count($a) > count($b);
         });
 
-        if (!(isset($this->status)) && $this->playersLeftToVote > 0) {
+        if ((!(isset($this->status)) || $this->status == "EMPTY") && $this->playersLeftToVote > 0) {
             $this->status="VOTED";
         } elseif ($this->playersLeftToVote == 0) {
             $paths = array();
@@ -207,6 +215,7 @@ class Day
             }
 
             if (count($paths) > 0 ) {
+                $this->availableHours = [];
                 foreach ($paths as $key => $path) {
                     $startHour = intval($path[0]->format('h'));
                     $startMinutes = intval($path[0]->format('i'));
@@ -228,9 +237,15 @@ class Day
             if (count($paths) == 0) {
                 $this->status="MISSED";
             }
+
+            
         }
 
-        // dd($this->playersLeftToVote, $voteArray,$paths,  $this->status);
+        if (count($this->votes) == 0) {
+            $this->status="EMPTY";
+        }
+
+    
         return $this;
     }
 

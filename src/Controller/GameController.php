@@ -26,7 +26,7 @@ class GameController extends AbstractController
 {
 
     #[Route('/party/show/{game}', name: 'show_game')]
-    public function showGameAction(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
+    public function showGameAction(int $game, GameRepository $gameRepo, Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
@@ -49,7 +49,7 @@ class GameController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
         }
-        
+
         $newForm = $this->createForm(VoteType::class);
         $newForm->handleRequest($request);
 
@@ -61,10 +61,10 @@ class GameController extends AbstractController
             $entityManager->persist($event);
             $entityManager->flush();
             dd('succes');
-        } 
+        }
 
         $calendarArray =  $calendarService->setupGameCalendarByDate(new DateTime(), $gameObj, $user);
-        
+
         return $this->render('game/index.html.twig', [
             'date' => $date,
             'game' =>  $gameObj,
@@ -77,7 +77,7 @@ class GameController extends AbstractController
 
 
     #[Route('/api/send-vote/{game}', name: 'api_send_vote')]
-    public function sendVote(int $game, GameRepository $gameRepo , DayRepository $dayRepo, Request $request, ManagerRegistry $doctrine, DayManager $dayMng): Response
+    public function sendVote(int $game, GameRepository $gameRepo, DayRepository $dayRepo, Request $request, ManagerRegistry $doctrine, DayManager $dayMng): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
@@ -90,7 +90,7 @@ class GameController extends AbstractController
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
         // $day = $gameObj->getDays();
         $day = $dayRepo->findDayByDateAndGameId($date, $gameObj);
-        
+
         $newForm = $this->createForm(VoteType::class);
         $newForm->handleRequest($request);
 
@@ -118,82 +118,51 @@ class GameController extends AbstractController
             $entityManager = $doctrine->getManager();
             $entityManager->persist($event);
             $entityManager->flush();
-            
+
             return $this->json([
                 'message'  => 'success',
                 'status' => $day->getStatus(),
             ], 200);
         }
-        
+
         return $this->json([
             'message'  => 'fail',
         ]);
     }
 
     #[Route('/api/get-votes/{game}/{date}', name: 'api_get_votes')]
-    public function getVotes(int $game, string $date, EventRepository $eventRepo,  GameRepository $gameRepo , DayRepository $dayRepo, Request $request, ManagerRegistry $doctrine): Response
+    public function getVotes(int $game, string $date, EventRepository $eventRepo,  GameRepository $gameRepo, DayRepository $dayRepo, Request $request, ManagerRegistry $doctrine): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
 
         $user = $this->getUser();
 
-
-
         $dateObj = new DateTime($date);
-        // $dateString = $date->format("Y-m-d");
-        // $event = new Event;
 
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
 
-        // $day = $gameObj->getDays();
         $day = $dayRepo->findDayByDateAndGameId($date, $gameObj);
-        
-        // $newForm = $this->createForm(VoteType::class);
-        // $newForm->handleRequest($request);
-
-        // if ($newForm->isSubmitted() && $newForm->isValid()) {
 
         $votes = $eventRepo->getUsersEventsByDate($gameObj, $dateObj, $user);
-            // $event->setUser($user);
-            // $event->setGame($gameObj);
 
-            // $date = $event->getDate();
-
-            // $day = $dayRepo->findDayByDateAndGameId($date, $gameObj);
-
-            // if ($day == null) {
-            //     $day = $dayMng->createNewDay($date, $gameObj);
-            // } else {
-            //     $day = $day[0];
-            // }
-
-            // $day->addVote($event);
-
-            // // /$day->seteStatus();
-            // $day->updateStatus();
-
-            // $entityManager = $doctrine->getManager();
-            // $entityManager->persist($event);
-            // $entityManager->flush();
-            if ($votes != null) {
-                return $this->json([
-                    'message'  => 'success',
-                    'votes' => $votes,
-                ], 200);
-            } else {
-                return $this->json([
-                    'message'  => 'fail',
-                    'votes' => $votes,
-                ], 401);
-            }
-
+        if ($votes != null) {
+            return $this->json([
+                'message'  => 'success',
+                'votes' => $votes,
+            ], 200);
+        } else {
+            return $this->json([
+                'message'  => 'fail',
+                'votes' => [],
+            ], 200);
         }
-        
-    
-    
+    }
+
+
+
 
     #[Route('api/game-data/{game}', name: 'api_get_game_data')]
-    public function getGameDataInfo(int $game, GameRepository $gameRepo , DayRepository $dayRepo, CalendarManager $calendarMng, ): Response
+    public function getGameDataInfo(int $game, GameRepository $gameRepo, DayRepository $dayRepo, CalendarManager $calendarMng,): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
@@ -213,9 +182,9 @@ class GameController extends AbstractController
             $party['activity'] = $gameObj->getTitle();
             $party['description'] = $gameObj->getDescription();
             $party['activeMembers'] = array();
-            
+
             // dd($gameObj->getPlayers());
-            foreach($gameObj->getPlayers() as $player) {
+            foreach ($gameObj->getPlayers() as $player) {
                 $new['id'] = $player->getId();
                 $new['name'] = $player->getUsername();
                 array_push($party['activeMembers'], $new);
@@ -238,7 +207,7 @@ class GameController extends AbstractController
     }
 
     #[Route('api/calendar/{game}', name: 'api_get_calendar')]
-    public function getCallendarInfo(int $game, GameRepository $gameRepo , DayRepository $dayRepo, CalendarManager $calendarMng, ): Response
+    public function getCallendarInfo(int $game, GameRepository $gameRepo, DayRepository $dayRepo, CalendarManager $calendarMng,): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
@@ -259,7 +228,7 @@ class GameController extends AbstractController
             $dayData['userStatus'] = null;
             $dayData['userStatu'] = false;
             // $data['voters'] = array();
-            $dayData['remainingVoters'] = count($gameObj->getPLayers()) ;
+            $dayData['remainingVoters'] = count($gameObj->getPLayers());
             $dayData['hours'] = [];
         } else {
             $dayData = $currentDay;
@@ -267,13 +236,12 @@ class GameController extends AbstractController
 
         return $this->json([
             'calendar'  => $calendarArray,
-            // 'currentDay' => $dayData,
-            // 'date'=> $currentDay['date'],
+
         ]);
     }
 
     #[Route('api/day/{game}/{date}', name: 'api_get_day')]
-    public function GetDayInfo(int $game, string $date, GameRepository $gameRepo , DayRepository $dayRepo): Response
+    public function GetDayInfo(int $game, string $date, GameRepository $gameRepo, DayRepository $dayRepo): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
@@ -282,16 +250,6 @@ class GameController extends AbstractController
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
 
         $dayInfo = $dayRepo->getDayInfo($date, $gameObj, $user);
-
-        // if ($dayInfo == null) {
-        //     $dayData['date'] = new DateTime($date) ;
-        //     $dayData['status'] = 'EMPTY';
-        //     $dayData['playersLeftToVote'] = [];
-        //     $dayData['number'] = intval(substr($date,8,2)); 
-        // } else {
-        //     $dayData = $dayInfo[0];
-        //     $dayData['number'] = intval($dayInfo[0]['date']->format('d')); 
-        // }
 
         return $this->json([
             'dayInfo' => $dayInfo,
@@ -341,7 +299,7 @@ class GameController extends AbstractController
             $entityManager->flush();
         }
 
-        
+
 
         return $this->render('game/create.html.twig', [
             'form' => $form->createView(),
@@ -365,9 +323,9 @@ class GameController extends AbstractController
                 'status' => 'locked',
             ]);
         }
-        
+
         if ($_POST) {
-            if (isset($_POST['join_game']['yes']) &&!($playerCheck)) {
+            if (isset($_POST['join_game']['yes']) && !($playerCheck)) {
                 $game->addPlayer($user);
 
                 $entityManager = $doctrine->getManager();
@@ -375,26 +333,25 @@ class GameController extends AbstractController
                 $entityManager->flush();
 
                 return $this->redirectToRoute('show_game', ['game' => $game->getId()]);
-
             } elseif (isset($_POST['join_game']['no'])) {
-                
+
                 return $this->redirectToRoute('my_activities', ['game' => $game->getId()]);
             }
         } else {
 
-           
-            
+
+
             // CHECK IF PLAYER IS ALREADY A MEMBER
-            
-    
+
+
             if ($playerCheck) {
-    
+
                 return $this->render('game/invite.html.twig', [
                     'status' => 'member',
                 ]);
             }
         }
-        
+
         return $this->render('game/invite.html.twig', [
             'status' => 'invite',
             'slug' => $slug,
@@ -402,10 +359,10 @@ class GameController extends AbstractController
         ]);
     }
     #[Route('/game/host-options/{game}', name: 'app_host_options')]
-    public function showOptionsAction(int $game, GameRepository $gameRepo , Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
+    public function showOptionsAction(int $game, GameRepository $gameRepo, Calendar $calendarService, Request $request, ManagerRegistry $doctrine): Response
     {
 
-        
+
         return $this->render('game/hostOptions.html.twig', [
             // 'date' => $date,
             // 'game' =>  $gameObj,

@@ -61,6 +61,30 @@ const Form = ({activeDay}) => {
         }
     })
 
+    const deleteVoteMutation = useMutation({
+        mutationFn: (event) => {
+            event.preventDefault();
+            // console.log(id);
+            // const formData = new FormData(event.target)
+            const voteId = event.target.id;
+
+            if (confirm('This vote will be deleted permanently! Day status may be changed')) {
+                const response =  fetch('/api/vote/delete/'+ voteId, {
+                    method: 'POST',
+                    // body: formData,
+                })
+                return response;
+            }
+            
+            return  false;
+
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries([id + '-'+ year + '-'+month +'-' +day+'-'+ 'votes'])
+            queryClient.invalidateQueries([id+'-'+activeDay.date.substring(0,10)]);
+        }
+    })
+
     return(
         <>
 
@@ -71,7 +95,7 @@ const Form = ({activeDay}) => {
                     <div className="border bg-light form-panel">
                         
                     
-                    <div class="d-flex flex-row justify-content-center party-header bg-dark bg-gradient mb-2">
+                    <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient mb-2">
                             <div className="">
                             PLACE YOUR VOTE
                             </div>
@@ -174,16 +198,17 @@ const Form = ({activeDay}) => {
                         </div>
                         <div className="row">
                             <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">VOTING STATUS</span></b>
-                            {typeof activeDay !== 'undefined'
-                            && activeDay.status == 'CANCELED' ? ('Some members are unavailable') : ''}
-                            {typeof activeDay !== 'undefined'
-                            && activeDay.status == 'MISSED' ? ('Schedules missed') : ''}
-                            {typeof activeDay !== 'undefined'
-                            && activeDay.status == 'VOTED' ? ('Voting in progress') : ''}
-                            {typeof activeDay !== 'undefined'
-                            && activeDay.status == 'EMPTY' ? ('Noone voted yet') : ''}
-                            {typeof activeDay !== 'undefined'
-                            && activeDay.status == 'GAMEDAY' ? ('Schedules matched!') : ''}                             </p>
+                                {typeof activeDay !== 'undefined'
+                                && activeDay.status == 'CANCELED' ? ('Some members are unavailable') : ''}
+                                {typeof activeDay !== 'undefined'
+                                && activeDay.status == 'MISSED' ? ('Schedules missed') : ''}
+                                {typeof activeDay !== 'undefined'
+                                && activeDay.status == 'VOTED' ? ('Voting in progress') : ''}
+                                {typeof activeDay !== 'undefined'
+                                && activeDay.status == 'EMPTY' ? ('Noone voted yet') : ''}
+                                {typeof activeDay !== 'undefined'
+                                && activeDay.status == 'GAMEDAY' ? ('Schedules matched!') : ''}                             
+                            </p>
                         </div>
                         <div className="row">
                             <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">YOUR STATUS</span></b>
@@ -206,7 +231,7 @@ const Form = ({activeDay}) => {
                                 &&  activeDay.hours !== 'undefined'  ? (
                                     
                                     activeDay.hours.map((range) => (
-                                    <div>{'- st: '+range.start.substring(11,16)+' <-> fin: ' +range.finish.substring(11,17)}</div>
+                                    <div>{'- st: '+range.start.substring(11,16)+' <-> fin: ' +range.finish.substring(11,16)}</div>
                                     ))
                                     ) : ""} 
                             </p>
@@ -223,7 +248,7 @@ const Form = ({activeDay}) => {
 
 
                 {/* VOTES */}
-                <div className="col-6 table-cell">
+                <div className="col-12 table-cell">
                     <div className="border bg-light form-panel">
                         <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
                             <div className="p-0">
@@ -231,10 +256,15 @@ const Form = ({activeDay}) => {
                             </div>
                         </div>
 
-                        <div className="row justify-content-center">
+                        <div className="row">
                            {status == 'success' ? (
                             data.votes.map((event) => (
-                                <div className='custom-vote-display '>  {event.start+ ' - ' + event.finish} <span className="vote-trash"><i class="fa-solid fa-trash-can"></i></span>  </div>
+                                <div className='custom-vote-display '>
+                                    {event.start+ ' - ' + event.finish}
+                                    <span  className="vote-trash">
+                                        <i id={event.id} className="fa-solid fa-trash-can" onClick={deleteVoteMutation.mutate}></i>
+                                    </span>  
+                                </div>
                             ))
                             ) : 'Loading...'}
                         </div>
@@ -243,7 +273,7 @@ const Form = ({activeDay}) => {
                 </div>
 
 
-                <div className="col-6 table-cell">
+                {/* <div className="col-6 table-cell">
                     <div className="border bg-light form-panel">
                             <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient">
                                 <div className="p-0">
@@ -256,7 +286,7 @@ const Form = ({activeDay}) => {
                             </div>
 
                         </div>
-                </div>
+                </div> */}
             </div>
         
             

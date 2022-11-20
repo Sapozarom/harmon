@@ -17,7 +17,10 @@ REACT
 CSRF protection in forms
 
     Party
-    - wyświetlanie i usuwanie głosów
+    - czy usunięcie ostatniego głosu usunie gracza z dnia --> NIE USUWA, POPRAWIĆ
+    - zero głosów wyrzuca err400()
+    - ostatnie query dnia ładuje się od danych (undefiend)
+    - przy statusie "GAMEDAY" dostępne godziny się kopiują
     - preset (później)
     - wyświetlić info głos dodany (bootsrap toast)
 
