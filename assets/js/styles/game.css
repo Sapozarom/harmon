@@ -232,7 +232,9 @@ div.custom-vote-display:hover {
     border-bottom: solid 1px rgb(234, 234, 234);;
 }
 
-
+.toasted {
+    z-index: 111;
+}
 /* .animation {
     animation-duration: 1s;
 

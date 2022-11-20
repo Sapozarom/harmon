@@ -3,6 +3,8 @@ import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
 import AnimateHeight from 'react-animate-height';
 import { useQuery } from '@tanstack/react-query';
+import { Toast } from 'react-bootstrap';
+import SubmitToast from './SubmitToast';
 
 const Form = ({activeDay}) => {
 
@@ -288,6 +290,21 @@ const Form = ({activeDay}) => {
                         </div>
                 </div> */}
             </div>
+
+
+            {dataMutation.isSuccess ? 
+            (  
+                <SubmitToast type='success' message='Your vote has been sent'/>
+            )
+            
+            : null}
+
+            {deleteVoteMutation.isSuccess ? 
+            (  
+                <SubmitToast type='success' message='Your vote has been deleted'/>
+            )
+            
+            : null}
         
             
             

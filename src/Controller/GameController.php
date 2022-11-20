@@ -159,8 +159,6 @@ class GameController extends AbstractController
     }
 
 
-
-
     #[Route('api/game-data/{game}', name: 'api_get_game_data')]
     public function getGameDataInfo(int $game, GameRepository $gameRepo, DayRepository $dayRepo, CalendarManager $calendarMng,): Response
     {
