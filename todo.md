@@ -18,7 +18,6 @@ CSRF protection in forms
 
     Party
     - ostatnie query dnia ładuje się od danych (undefiend)
-    - przy statusie "GAMEDAY" dostępne godziny się kopiująe
     - preset (później)
 
 

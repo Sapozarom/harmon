@@ -233,7 +233,7 @@ const Form = ({activeDay}) => {
                                 &&  activeDay.hours !== 'undefined'  ? (
                                     
                                     activeDay.hours.map((range) => (
-                                    <div>{'- st: '+range.start.substring(11,16)+' <-> fin: ' +range.finish.substring(11,16)}</div>
+                                    <div>{range.start.substring(11,16)+' <-> ' +range.finish.substring(11,16)}</div>
                                     ))
                                     ) : ""} 
                             </p>

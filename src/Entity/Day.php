@@ -229,7 +229,7 @@ class Day
                    if ($length < $this->game->getMinSessionLength() ) {
                     unset($paths[$key]);
                    } else {
-                    $range = [$path[0],$path[1]];
+                    $range = [$path[0],$path[1], $length];
                     array_push($this->availableHours, $range);
                    }
                 }
@@ -246,6 +246,9 @@ class Day
         if (count($this->votes) == 0) {
             $this->status="EMPTY";
         }
+
+        // sort array
+        $this->sortAvailableHours();
 
     
         return $this;
@@ -273,5 +276,39 @@ class Day
         $this->voted->removeElement($voted);
 
         return $this;
+    }
+
+    private function sortAvailableHours() 
+    {
+        $sortedByLength = $this->availableHours;
+
+        usort($sortedByLength, function($a, $b){
+            return $a[2] > $b[2];
+        });
+
+        foreach ($sortedByLength as $key => $range) {
+            
+            foreach ($sortedByLength as $index => $checkValue) {
+                if ($key != $index 
+                && $range[2] < $checkValue[2]
+                && $range[0] >= $checkValue[0]
+                && $range[1] <= $checkValue[1]
+                ) {
+                    unset($sortedByLength[$key]);
+                }
+            }
+            
+        }
+        usort($sortedByLength, function($a, $b){
+            return $a[0] > $b[0];
+        });
+
+        $this->availableHours = $sortedByLength;
+
+        // return $this;
+
+        // dd($sortedByLength);
+        
+
     }
 }
