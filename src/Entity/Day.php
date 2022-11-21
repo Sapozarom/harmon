@@ -177,9 +177,9 @@ class Day
             return count($a) > count($b);
         });
 
-        if (
+        if ($this->status != "CANCELED"
             // (!(isset($this->status)) || $this->status == "EMPTY") 
-            $this->playersLeftToVote > 0) {
+            && $this->playersLeftToVote > 0) {
             $this->status="VOTED";
         } elseif ($this->playersLeftToVote == 0) {
             $paths = array();
