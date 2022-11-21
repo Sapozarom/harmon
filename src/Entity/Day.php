@@ -177,7 +177,9 @@ class Day
             return count($a) > count($b);
         });
 
-        if ((!(isset($this->status)) || $this->status == "EMPTY") && $this->playersLeftToVote > 0) {
+        if (
+            // (!(isset($this->status)) || $this->status == "EMPTY") 
+            $this->playersLeftToVote > 0) {
             $this->status="VOTED";
         } elseif ($this->playersLeftToVote == 0) {
             $paths = array();

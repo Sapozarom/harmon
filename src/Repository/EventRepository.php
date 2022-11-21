@@ -184,6 +184,7 @@ class EventRepository extends ServiceEntityRepository
                 $newVote['id'] = $vote->getId();
                 $newVote['start'] = $vote->getStartTime()->format('H:i');
                 $newVote['finish'] = $vote->getFinishTime()->format('H:i');
+                $newVote['voteType'] = $vote->isVote();
 
                 array_push($voteList, $newVote);
             }

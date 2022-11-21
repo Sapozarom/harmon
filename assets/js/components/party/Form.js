@@ -262,7 +262,8 @@ const Form = ({activeDay}) => {
                            {status == 'success' ? (
                             data.votes.map((event) => (
                                 <div className='custom-vote-display '>
-                                    {event.start+ ' - ' + event.finish}
+                                    {!event.voteType ? "I'm out" : event.start+ ' - ' + event.finish}
+
                                     <span  className="vote-trash">
                                         <i id={event.id} className="fa-solid fa-trash-can" onClick={deleteVoteMutation.mutate}></i>
                                     </span>  
