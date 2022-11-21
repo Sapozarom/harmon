@@ -17,6 +17,7 @@ REACT
 CSRF protection in forms
 
     Party
+    - gameday nie zmienia się na CANCELED
     - ostatnie query dnia ładuje się od danych (undefiend)
     - preset (później)
 

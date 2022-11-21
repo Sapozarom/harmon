@@ -81,4 +81,6 @@ th.host td.host {
     box-shadow: 0 0 10px rgb(149, 149, 149);
 }
 
-
+.box {
+    position: relative;
+}

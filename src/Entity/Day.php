@@ -216,7 +216,7 @@ class Day
                 }
             }
 
-            if (count($paths) > 0 ) {
+            if (count($paths) > 0  && $this->status != 'CANCELED') {
                 $this->availableHours = [];
                 foreach ($paths as $key => $path) {
                     $startHour = intval($path[0]->format('h'));
