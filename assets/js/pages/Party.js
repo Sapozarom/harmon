@@ -42,8 +42,7 @@ const Party = () => {
         const response = await fetch(gameRoute);
         return response.json();
     }
-    // console.log(data, status);
-    // console.log(game, gameStatus);
+
     return(
         <>
             {/* <div className='row justify-content-center mt-4'>
@@ -86,10 +85,11 @@ const Party = () => {
                 </div>
                 {/* FORM */}
                 <div className="col-xl-6">
-                    <Form activeDay={activeDay}/>
+                    <Form key ={id} activeDay={activeDay}/>
                 </div>
             </div>
 
+            {/* PARTY INFO */}
             {gameStatus == 'success' ? (
                 <div className="row mt-3">
             <div className="col-xl">

@@ -41,6 +41,13 @@ class EventController extends AbstractController
 
         $dayObj = $dayRepo->findOneBy(['id' => $vote['dayId']]);
 
+        $playersVotes = $eventRepo->findUserVotes($vote['gameObj'], $dayObj->getDate()->format('Y-m-d'), $user);
+
+       
+        if ($playersVotes == null) {
+            $dayObj->removeVoted($user);
+        }
+
         $dayObj->updateStatus($vote['voteType']);
 
         // dd($dayObj);

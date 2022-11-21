@@ -143,6 +143,9 @@ class EventRepository extends ServiceEntityRepository
 
         $voteData['dayId'] = $vote[0]->getDay()->getId();
         $voteData['voteType'] = $vote[0]->isVote();
+        $voteData['gameObj'] = $vote[0]->getGame();
+
+        
 
         $qb = $this->createQueryBuilder('e');
         
