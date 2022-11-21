@@ -290,7 +290,7 @@ class Day
             
             foreach ($sortedByLength as $index => $checkValue) {
                 if ($key != $index 
-                && $range[2] < $checkValue[2]
+                && $range[2] <= $checkValue[2]
                 && $range[0] >= $checkValue[0]
                 && $range[1] <= $checkValue[1]
                 ) {
