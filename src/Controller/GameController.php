@@ -254,6 +254,85 @@ class GameController extends AbstractController
         ]);
     }
 
+    #[Route('api/game/make-me-inactive/{game}', name: 'api_make_me_inactive')]
+    public function makeInactive(int $game,  GameRepository $gameRepo, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+        $isActive = $gameRepo->findIfIsActiveMember($user, $gameObj->getId());
+
+        // dd($isActive);
+        if ($isActive != null) {
+            $gameObj->removePlayer($user);
+            $gameObj->addInactivePlayer($user);
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($gameObj);
+            $entityManager->flush();
+
+            $message = "You are now inactive member of this party";
+        } else {
+            $message = "You are not active member";
+
+            // MAKE ACTIVE
+            // $gameObj->addPlayer($user);
+            // $gameObj->removeInactivePlayer($user);
+
+            // $entityManager = $doctrine->getManager();
+            // $entityManager->persist($gameObj);
+            // $entityManager->flush();
+
+        }
+
+        return $this->json([
+            'message' => $message,
+        ]);
+    }
+
+    #[Route('api/game/leave/{game}', name: 'api_leave_party')]
+    public function leaveParty(int $game,  GameRepository $gameRepo, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $user = $this->getUser();
+
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+        $isActive = $gameRepo->findIfIsActiveMember($user, $gameObj->getId());
+        $isInactive = $gameRepo->findIfIsInactiveMember($user, $gameObj->getId());
+
+        // dd($isActive);
+
+        if ($gameObj->getCreatedBy() ==  $user) {
+            $message = 'admin';
+        } elseif ($isActive != null) {
+            $gameObj->removePlayer($user);
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($gameObj);
+            $entityManager->flush();
+            $message = 'success';
+        } elseif ($isInactive != null) {
+            $gameObj->removeInactivePlayer($user);
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($gameObj);
+            $entityManager->flush();
+            $message = 'success';
+        } else {
+            $message = 'fail';
+        }
+
+
+        return $this->json([
+            'message' => $message,
+        ]);
+    }
+
     #[Route('/test/status', name: 'app_test')]
     public function testStatus(DayRepository $dayRepo, ManagerRegistry $doctrine): Response
     {
@@ -310,7 +389,7 @@ class GameController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $game = $gameRepo->findOneBy(['slug' => $slug]);
-        $playerCheck = $gameRepo->findIfIsMember($user, $game);
+        $playerCheck = $gameRepo->findIfIsMember($user, $game->getId());
 
         $acceptForm = $this->createForm(JoinGameType::class);
 

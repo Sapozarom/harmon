@@ -72,27 +72,64 @@ class GameRepository extends ServiceEntityRepository
     {
         $result = $this->createQueryBuilder('g')
             ->leftJoin('g.players', 'p')
-            ->leftJoin('g.createdBy', 'creator')
-            // ->leftJoin('g.events', 'e')
-            ->select('g.id, g.name, g.description, g.description, g.title , g.locked, count(g.id) as players, g.slug, creator.id as hosted')
-            ->leftJoin('g.players', 'play')
+            ->leftJoin('g.inactivePlayers', 'i')
             ->andWhere('p.id = :val')
+            ->setParameter('val', $userId)
+            ->orWhere('i.id = :val')
             ->setParameter('val', $userId)
             ->orderBy('g.id', 'ASC')
             ->groupBy('g')
             ->getQuery()
             ->getResult();
+
+            // dd($result);
+            $partyList = array();
+
+            if ($result !== null) {
+               foreach ($result as $party) {
+
+                // $active = 0;
+                // $inactive = 0;
+                $isUserActive = true;
+
+                $newParty['id'] = $party->getId();
+                $newParty['name'] = $party->getName();
+                $newParty['title'] = $party->getTitle();
+                $newParty['description'] = $party->getDescription();
+                $newParty['locked'] = $party->isLocked();
+                $newParty['slug'] = $party->getSlug();
+                $newParty['hosted'] = $party->getCreatedBy()->getId();
+                $newParty['players'] = count($party->getPlayers()) + count($party->getInactivePlayers());
+
+
+                foreach ($party->getInactivePlayers() as $activeMember) {
+                    if ($activeMember->getId() == $userId) {
+                        $isUserActive = false;
+                    }
+                }
+
+                $newParty['isActive'] = $isUserActive;
+                
+                // dd($newParty);
+                array_push($partyList, $newParty);
+               }
+            }
+
+            // dd($partyList);
              
-        return $result;
+        return $partyList;
     }
 
     public function findIfIsMember($user, $gameId)
     {
         $result = $this->createQueryBuilder('g')
         ->join('g.players', 'p')
+        ->join('g.inactivePlayers', 'i')
         ->andWhere('g.id = :gameId')
-        ->setParameter('gameId', $gameId->getId())
+        ->setParameter('gameId', $gameId)
         ->andWhere('p.id = :val')
+        ->setParameter('val', $user->getId())
+        ->orWhere('i.id = :val')
         ->setParameter('val', $user->getId())
         ->orderBy('g.id', 'ASC')
         ->getQuery()
@@ -100,28 +137,35 @@ class GameRepository extends ServiceEntityRepository
          
     return $result;
     }
-//    /**
-//     * @return Game[] Returns an array of Game objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('g.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
 
-//    public function findOneBySomeField($value): ?Game
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findIfIsActiveMember($user, $gameId)
+    {
+        $result = $this->createQueryBuilder('g')
+        ->join('g.players', 'p')
+        ->andWhere('g.id = :gameId')
+        ->setParameter('gameId', $gameId)
+        ->andWhere('p.id = :val')
+        ->setParameter('val', $user->getId())
+        ->orderBy('g.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+         
+        return $result;
+    }
+
+    public function findIfIsInactiveMember($user, $gameId)
+    {
+        $result = $this->createQueryBuilder('g')
+        ->join('g.inactivePlayers', 'p')
+        ->andWhere('g.id = :gameId')
+        ->setParameter('gameId', $gameId)
+        ->andWhere('p.id = :val')
+        ->setParameter('val', $user->getId())
+        ->orderBy('g.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+         
+        return $result;
+    }
+
 }

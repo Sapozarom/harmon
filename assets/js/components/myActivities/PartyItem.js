@@ -3,9 +3,17 @@ import { async } from 'regenerator-runtime';
 import { Link } from "react-router-dom";
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import MemberOptions from './MemberOptions'
 
 
 const PartyItem = ({activity, userData}) => {
+
+    const [showMemberOptions, setShowMemberOptions] = useState(false);
+
+    const handleCloseMemberOpt = () => setShowMemberOptions(false);
+    const handleShowMemberOpt = () => setShowMemberOptions(true);
+
+
 
     const partyRoute = '/party/show/' + activity.id;
     const invitationalLink = '/game/invite/' + activity.slug;
@@ -39,6 +47,18 @@ const PartyItem = ({activity, userData}) => {
                 Click to copy invitational link
             </Tooltip>
             );
+
+        const isActiveTooltipTooltip = (props) => (
+            <Tooltip id="locked-tooltip" {...props}>
+                You are active member
+            </Tooltip>
+            );
+
+        const notActiveTooltipTooltip = (props) => (
+            <Tooltip id="locked-tooltip" {...props}>
+                You are active member
+            </Tooltip>
+            );
         
         const copyInviLink = () => {
             // HTTP
@@ -70,7 +90,7 @@ const PartyItem = ({activity, userData}) => {
                             delay={{ show: 250, hide: 400 }}
                             overlay={optionsTooltip}
                         >
-                            <i id="{{game.id}}" className="fa-solid fa-gears info-icon" data-bs-toggle="modal" data-bs-title="Options" data-bs-target="#userOptions"></i>
+                            <i id="{{game.id}}" className="fa-solid fa-gears info-icon" onClick={handleShowMemberOpt}></i>
                         </OverlayTrigger>
                         )}
 
@@ -93,6 +113,7 @@ const PartyItem = ({activity, userData}) => {
                         {activity.players}
                     </td>
                     <td className="game-table bg-light">
+                        {/* PARTY STATUS */}
                         {activity.locked
                         ? (
                             <OverlayTrigger
@@ -114,7 +135,28 @@ const PartyItem = ({activity, userData}) => {
                                 ></i> 
                             </OverlayTrigger>
                             )
-                    }
+                        }
+
+                        {activity.isActive
+                        ? (
+                            <OverlayTrigger
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={isActiveTooltipTooltip}
+                            >
+                                <i className="fa-solid fa-person-running status-spacer"></i>
+                            </OverlayTrigger>
+
+                        ) : (
+                            <OverlayTrigger
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={notActiveTooltipTooltip}
+                            > 
+                            <i className="fa-solid fa-bed status-spacer" ></i>
+                      
+                            </OverlayTrigger>
+                            )
+                        }
+
                     </td>
                     <td className="game-table bg-light">
                         XX.XX.XXXX
@@ -124,6 +166,13 @@ const PartyItem = ({activity, userData}) => {
                         {/* <a className="text-dark text-bold" href={partyRoute}>Show</a> */}
                     </td>
                 </tr>
+
+                <MemberOptions 
+                showMemberOptions = {showMemberOptions}
+                handleCloseMemberOpt = {handleCloseMemberOpt}
+                partyId = {activity.id} 
+                activeMember = {activity.isActive}
+                />
         </>
         )          
 

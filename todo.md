@@ -17,6 +17,8 @@ REACT
 CSRF protection in forms
 
     PARTY
+        - przycisk cofania do listy
+        - głosowanie tylko przez aktywnych graczy
         - ostatnie query dnia ładuje się od danych (undefiend)
         - preset (później)
 
@@ -26,8 +28,8 @@ CSRF protection in forms
     LOGIN/LOGOUT
 
     OPCJE UŻYTKOWNIKA
-        - leave party
-        - make me inactive
+        - zmiana HASŁA
+
 
     ZARZĄDZANIE PATRY
         -usuwanie party

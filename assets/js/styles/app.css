@@ -84,3 +84,7 @@ th.host td.host {
 .box {
     position: relative;
 }
+
+.status-spacer {
+    padding-left: 15px;
+}

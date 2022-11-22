@@ -1,22 +1,31 @@
+import { useQuery } from '@tanstack/react-query';
 import React, {useState, useRef, useEffect} from 'react';
 import PartyItem from './PartyItem';
 
 const PartyList = ({userData}) => {
 
+    // const [activityList, setActivityList] = useQuery(['party-list']);
     
-    const [activityList, setActivityList] = useState([]);
+    const { data: activityList, status: activityListStatus } = useQuery({
+        queryKey: ['party-list'], 
+        queryFn: () => getActivityList(),
+        refetchOnWindowFocus: false,
+    });
+
+
+    // const [activityList, setActivityList] = useState([]);
 
     const getActivityList = async () => {
         const route = '/api/my-activities';
         const response = await fetch(`${route}`);
-        const data = await response.json();
-
-        setActivityList(data.activityTable);
+        return response.json();
     }
 
-    useEffect(() => {
-        getActivityList();
-    },[]);
+    // console.log(activityList)
+
+    // useEffect(() => {
+    //     getActivityList();
+    // },[]);
         
     return (
         <>
@@ -34,9 +43,16 @@ const PartyList = ({userData}) => {
                     </tr>
                 </thead>
                 <tbody>
-                {activityList.map((activity) => (
-                    <PartyItem key={activity.id} activity={activity} userData={userData}/>
-                ))}
+                    {activityListStatus == "success" ? (
+                        activityList.activityTable.map((activity) => (
+                            <PartyItem key={activity.id} activity={activity} userData={userData}/>
+                        ))
+                    ) : (
+                        <tr>
+
+                        </tr>
+                    )}
+
                  
                 </tbody>
             </table>
