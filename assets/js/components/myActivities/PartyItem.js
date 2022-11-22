@@ -17,48 +17,6 @@ const PartyItem = ({activity, userData}) => {
 
     const partyRoute = '/party/show/' + activity.id;
     const invitationalLink = '/game/invite/' + activity.slug;
-
-        const optionsTooltip = (props) => (
-          <Tooltip id="options-tooltip" {...props}>
-            Options
-          </Tooltip>
-        );
-
-        const hostTooltip = (props) => (
-            <Tooltip id="options-tooltip" {...props}>
-              You are host of this game
-            </Tooltip>
-          );
-
-        const descriptionTooltip = (props) => (
-            <Tooltip id="description-tooltip" {...props}>
-              {activity.description}
-            </Tooltip>
-          );
-
-        const lockedTooltip = (props) => (
-        <Tooltip id="locked-tooltip" {...props}>
-            Game is locked
-        </Tooltip>
-        );
-
-        const linkTooltip = (props) => (
-            <Tooltip id="link-tooltip" {...props}>
-                Click to copy invitational link
-            </Tooltip>
-            );
-
-        const isActiveTooltipTooltip = (props) => (
-            <Tooltip id="locked-tooltip" {...props}>
-                You are active member
-            </Tooltip>
-            );
-
-        const notActiveTooltipTooltip = (props) => (
-            <Tooltip id="locked-tooltip" {...props}>
-                You are active member
-            </Tooltip>
-            );
         
         const copyInviLink = () => {
             // HTTP
@@ -78,7 +36,11 @@ const PartyItem = ({activity, userData}) => {
                         (
                             <OverlayTrigger
                             delay={{ show: 250, hide: 400 }}
-                            overlay={hostTooltip}
+                            overlay={          
+                                <Tooltip id="host-tooltip" >
+                                    You are host of this party
+                                </Tooltip>
+                                }
                         >
                             <i id="{{game.id}}" className="fa-solid fa-user-gear info-icon" data-bs-toggle="modal"  data-bs-target="#adminOptions"> </i>
 
@@ -88,7 +50,11 @@ const PartyItem = ({activity, userData}) => {
                            
                             <OverlayTrigger
                             delay={{ show: 250, hide: 400 }}
-                            overlay={optionsTooltip}
+                            overlay={          
+                                <Tooltip id="options-tooltip" >
+                                    Options
+                                </Tooltip>
+                                }
                         >
                             <i id="{{game.id}}" className="fa-solid fa-gears info-icon" onClick={handleShowMemberOpt}></i>
                         </OverlayTrigger>
@@ -101,7 +67,11 @@ const PartyItem = ({activity, userData}) => {
                     <td className="game-table bg-light host p-0" >
                         <OverlayTrigger
                             delay={{ show: 250, hide: 400 }}
-                            overlay={descriptionTooltip}
+                            overlay={          
+                                <Tooltip id="options-tooltip" >
+                                    {activity.description}
+                                </Tooltip>
+                                }
                         >
                             <i className="fa-solid fa-circle-info info-icon" ></i>
                         </OverlayTrigger>
@@ -118,7 +88,11 @@ const PartyItem = ({activity, userData}) => {
                         ? (
                             <OverlayTrigger
                             delay={{ show: 250, hide: 400 }}
-                            overlay={lockedTooltip}
+                            overlay={          
+                                <Tooltip id="options-tooltip" >
+                                    This party is locked
+                                </Tooltip>
+                                }
                             >
                                 <i className="fa-solid fa-lock info-icon"></i>
                             </OverlayTrigger>
@@ -126,7 +100,11 @@ const PartyItem = ({activity, userData}) => {
                         ) : (
                             <OverlayTrigger
                             delay={{ show: 250, hide: 400 }}
-                            overlay={linkTooltip}
+                            overlay={          
+                                <Tooltip id="options-tooltip" >
+                                    Options
+                                </Tooltip>
+                                }
                             >
                                 <i 
                                 id="{{game.slug}}" 
@@ -141,7 +119,11 @@ const PartyItem = ({activity, userData}) => {
                         ? (
                             <OverlayTrigger
                             delay={{ show: 250, hide: 400 }}
-                            overlay={isActiveTooltipTooltip}
+                            overlay={          
+                                <Tooltip id="options-tooltip" >
+                                    You are ACTIVE member
+                                </Tooltip>
+                                }
                             >
                                 <i className="fa-solid fa-person-running status-spacer"></i>
                             </OverlayTrigger>
@@ -149,7 +131,11 @@ const PartyItem = ({activity, userData}) => {
                         ) : (
                             <OverlayTrigger
                             delay={{ show: 250, hide: 400 }}
-                            overlay={notActiveTooltipTooltip}
+                            overlay={          
+                                <Tooltip id="options-tooltip" >
+                                    You are INACTIVE member
+                                </Tooltip>
+                                }
                             > 
                             <i className="fa-solid fa-bed status-spacer" ></i>
                       
@@ -159,7 +145,7 @@ const PartyItem = ({activity, userData}) => {
 
                     </td>
                     <td className="game-table bg-light">
-                        XX.XX.XXXX
+                        comming soon...
                     </td>
                     <td className="game-table bg-light">
                         <Link to={partyRoute} className="text-dark text-bold" > show </Link>

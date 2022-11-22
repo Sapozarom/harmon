@@ -21,11 +21,6 @@ const PartyList = ({userData}) => {
         return response.json();
     }
 
-    // console.log(activityList)
-
-    // useEffect(() => {
-    //     getActivityList();
-    // },[]);
         
     return (
         <>
