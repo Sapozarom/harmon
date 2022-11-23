@@ -10,7 +10,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomepageController extends AbstractController
 {
-    #[Route('/', name: 'app_homepage')]
+    #[Route('/{reactRouting}', name: 'app_homepage', priority: '-1', requirements: ["reactRouting"=>".+"], defaults: ["reactRouting" => null])]
     public function index(): Response
     {   
 

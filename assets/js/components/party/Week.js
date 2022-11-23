@@ -21,24 +21,22 @@ const Week = ({weekData, activeDay, setActiveDay}) => {
    
         return (
         <>
-
-        {dataLoaded ? (
-                week.map((day) => (
-                        <Day 
-                        key={id+'-'+day.monthNumber.toString() +"-"+ day.number.toString()} 
-                        dayData = {day} 
-                        activeDay={activeDay}
-                        setActiveDay={setActiveDay}
-                        />
-
-                    ))
-            ) : (
-                <td>
-                    'false'
-                </td>
-                
-            )}   
-
+            <tr>
+            {dataLoaded ? (
+                    week.map((day) => (
+                            <Day 
+                            key={id+'-'+day.monthNumber.toString() +"-"+ day.number.toString()} 
+                            dayData = {day} 
+                            activeDay={activeDay}
+                            setActiveDay={setActiveDay}
+                            />
+                        ))
+                ) : (
+                    <td>
+                        'false'
+                    </td>
+                )}   
+            </tr>
         </>
         )
     }
