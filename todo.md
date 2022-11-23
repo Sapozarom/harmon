@@ -16,16 +16,21 @@ ZARZĄDZANIE PATRY
 REACT
 CSRF protection in forms
 
+    CREATE PARTY
+
+
     PARTY
         - przycisk cofania do listy
         - głosowanie tylko przez aktywnych graczy
         - ostatnie query dnia ładuje się od danych (undefiend)
         - preset (później)
+        - page is loading
 
     README
         - całe do zrobienia
     
     LOGIN/LOGOUT
+        -zrobić przez API
 
     OPCJE UŻYTKOWNIKA
         - zmiana HASŁA

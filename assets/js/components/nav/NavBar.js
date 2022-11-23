@@ -53,7 +53,9 @@ const Navbar = ({userData}) => {
         'active': false
     };
 
-    const allNavbarItems = [navItem1, navItem2, navItem3, navItem4, navItem5, navItem6, navItem7];
+    const allNavbarItems = [navItem1, navItem2, navItem3, navItem4, 
+        // navItem5, 
+        navItem6, navItem7];
 
     // const [user,setUser] = useState(userData);
     const [navbar,setNavbar] = useState([]);
@@ -103,6 +105,13 @@ const Navbar = ({userData}) => {
                                         {navbar.map((navItem) => (
                                             <NavItem key={navItem.name} item={navItem} user={userData}/>
                                         ))}
+                                        
+                                        { userData !== null ? (
+                                            <li className="nav-item">
+                                                <a href="/logout"className="nav-link fs-4 nav-menu-item"> Logout</a>
+                                            </li>
+                                        ) : ''}
+
 
                                     </ul>
                                 </div>

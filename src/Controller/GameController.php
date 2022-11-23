@@ -278,13 +278,6 @@ class GameController extends AbstractController
         } else {
             $message = "You are not active member";
 
-            // MAKE ACTIVE
-            // $gameObj->addPlayer($user);
-            // $gameObj->removeInactivePlayer($user);
-
-            // $entityManager = $doctrine->getManager();
-            // $entityManager->persist($gameObj);
-            // $entityManager->flush();
 
         }
 

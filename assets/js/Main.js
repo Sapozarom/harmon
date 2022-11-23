@@ -8,11 +8,13 @@ import Homepage from "./pages/Homepage";
 import Readme from "./pages/Readme";
 import Party from "./pages/Party";
 import MyActivities from "./pages/MyActivities";
+import HostOptions from "./pages/HostOptions";
 import uuid from 'react-uuid';
 
 // import {StrictMode} from 'react';
 // import {createRoot} from 'react-dom/client';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
+import Login from './pages/Login';
 
 
 const Main = () => {
@@ -41,7 +43,9 @@ const Main = () => {
                             <Route path="readme" element={<Readme />} />
                             <Route path="my-activities" element={<MyActivities />} />
                             <Route path="party/show/:id" element={<Party />} />
+                            <Route path="party/options/:id" element={<HostOptions />} />
                             <Route path="logout" element={<Logout />} />
+                            <Route path="login" element={<Login />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

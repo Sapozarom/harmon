@@ -88,3 +88,7 @@ th.host td.host {
 .status-spacer {
     padding-left: 15px;
 }
+
+.options-link {
+    color: black;
+}

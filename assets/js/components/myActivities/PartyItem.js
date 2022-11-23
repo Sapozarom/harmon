@@ -14,7 +14,7 @@ const PartyItem = ({activity, userData}) => {
     const handleShowMemberOpt = () => setShowMemberOptions(true);
 
 
-
+    const hostOptionsRoute = '/party/options/' + activity.id;
     const partyRoute = '/party/show/' + activity.id;
     const invitationalLink = '/game/invite/' + activity.slug;
         
@@ -42,7 +42,9 @@ const PartyItem = ({activity, userData}) => {
                                 </Tooltip>
                                 }
                         >
-                            <i id="{{game.id}}" className="fa-solid fa-user-gear info-icon" data-bs-toggle="modal"  data-bs-target="#adminOptions"> </i>
+                            <Link to={hostOptionsRoute} className="options-link" > 
+                                <i className="fa-solid fa-user-gear info-icon"> </i>
+                            </Link>
 
                         </OverlayTrigger>
                         ) : 

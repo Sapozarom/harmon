@@ -6,7 +6,7 @@ import { useOutletContext } from "react-router-dom";
 
 const MyActivities = () => {
 
-    const [user,setUser] =  useOutletContext();
+    const [user, setUser] =  useOutletContext();
 
     const box1 = {
         'title': 'Create party',
