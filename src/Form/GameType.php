@@ -5,10 +5,7 @@ use App\Entity\Game;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
@@ -23,9 +20,6 @@ class GameType extends AbstractType
         ->add('name', TextType::class, [
             'required' => false,
             'label' => 'Party name:',
-            // 'attr' => [
-            //     'class' => 'form-control form-control-lg time-input'
-            // ],
         ])
         ->add('title', TextType::class, [
             'required' => false,
@@ -51,6 +45,7 @@ class GameType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Game::class,
+            'csrf_protection' => false,
         ]);
     }
 }

@@ -27,7 +27,7 @@ const Navbar = ({userData}) => {
 
     const navItem4 = {
         'name': '+',
-        'route': '/game/create',
+        'route': '/party/create',
         'type': 'special',
         'active': false
     };

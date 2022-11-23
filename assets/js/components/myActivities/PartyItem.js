@@ -104,12 +104,11 @@ const PartyItem = ({activity, userData}) => {
                             delay={{ show: 250, hide: 400 }}
                             overlay={          
                                 <Tooltip id="options-tooltip" >
-                                    Options
+                                    Copy invitational link
                                 </Tooltip>
                                 }
                             >
                                 <i 
-                                id="{{game.slug}}" 
                                 className="fa-solid fa-link info-icon"
                                 onClick={copyInviLink}
                                 ></i> 

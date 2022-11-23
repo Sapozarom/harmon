@@ -326,6 +326,42 @@ class GameController extends AbstractController
         ]);
     }
 
+    #[Route('/api/game/create', name: 'api_game_create')]
+    public function createGame(Request $request, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+
+        $game = new Game;
+
+        $form = $this->createForm(GameType::class, $game);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $game = $form->getData();
+            $game->setCreatedBy($user);
+            $game->addPlayer($user);
+            $game->setLocked(false);
+
+            $slug = bin2hex(random_bytes(8));
+
+            $game->setSlug($slug);
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($game);
+            $entityManager->flush();
+
+            return $this->json([
+                'message' => 'success',
+            ]);
+        }
+
+        return $this->json([
+            'message' => 'fail',
+        ], 400);
+    }
+
     #[Route('/test/status', name: 'app_test')]
     public function testStatus(DayRepository $dayRepo, ManagerRegistry $doctrine): Response
     {

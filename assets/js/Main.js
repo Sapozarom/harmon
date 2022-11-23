@@ -15,6 +15,7 @@ import uuid from 'react-uuid';
 // import {createRoot} from 'react-dom/client';
 import { QueryClient, QueryClientProvider, useQuery } from '@tanstack/react-query';
 import Login from './pages/Login';
+import CreateParty from './pages/CreateParty';
 
 
 const Main = () => {
@@ -44,6 +45,7 @@ const Main = () => {
                             <Route path="my-activities" element={<MyActivities />} />
                             <Route path="party/show/:id" element={<Party />} />
                             <Route path="party/options/:id" element={<HostOptions />} />
+                            <Route path="party/create" element={<CreateParty />} />
                             <Route path="logout" element={<Logout />} />
                             <Route path="login" element={<Login />} />
                     </Route>

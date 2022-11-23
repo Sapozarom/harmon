@@ -45,11 +45,7 @@ const Party = () => {
 
     return(
         <>
-            {/* <div className='row justify-content-center mt-4'>
-                <h1 className='display-6 text-center universal-shadow-text'>
-                    Party XXX
-                </h1>
-            </div> */}
+
             <div className="row mt-3">
                 {/* table */}
                 <div className="col-xl-6">
@@ -117,7 +113,6 @@ const Party = () => {
                                 <b><span className="info-label bg-white">MEMBERS</span></b>
                                 {game.partyInfo.activeMembers.map((player) => (
                                     <span className="player-name"> {player.name}</span>
-                                    
                                 ))}
                                 </p>
                         </div>
