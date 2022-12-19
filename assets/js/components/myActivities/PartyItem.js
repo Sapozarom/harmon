@@ -82,7 +82,7 @@ const PartyItem = ({activity, userData}) => {
                         {activity.title}
                     </td>
                     <td className="game-table bg-light">
-                        {activity.players}
+                    {activity.activeMembers}/{activity.players}
                     </td>
                     <td className="game-table bg-light">
                         {/* PARTY STATUS */}

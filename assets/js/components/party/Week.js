@@ -33,7 +33,7 @@ const Week = ({weekData, activeDay, setActiveDay}) => {
                         ))
                 ) : (
                     <td>
-                        'false'
+                        
                     </td>
                 )}   
             </tr>

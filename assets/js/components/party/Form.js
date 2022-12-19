@@ -1,13 +1,11 @@
 import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
 import React, {useEffect, useState} from 'react';
 import { useParams } from 'react-router-dom';
-import AnimateHeight from 'react-animate-height';
 import { useQuery } from '@tanstack/react-query';
-import { Toast } from 'react-bootstrap';
 import SubmitToast from './SubmitToast';
+import getData from '../../getData/getData';
 
 const Form = ({activeDay}) => {
-
 
     const queryClient = useQueryClient();
 
@@ -18,19 +16,24 @@ const Form = ({activeDay}) => {
 
     const [voteStatus, setVoteStatus] = useState(1);
 
+
+    const voteRoute = `/get-votes/${id}/${year}-${month}-${day}`;
+    const voteKey = `${id}-${year}-${month}-${day}-votes`;
+
+    
+    // const { data, status } = useQuery({
+    //     queryKey: [voteKey], 
+    //     queryFn: () => getData(voteRoute),
+    //     refetchOnWindowFocus: false,
+    // });
+
+
     const { data, status } = useQuery({
-        queryKey: [id + '-'+ year + '-'+month +'-' +day+'-'+ 'votes'], 
-        queryFn: () => getVotes(),
+        queryKey: [voteKey], 
+        queryFn: () => getData(voteRoute),
         refetchOnWindowFocus: false,
     });
-
-    const getVotes = async () => {
-        
-        const route = 'http://127.0.0.1/api/get-votes/'+ id +'/'+ year + '-'+month +'-' +day ;
-        const response = await fetch(route);
-        return response.json();
-    }
-    
+    // console.log(status);
 
     useEffect(() => {
         if (typeof activeDay !== 'undefined') {
@@ -40,7 +43,6 @@ const Form = ({activeDay}) => {
             setYear(splitedDate[0]);
         }
     },[activeDay]);
-
    
     const checkVoteStatus = (event) => {
         setVoteStatus(event.target.value);
@@ -51,15 +53,15 @@ const Form = ({activeDay}) => {
             event.preventDefault();
             // console.log(id);
             const formData = new FormData(event.target)
-            const response =  fetch('/api/send-vote/'+ id, {
+            const response =  fetch(`/api/send-vote/${id}`, {
                 method: 'POST',
                 body: formData,
             })
             return response;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries([id+'-'+activeDay.date.substring(0,10)]);
-            queryClient.invalidateQueries([id + '-'+ year + '-'+month +'-' +day+'-'+ 'votes'])
+            queryClient.invalidateQueries([`${id}-`+activeDay.date.substring(0,10)]);
+            queryClient.invalidateQueries([voteKey])
         }
     })
 
@@ -73,7 +75,6 @@ const Form = ({activeDay}) => {
             if (confirm('This vote will be deleted permanently! Day status may be changed')) {
                 const response =  fetch('/api/vote/delete/'+ voteId, {
                     method: 'POST',
-                    // body: formData,
                 })
                 return response;
             }
@@ -81,8 +82,9 @@ const Form = ({activeDay}) => {
             return  false;
 
         },
+        // TODO: 
         onSuccess: () => {
-            queryClient.invalidateQueries([id + '-'+ year + '-'+month +'-' +day+'-'+ 'votes'])
+            queryClient.invalidateQueries([voteKey])
             queryClient.invalidateQueries([id+'-'+activeDay.date.substring(0,10)]);
         }
     })
@@ -90,7 +92,7 @@ const Form = ({activeDay}) => {
     return(
         <>
 
-            <div className="row g-3 ">
+            <div className="row g-3">
                 {/* FORM */}
                 
                 <div className="col-xl-6">
@@ -136,7 +138,6 @@ const Form = ({activeDay}) => {
                                         <select className="form-select" id="vote_date_year" name="vote[date][year]" readOnly>
                                             <option selected value={year}></option>
                                         </select>
-                                
                                     </div>
                                 </div>
                             </div>
@@ -224,31 +225,28 @@ const Form = ({activeDay}) => {
                                 &&  activeDay.remainingVoters !== 'undefined'  ? activeDay.remainingVoters + ' member(s)' : ""}                       
                             </p>
                         </div>
-                      
+
 
                             {typeof activeDay !== 'undefined' && activeDay.status == 'GAMEDAY' ? (
                                 <div className="row">
-                            <p className="info-display border-bottom pb-3"><b><span className="info-label bg-white">HOURS</span></b>
-                            {typeof activeDay !== 'undefined'
-                                &&  activeDay.hours !== 'undefined'  ? (
-                                    
-                                    activeDay.hours.map((range) => (
-                                    <div>{range.start.substring(11,16)+' <-> ' +range.finish.substring(11,16)}</div>
-                                    ))
-                                    ) : ""} 
-                            </p>
-                            </div>
+                                    <div className="info-display border-bottom pb-3"><b><span className="info-label bg-white">HOURS</span></b>
+                                        <ul> 
+                                            {typeof activeDay !== 'undefined'
+                                            &&  activeDay.hours !== 'undefined'  ? (
+                                                
+                                                activeDay.hours.map((range) => (
+                                                    <li>{range.start.substring(11,16)+' <-> ' +range.finish.substring(11,16)}</li>
+                                                ))
+                                            ) : ""} 
+                                        </ul>
+                                    </div>
+                                </div>
                             ) : ''}
-                            
-                  
 
                     </div>
                     
                 </div>
                 
-            
-
-
                 {/* VOTES */}
                 <div className="col-12 table-cell">
                     <div className="border bg-light form-panel">
@@ -307,9 +305,6 @@ const Form = ({activeDay}) => {
             
             : null}
         
-            
-            
-
         </>
 
     )

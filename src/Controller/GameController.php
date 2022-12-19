@@ -20,6 +20,7 @@ use App\Form\GameType;
 use App\Form\VoteType;
 use App\Form\JoinGameType;
 use App\Repository\EventRepository;
+use App\Repository\UserRepository;
 use DateTime;
 
 class GameController extends AbstractController
@@ -180,12 +181,21 @@ class GameController extends AbstractController
             $party['activity'] = $gameObj->getTitle();
             $party['description'] = $gameObj->getDescription();
             $party['activeMembers'] = array();
+            $party['inactiveMembers'] = array();
+            $party['host'] = $gameObj->getCreatedBy()->getId();
+            $party['status']=$gameObj->isLocked();
 
             // dd($gameObj->getPlayers());
             foreach ($gameObj->getPlayers() as $player) {
                 $new['id'] = $player->getId();
                 $new['name'] = $player->getUsername();
                 array_push($party['activeMembers'], $new);
+            }
+
+            foreach ($gameObj->getInactivePlayers() as $player) {
+                $new['id'] = $player->getId();
+                $new['name'] = $player->getUsername();
+                array_push($party['inactiveMembers'], $new);
             }
             // $dayData['status'] = 'EMPTY';
             // $dayData['userStatus'] = null;
@@ -277,10 +287,67 @@ class GameController extends AbstractController
             $message = "You are now inactive member of this party";
         } else {
             $message = "You are not active member";
-
-
         }
 
+        return $this->json([
+            'message' => $message,
+        ]);
+    }
+
+    #[Route('api/game/change-user-status/{game}/{user}', name: 'api_change_user_status')]
+    public function changeMemberStatus(int $game, int $user,  GameRepository $gameRepo, UserRepository $userRepo, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $response = new Response();
+        $host = $this->getUser();
+
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+        $userObj = $userRepo->findOneBy(['id' => $user]);
+
+        $message = "You are mot host of this party";
+
+        if ($gameObj->getCreatedBy() == $host) {
+
+            $isActive = $gameRepo->findIfIsActiveMember($userObj, $gameObj->getId());
+            $isInactive = $gameRepo->findIfIsInactiveMember($userObj, $gameObj->getId());
+
+            if ($isActive != null) {
+                $gameObj->removePlayer($userObj);
+                $gameObj->addInactivePlayer($userObj);
+    
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($gameObj);
+                $entityManager->flush();
+    
+                $message = "User is now INACTIVE member of this party";
+            } elseif ($isInactive != null) {
+                $gameObj->addPlayer($userObj);
+                $gameObj->removeInactivePlayer($userObj);
+    
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($gameObj);
+                $entityManager->flush();
+    
+                $message = "User is now ACTIVE member of this party";
+            } else {
+                $message = "User is not a member of this party";
+            }
+        }
+
+        $response->setContent($message);
+        $response->setStatusCode(Response::HTTP_OK);
+        
+        // sets a HTTP response header
+        // $response->headers->set('Content-Type', 'text/html');
+        // $response->body->set($message);
+        
+        // prints the HTTP headers followed by the content
+        // $response->send();
+        
+
+        // return $this->json($response);
         return $this->json([
             'message' => $message,
         ]);
@@ -325,7 +392,7 @@ class GameController extends AbstractController
             'message' => $message,
         ]);
     }
-
+    
     #[Route('/api/game/create', name: 'api_game_create')]
     public function createGame(Request $request, ManagerRegistry $doctrine): Response
     {
@@ -361,6 +428,71 @@ class GameController extends AbstractController
             'message' => 'fail',
         ], 400);
     }
+
+    #[Route('/api/game/change-lock-status/{game}', name: 'api_game_change_lock_status')]
+    public function changeGameLockStatus(Request $request, int $game, GameRepository $gameRepo, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+        $message = 'Something went wrong, check if you are host of this game ' . $gameObj->getName();
+
+        if ($user == $gameObj->getCreatedBy() && $gameObj->isLocked()) {
+            $gameObj->setLocked(false);
+            $message = 'game is now ulocked (open for invitations)';
+            
+        } elseif ($user == $gameObj->getCreatedBy() && !$gameObj->isLocked()) {
+            $gameObj->setLocked(true);
+            $message = 'game is now locked (open for invitations)';
+        }
+        
+        $entityManager = $doctrine->getManager();
+        $entityManager->persist($gameObj);
+        $entityManager->flush();
+
+        return $this->json([
+            'message' => $message,
+        ], 200);
+    }
+
+    #[Route('/api/game/promote-to-host/{game}/{newHostId}', name: 'api_game_promoto_to_hoste')]
+    public function changeHost(Request $request, int $game, int $newHostId, GameRepository $gameRepo, UserRepository $userRepo, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        $user = $this->getUser();
+
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+        $newHostObj = $userRepo->findOneBy(['id' => $newHostId]);
+
+        $newHostIsMember = $gameRepo->findIfIsMember( $newHostObj, $game);
+        if ($user == $gameObj->getCreatedBy() && $newHostIsMember != null) {
+            // $gameObj->setLocked(false);
+            $gameObj->setCreatedBy($newHostObj);
+
+            $message = 'Host has beed changed';
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($gameObj);
+            $entityManager->flush();
+            
+            return $this->json([
+                'message' => $message,
+            ], 200);
+            
+        } else {
+            $message = 'Something went wrong, check if you are host of this game and new host is it"s member';
+            return $this->json([
+                'message' => $message,
+            ], 400);
+        }
+        
+
+
+
+    }
+
+
 
     #[Route('/test/status', name: 'app_test')]
     public function testStatus(DayRepository $dayRepo, ManagerRegistry $doctrine): Response
@@ -418,8 +550,10 @@ class GameController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_USER');
         $user = $this->getUser();
         $game = $gameRepo->findOneBy(['slug' => $slug]);
+        
         $playerCheck = $gameRepo->findIfIsMember($user, $game->getId());
-
+        // dd($game, $game->getId(),$playerCheck);
+        // dd();
         $acceptForm = $this->createForm(JoinGameType::class);
 
         $acceptForm->handleRequest($request);

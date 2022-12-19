@@ -16,12 +16,11 @@ const SubmitToast = ({type, message}) => {
 
             <ToastContainer className='toasted' containerPosition='absolute' position='middle-center'>
                 <Toast bg={type} show={showA} onClose={toggleShowA} delay={2000} autohide>
-                <Toast.Header>
+                    <Toast.Header>
 
-                    <strong className="me-auto">{message}</strong>
+                        <strong className="me-auto">{message}</strong>
 
-                </Toast.Header>
-                {/* <Toast.Body >Your vote has been send</Toast.Body> */}
+                    </Toast.Header>
                 </Toast>
             </ToastContainer>
     

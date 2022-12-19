@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React, {useState, useRef, useEffect} from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import PartyItem from './PartyItem';
 
 const PartyList = ({userData}) => {
@@ -31,7 +32,18 @@ const PartyList = ({userData}) => {
                         <th className="game-table-header bg-dark bg-gradient" scope="col">Party</th>
                         <th className="game-table-header host bg-dark bg-gradient" scope="col"></th>
                         <th className="game-table-header bg-dark bg-gradient" scope="col">Activity</th>
-                        <th className="game-table-header bg-dark bg-gradient" scope="col">Members</th>
+                        <th className="game-table-header bg-dark bg-gradient" scope="col">Active/All 
+                        <OverlayTrigger
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={          
+                                <Tooltip id="options-tooltip" >
+                                    Active members have right to vote. All members can see party panel.
+                                </Tooltip>
+                            }
+                        >
+                            <i className="fa-regular fa-circle-question option-info"></i>
+                        </OverlayTrigger>    
+                        </th>
                         <th className="game-table-header bg-dark bg-gradient" scope="col">Status</th>
                         <th className="game-table-header bg-dark bg-gradient" scope="col">Next session</th>
                         <th className="game-table-header bg-dark bg-gradient" scope="col">Link</th>

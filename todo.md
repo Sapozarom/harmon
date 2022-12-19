@@ -25,6 +25,8 @@ CSRF protection in forms
         - ostatnie query dnia ładuje się od danych (undefiend)
         - preset (później)
         - page is loading
+        - w Form problem z select
+        - 
 
     README
         - całe do zrobienia

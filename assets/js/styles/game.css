@@ -235,8 +235,22 @@ div.custom-vote-display:hover {
 .toasted {
     z-index: 111;
 }
-/* .animation {
-    animation-duration: 1s;
 
-} */
+.active-member-option {
+    background-color: white;
+}
 
+.inactive-member-option {
+    background-color: hsl(0, 0%, 90%);
+}
+.option-info {
+    margin-left: 15px;
+}
+
+.lock-icon{
+    margin-left: 10Zpx;
+}
+
+.full-width {
+    width: 100%;
+}

@@ -9,7 +9,7 @@ import Readme from "./pages/Readme";
 import Party from "./pages/Party";
 import MyActivities from "./pages/MyActivities";
 import HostOptions from "./pages/HostOptions";
-import uuid from 'react-uuid';
+import getData from './getData/getData';
 
 // import {StrictMode} from 'react';
 // import {createRoot} from 'react-dom/client';
@@ -20,17 +20,21 @@ import CreateParty from './pages/CreateParty';
 
 const Main = () => {
 
-    const checkIfLoggedIn = async () => {
-        const route = '/api/homepage/nav';
-        const response = await fetch(route);
-        return response.json();
-    }
 
-    const { data, status } = useQuery(['user'], () => checkIfLoggedIn());
+
+    // const checkIfLoggedIn = async () => {
+    //     const route = '/api/homepage/nav';
+    //     const response = await fetch(route);
+    //     return response.json();
+    // }
+
+    const userRoute = '/homepage/nav';
+    
+    const { data, status } = useQuery(['user'], () => getData(userRoute));
     
     
 
-    // USUŃ
+    // TODO: USUŃ
     console.log(data, status);
 
     return (

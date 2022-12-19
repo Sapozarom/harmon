@@ -100,7 +100,7 @@ class GameRepository extends ServiceEntityRepository
                 $newParty['slug'] = $party->getSlug();
                 $newParty['hosted'] = $party->getCreatedBy()->getId();
                 $newParty['players'] = count($party->getPlayers()) + count($party->getInactivePlayers());
-
+                $newParty['activeMembers'] = count($party->getPlayers());
 
                 foreach ($party->getInactivePlayers() as $activeMember) {
                     if ($activeMember->getId() == $userId) {
@@ -122,18 +122,38 @@ class GameRepository extends ServiceEntityRepository
 
     public function findIfIsMember($user, $gameId)
     {
-        $result = $this->createQueryBuilder('g')
+        $result = false;
+
+        $resultActive = $this->createQueryBuilder('g')
         ->join('g.players', 'p')
-        ->join('g.inactivePlayers', 'i')
         ->andWhere('g.id = :gameId')
         ->setParameter('gameId', $gameId)
         ->andWhere('p.id = :val')
         ->setParameter('val', $user->getId())
-        ->orWhere('i.id = :val')
+        ->orderBy('g.id', 'ASC')
+        ->getQuery()
+        ->getResult();
+
+        if ($resultActive != null) {
+           
+        }
+
+        $resultInactive = $this->createQueryBuilder('g')
+        ->join('g.inactivePlayers', 'i')
+        ->andWhere('g.id = :gameId')
+        ->setParameter('gameId', $gameId)
+        ->andWhere('i.id = :val')
         ->setParameter('val', $user->getId())
         ->orderBy('g.id', 'ASC')
         ->getQuery()
         ->getResult();
+
+        if ($resultInactive != null || $resultActive != null) {
+            $result = true;
+         }
+
+        // dd($resultActive, $resultInactive,$user, $gameId);
+
          
     return $result;
     }
