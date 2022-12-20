@@ -22,7 +22,7 @@ class Day
     #[ORM\ManyToOne(inversedBy: 'days')]
     private ?Game $game = null;
 
-    #[ORM\OneToMany(mappedBy: 'day', targetEntity: Event::class)]
+    #[ORM\OneToMany(mappedBy: 'day', targetEntity: Event::class, orphanRemoval:'true')]
     private ?Collection $votes;
 
     //status can be [EMPTY, VOTED, GAMEDAY, CANCALED, MISSED]

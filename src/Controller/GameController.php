@@ -81,19 +81,27 @@ class GameController extends AbstractController
     public function sendVote(int $game, GameRepository $gameRepo, DayRepository $dayRepo, Request $request, ManagerRegistry $doctrine, DayManager $dayMng): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
-        //form data
+
         $user = $this->getUser();
-        // $date = new \DateTime();
+
         $date = new DateTime('today midnight');
-        // $dateString = $date->format("Y-m-d");
+
         $event = new Event;
 
         $gameObj = $gameRepo->findOneBy(['id' => $game]);
-        // $day = $gameObj->getDays();
+
         $day = $dayRepo->findDayByDateAndGameId($date, $gameObj);
 
         $newForm = $this->createForm(VoteType::class);
         $newForm->handleRequest($request);
+        $isMember = $gameRepo->findIfIsActiveMember($user, $game);
+
+        // chceck if is active
+        if ($isMember == null) {
+            return $this->json([
+                'message'  => 'Yuo are not active member',
+            ], 403);
+        }
 
         if ($newForm->isSubmitted() && $newForm->isValid()) {
 
@@ -351,6 +359,68 @@ class GameController extends AbstractController
         return $this->json([
             'message' => $message,
         ]);
+    }
+
+    #[Route('api/game/remove-member/{game}/{user}', name: 'api_remove_member')]
+    public function removeMember(int $game, int $user,  GameRepository $gameRepo, UserRepository $userRepo, ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $host = $this->getUser();
+
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+        $userObj = $userRepo->findOneBy(['id' => $user]);
+
+        $message = "You are not host of this party";
+
+        if ($gameObj->getCreatedBy() == $host && $gameObj->getCreatedBy() != $userObj) {
+
+            $isActive = $gameRepo->findIfIsActiveMember($userObj, $gameObj->getId());
+            $isInactive = $gameRepo->findIfIsInactiveMember($userObj, $gameObj->getId());
+
+            if ($isActive != null) {
+                $gameObj->removePlayer($userObj);
+    
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($gameObj);
+                $entityManager->flush();
+    
+            } elseif ($isInactive != null) {
+                $gameObj->removeInactivePlayer($userObj);
+    
+                $entityManager = $doctrine->getManager();
+                $entityManager->persist($gameObj);
+                $entityManager->flush();
+    
+            } else {
+                $message = "User is not a member of this party";
+            }
+        }
+
+        return $this->json([
+            'message' => $message,
+        ]);
+    }
+
+    #[Route('api/game/delete-party/{game}', name: 'api_remove_member')]
+    public function deleteParty(int $game,  GameRepository $gameRepo,  ManagerRegistry $doctrine): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
+        $host = $this->getUser();
+
+        $gameObj = $gameRepo->findOneBy(['id' => $game]);
+
+        // $message = "You are not host of this party";
+
+        if ($gameObj->getCreatedBy() == $host ) {
+            $entityManager = $doctrine->getManager();
+            $entityManager->remove($gameObj);
+            $entityManager->flush();
+        }
+
+        return $this->json([]);
     }
 
     #[Route('api/game/leave/{game}', name: 'api_leave_party')]

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React, {useState} from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import getData from '../../getData/getData';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
@@ -9,6 +9,7 @@ import SubmitToast from '../party/SubmitToast';
 const OptionPanel = () => { 
 
     const queryClient = useQueryClient();
+    const navigate = useNavigate();
     const { id } = useParams();
     const [currentPlayer, setCurrentPlayer] = useState();
     const [newHostId, setNewHostId] = useState();
@@ -48,12 +49,33 @@ const OptionPanel = () => {
 
     const statusMutation = useMutation({
         mutationFn: () => {
+            
             const response =  fetch(`/api/game/change-user-status/${id}/${currentPlayer}`, {
                 method: 'POST',
             })
             // console.log(response);
             return response;
         },
+        onSuccess: () => {
+            // console.log(data);
+            queryClient.invalidateQueries(['gameData'])
+        }
+    })
+
+    // const removeMember = () => {
+    //     if (confirm('This member will be remove permanently. Do you want ot proceed?')) {
+    //         return removeMemberMutation.mutate;
+    //     }
+    // }
+
+    const removeMemberMutation = useMutation({
+        mutationFn: () => {
+                const response =  fetch(`/api/game/remove-member/${id}/${currentPlayer}`, {
+                    method: 'POST',
+                })
+                return response;
+        },
+
         onSuccess: () => {
             // console.log(data);
             queryClient.invalidateQueries(['gameData'])
@@ -66,13 +88,12 @@ const OptionPanel = () => {
                 method: 'POST',
             })
             promoToHostMutation.status = 'idle';
-            console.log(response);
+            // console.log(response);
             return response;
         },
         onSuccess: () => {
             // console.log(data);
             queryClient.invalidateQueries(['gameData'])
-            promoToHostMutation.reset()
         }
     })
 
@@ -87,6 +108,20 @@ const OptionPanel = () => {
         onSuccess: () => {
             // console.log(data);
             queryClient.invalidateQueries(['gameData'])
+        }
+    })
+
+    const deleteMutation = useMutation({
+        mutationFn: () => {
+            const response =  fetch(`/api/game/delete-party/${id}`, {
+                method: 'DELETE',
+            })
+        
+            return response;
+        },
+        onSuccess: () => {        
+            // queryClient.invalidateQueries(['party-list']);
+            navigate('/my-activities');
         }
     })
 
@@ -172,7 +207,8 @@ const OptionPanel = () => {
                                     </button>
                                 </div>
                                 <div className='col-2'>
-                                    <button className='btn btn-danger'>
+                                    <button className='btn btn-danger'
+                                    onClick={removeMemberMutation.mutate}>
                                         Remove
                                     </button>
                                 </div>
@@ -238,7 +274,8 @@ const OptionPanel = () => {
                                 </div>
 
                                 <div className="col-4">
-                                    <button className='btn btn-danger full-width'>
+                                    <button className='btn btn-danger full-width'
+                                    onClick={deleteMutation.mutate}>
                                         Delete
                                     </button>
                                 </div>
@@ -307,12 +344,13 @@ const OptionPanel = () => {
             :   
                ''
             }
-            
-            {promoToHostMutation.isIdle ? 
-                <SubmitToast type='fail' message='something went wrong'/>
+
+            {removeMemberMutation.isSuccess ? 
+                <SubmitToast type='success' message='Member has been removed'/>
             :   
                 ''
             }
+
 
         </>
     )

@@ -22,7 +22,7 @@ class Game
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Event::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Event::class, orphanRemoval:'true')]
     private Collection $events;
 
 
@@ -48,7 +48,7 @@ class Game
     #[ORM\JoinTable(name: "inactive_table")]
     private Collection $inactivePlayers;
 
-    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Day::class)]
+    #[ORM\OneToMany(mappedBy: 'game', targetEntity: Day::class , orphanRemoval:'true')]
     private Collection $days;
 
     public function __construct()

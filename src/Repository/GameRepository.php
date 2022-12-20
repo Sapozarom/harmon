@@ -188,4 +188,17 @@ class GameRepository extends ServiceEntityRepository
         return $result;
     }
 
+    // public function deleteParty($partyId)
+    // {
+    //     $result = $this->createQueryBuilder('g')
+
+    //     ->andWhere('g.id = :gameId')
+    //     ->delete('g')
+    //     ->setParameter('gameId', $partyId)
+    //     ->getQuery()
+    //     ->getResult();
+         
+    //     return $result;
+    // }
+
 }
