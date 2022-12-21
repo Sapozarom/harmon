@@ -99,7 +99,7 @@ class GameController extends AbstractController
         // chceck if is active
         if ($isMember == null) {
             return $this->json([
-                'message'  => 'Yuo are not active member',
+                'message'  => 'You are not active member',
             ], 403);
         }
 
@@ -223,7 +223,7 @@ class GameController extends AbstractController
     }
 
     #[Route('api/calendar/{game}', name: 'api_get_calendar')]
-    public function getCallendarInfo(int $game, GameRepository $gameRepo, DayRepository $dayRepo, CalendarManager $calendarMng,): Response
+    public function getCalendarInfo(int $game, GameRepository $gameRepo, DayRepository $dayRepo, CalendarManager $calendarMng,): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');
         //form data
@@ -244,7 +244,7 @@ class GameController extends AbstractController
             $dayData['userStatus'] = null;
             $dayData['userStatu'] = false;
             // $data['voters'] = array();
-            $dayData['remainingVoters'] = count($gameObj->getPLayers());
+            $dayData['remainingVoters'] = count($gameObj->getPlayers());
             $dayData['hours'] = [];
         } else {
             $dayData = $currentDay;
@@ -403,7 +403,7 @@ class GameController extends AbstractController
         ]);
     }
 
-    #[Route('api/game/delete-party/{game}', name: 'api_remove_member')]
+    #[Route('api/game/delete-party/{game}', name: 'api_delete_party')]
     public function deleteParty(int $game,  GameRepository $gameRepo,  ManagerRegistry $doctrine): Response
     {
         $this->denyAccessUnlessGranted('ROLE_USER');

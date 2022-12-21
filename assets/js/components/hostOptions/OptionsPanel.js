@@ -62,11 +62,11 @@ const OptionPanel = () => {
         }
     })
 
-    // const removeMember = () => {
-    //     if (confirm('This member will be remove permanently. Do you want ot proceed?')) {
-    //         return removeMemberMutation.mutate;
-    //     }
-    // }
+    const removeMember = () => {
+        if (confirm('This member will be remove permanently. Do you want ot proceed?')) {
+            removeMemberMutation.mutate();
+        }
+    }
 
     const removeMemberMutation = useMutation({
         mutationFn: () => {
@@ -88,14 +88,16 @@ const OptionPanel = () => {
                 method: 'POST',
             })
             promoToHostMutation.status = 'idle';
-            // console.log(response);
             return response;
         },
         onSuccess: () => {
-            // console.log(data);
             queryClient.invalidateQueries(['gameData'])
         }
     })
+
+    // const lockParty = (e) => {
+    //     lockMutation.mutate();
+    // } 
 
     const lockMutation = useMutation({
         mutationFn: () => {
@@ -110,6 +112,13 @@ const OptionPanel = () => {
             queryClient.invalidateQueries(['gameData'])
         }
     })
+
+    
+    const deleteParty = () => {
+        if (confirm("This party will be deleted with all it's data. Do you want to continue?")) {
+            deleteMutation.mutate();
+        }
+    }
 
     const deleteMutation = useMutation({
         mutationFn: () => {
@@ -208,7 +217,7 @@ const OptionPanel = () => {
                                 </div>
                                 <div className='col-2'>
                                     <button className='btn btn-danger'
-                                    onClick={removeMemberMutation.mutate}>
+                                    onClick={removeMember}>
                                         Remove
                                     </button>
                                 </div>
@@ -275,7 +284,7 @@ const OptionPanel = () => {
 
                                 <div className="col-4">
                                     <button className='btn btn-danger full-width'
-                                    onClick={deleteMutation.mutate}>
+                                    onClick={deleteParty}>
                                         Delete
                                     </button>
                                 </div>

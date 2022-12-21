@@ -61,7 +61,7 @@ class DayRepository extends ServiceEntityRepository
             $dayData['status'] = 'EMPTY';
             $dayData['number'] = intval(substr($date,8,2)); 
             $dayData['monthNumber'] = intval(substr($date,5,2)); 
-            $dayData['remainigVoters'] = count($game->getPlayers());
+            $dayData['remainingVoters'] = count($game->getPlayers());
             $dayData['playerStatus'] = false;
             $dayData['hours'] = [];
 

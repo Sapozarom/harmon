@@ -20,12 +20,7 @@ const Form = ({activeDay}) => {
     const voteRoute = `/get-votes/${id}/${year}-${month}-${day}`;
     const voteKey = `${id}-${year}-${month}-${day}-votes`;
 
-    
-    // const { data, status } = useQuery({
-    //     queryKey: [voteKey], 
-    //     queryFn: () => getData(voteRoute),
-    //     refetchOnWindowFocus: false,
-    // });
+
 
 
     const { data, status } = useQuery({
@@ -33,7 +28,7 @@ const Form = ({activeDay}) => {
         queryFn: () => getData(voteRoute),
         refetchOnWindowFocus: false,
     });
-    // console.log(status);
+
 
     useEffect(() => {
         if (typeof activeDay !== 'undefined') {
@@ -59,10 +54,14 @@ const Form = ({activeDay}) => {
             })
             return response;
         },
+        onError: (error, variables,context) => {
+            console.log(error, variables,context);
+        },
         onSuccess: () => {
             queryClient.invalidateQueries([`${id}-`+activeDay.date.substring(0,10)]);
             queryClient.invalidateQueries([voteKey])
-        }
+        },
+
     })
 
     const deleteVoteMutation = useMutation({
@@ -188,6 +187,7 @@ const Form = ({activeDay}) => {
                 </div>
            
                 <div className="col-xl-6 animation">
+
                 {/* INFORMATION */}
                     <div className="border bg-light form-panel animation">
                         <div className="d-flex flex-row justify-content-center party-header bg-dark bg-gradient animation">
@@ -291,7 +291,7 @@ const Form = ({activeDay}) => {
             </div>
 
 
-            {dataMutation.isSuccess ? 
+            {dataMutation.onSuccess ? 
             (  
                 <SubmitToast type='success' message='Your vote has been sent'/>
             )
