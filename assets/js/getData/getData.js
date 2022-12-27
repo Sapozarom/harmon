@@ -1,5 +1,5 @@
 
-const defaultRoute = 'http://127.0.0.1/api';
+const defaultRoute = 'http://testowe.sasartele.pl/api';
 
 const getData = async (route) => {
     const dataRoute = defaultRoute + route;
