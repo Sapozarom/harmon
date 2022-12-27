@@ -22,6 +22,7 @@ use App\Form\JoinGameType;
 use App\Repository\EventRepository;
 use App\Repository\UserRepository;
 use DateTime;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GameController extends AbstractController
 {
@@ -98,9 +99,11 @@ class GameController extends AbstractController
 
         // chceck if is active
         if ($isMember == null) {
-            return $this->json([
-                'message'  => 'You are not active member',
-            ], 403);
+            $message = 'You are not active member';
+            // return $this->json([
+            //     'message'  => 'You are not active member',
+            // ], 403, ['asasd'], ['asdasd']);
+            return new JsonResponse($message, 403,['asdasd']);
         }
 
         if ($newForm->isSubmitted() && $newForm->isValid()) {

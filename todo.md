@@ -8,12 +8,11 @@ CSRF protection in forms
     PARTY
         - brak oczekiwania na głos nieaktywnych graczy
         - przycisk cofania do listy
-        - głosowanie tylko przez aktywnych graczy 
         - ostatnie query dnia ładuje się od danych (undefiend)
         - preset (później)
         - page is loading
         - w Form problem z select
-
+        - zablokować form dla nieaktywnych
 
     README
         - całe do zrobienia

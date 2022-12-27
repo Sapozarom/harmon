@@ -13,6 +13,9 @@ const Form = ({activeDay}) => {
     const [day,setDay] = useState();
     const [month,setMonth] = useState();
     const [year, setYear] = useState();
+    const [message, setMessage] = useState();
+    const [messageStatus, setMessageStatus] = useState();
+
 
     const [voteStatus, setVoteStatus] = useState(1);
 
@@ -43,10 +46,30 @@ const Form = ({activeDay}) => {
         setVoteStatus(event.target.value);
     }
 
+    const addVote = async(event) => {
+        try {
+            const vote = await dataMutation.mutateAsync(event);
+
+            if (vote.status == 403) {
+                setMessageStatus('fail');
+                setMessage('You are not an active member of this party');
+            }
+            if (vote.status == 200) {
+                setMessageStatus('success');
+                setMessage('Your vote has been sent');
+            }
+            console.log(vote);
+            setTimeout(() => {
+                setMessage();
+            },3000);
+        } catch (error) {
+            console.log('error: ' + error);
+        } 
+    }
+
     const dataMutation = useMutation({
         mutationFn: (event) => {
             event.preventDefault();
-            // console.log(id);
             const formData = new FormData(event.target)
             const response =  fetch(`/api/send-vote/${id}`, {
                 method: 'POST',
@@ -83,8 +106,13 @@ const Form = ({activeDay}) => {
         },
         // TODO: 
         onSuccess: () => {
+            setMessageStatus('success');
+            setMessage('Your vote has been deleted');
             queryClient.invalidateQueries([voteKey])
             queryClient.invalidateQueries([id+'-'+activeDay.date.substring(0,10)]);
+            setTimeout(() => {
+                setMessage();
+            },3000);
         }
     })
 
@@ -104,7 +132,7 @@ const Form = ({activeDay}) => {
                             </div>
                         </div>
                             
-                        <form name="vote" method="post" onSubmit={dataMutation.mutate}>
+                        <form name="vote" method="post" onSubmit={addVote}>
                             <div className="row custom-form-row pt-2">
                                 <div className="col-3 custom-form-label "> 
                                 {/* <span className=""></span> */}
@@ -289,20 +317,17 @@ const Form = ({activeDay}) => {
                         </div>
                 </div> */}
             </div>
-
-
-            {dataMutation.onSuccess ? 
-            (  
-                <SubmitToast type='success' message='Your vote has been sent'/>
-            )
-            
-            : null}
-
+{/* 
             {deleteVoteMutation.isSuccess ? 
             (  
                 <SubmitToast type='success' message='Your vote has been deleted'/>
             )
             
+            : null} */}
+
+            {message && typeof message != 'undefined' ? (
+                <SubmitToast type={messageStatus} message={message} />
+            ) 
             : null}
         
         </>
